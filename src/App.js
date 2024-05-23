@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import Register from './Authentication/Register';
 import { Image } from 'antd';
 import Images from './assets/images/image';
+import ResetPassword from './Authentication/ResetPassword';
 function App() {
     return (
         <div className="App">
@@ -14,6 +15,7 @@ function App() {
             <Routes>
                 <Route path="/login" element={<SignInSide />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/resetPassword" element={<ResetPassword />} />
             </Routes>
         </div>
     );
