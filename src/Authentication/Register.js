@@ -3,7 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import { Link as LinkD } from 'react-router-dom';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
@@ -11,11 +10,12 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Images from '../assets/images/image';
-import { Paper } from '@mui/material';
+import { FormControlLabel, FormGroup, Paper } from '@mui/material';
+import authentication from '~/restfulAPI/authentication';
 
+const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -34,13 +34,38 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-    const handleSubmit = (event) => {
+    const [error, setError] = React.useState({ userName: false, name: false, phone: false, email: false, pass: false, rePass: false });
+    const [showPass, setShowPass] = React.useState(false);
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
+        const email = data.get('email');
+        const phone = data.get('phone');
+        const userName = data.get('userName');
+        const name = data.get('name');
+        const password = data.get('password');
+        const rePass = data.get('rePass');
+
         console.log({
             email: data.get('email'),
             password: data.get('password'),
         });
+        if (!email) setError((pre) => ({ ...pre, email: true }));
+        if (!phone) setError((pre) => ({ ...pre, phone: true }));
+        if (!userName) setError((pre) => ({ ...pre, userName: true }));
+        if (!password) setError((pre) => ({ ...pre, pass: true }));
+        if (!rePass) setError((pre) => ({ ...pre, rePass: true }));
+        if (!name) setError((pre) => ({ ...pre, name: true }));
+        if (password !== rePass) setError((pre) => ({ ...pre, name: true }));
+        if (email && phone && password === rePass && userName && password && name && rePass) {
+            const res = await authentication.register({
+                email,
+                phone_number: phone,
+                user_name: userName,
+                password,
+                name,
+            });
+        }
     };
 
     return (
@@ -79,20 +104,85 @@ export default function SignUp() {
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={6}>
-                                    <TextField required fullWidth id="userName" label="User Name" name="userName" autoComplete="family-name" />
+                                    <TextField
+                                        error={error.userName}
+                                        required
+                                        onChange={(e) => setError((pre) => ({ ...pre, userName: false }))}
+                                        fullWidth
+                                        id="userName"
+                                        label="User Name"
+                                        name="userName"
+                                        autoComplete="family-name"
+                                    />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    <TextField required fullWidth id="Name" label="Name" name="name" autoComplete="family-name" />
+                                    <TextField
+                                        required
+                                        onChange={(e) => setError((pre) => ({ ...pre, name: false }))}
+                                        error={error.name}
+                                        fullWidth
+                                        id="Name"
+                                        label="Name"
+                                        name="name"
+                                        autoComplete="family-name"
+                                    />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField required fullWidth id="phone" label="Phone Number" name="phone" autoComplete="phone" type="number" />
+                                    <TextField
+                                        required
+                                        onChange={(e) => setError((pre) => ({ ...pre, phone: false }))}
+                                        error={error.phone}
+                                        fullWidth
+                                        id="phone"
+                                        label="Phone Number"
+                                        name="phone"
+                                        autoComplete="phone"
+                                        type="number"
+                                    />
                                 </Grid>{' '}
                                 <Grid item xs={12}>
-                                    <TextField required fullWidth id="email" label="Email" name="email" autoComplete="email" />
+                                    <TextField
+                                        required
+                                        onChange={(e) => setError((pre) => ({ ...pre, email: false }))}
+                                        error={error.email}
+                                        fullWidth
+                                        id="email"
+                                        label="Email"
+                                        name="email"
+                                        autoComplete="email"
+                                    />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField required fullWidth name="password" label="Password" type="password" id="password" autoComplete="new-password" />
+                                    <TextField
+                                        required
+                                        onChange={(e) => setError((pre) => ({ ...pre, pass: false }))}
+                                        error={error.pass}
+                                        fullWidth
+                                        name="password"
+                                        label="Password"
+                                        type={`${showPass ? 'text' : 'password'}`}
+                                        id="password"
+                                        autoComplete="new-password"
+                                    />
+                                </Grid>{' '}
+                                <Grid item xs={12}>
+                                    <TextField
+                                        required
+                                        onChange={(e) => setError((pre) => ({ ...pre, rePass: false }))}
+                                        error={error.rePass}
+                                        fullWidth
+                                        name="rePass"
+                                        label="Enter your password again"
+                                        type={`${showPass ? 'text' : 'password'}`}
+                                        id="rePass"
+                                        autoComplete="new-password"
+                                    />
                                 </Grid>
+                                <div className="w-full flex justify-end">
+                                    <FormGroup>
+                                        <FormControlLabel control={<Checkbox defaultChecked={false} />} label="Show password" labelPlacement="start" onChange={(e) => setShowPass(e.target.checked)} />
+                                    </FormGroup>
+                                </div>
                             </Grid>
                             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                                 Sign Up

@@ -8,7 +8,6 @@ const ResetPassword = () => {
     const [value, setValue] = useState('0974034981');
     const [check, setCheck] = useState({ phone: false, pass: false, reType: false });
     const [password, setPassword] = useState({ pass: '', rePass: '' });
-    const regexPhoneNumber = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
     const handleSubmit = (e) => {
         console.log(check);
         if (ok) {
