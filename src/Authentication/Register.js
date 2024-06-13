@@ -36,6 +36,7 @@ const defaultTheme = createTheme();
 export default function SignUp() {
     const [error, setError] = React.useState({ userName: false, name: false, phone: false, email: false, pass: false, rePass: false });
     const [showPass, setShowPass] = React.useState(false);
+    const [message, setMessage] = React.useState('');
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -47,6 +48,7 @@ export default function SignUp() {
         const rePass = data.get('rePass');
 
         console.log({
+            name: name,
             email: data.get('email'),
             password: data.get('password'),
         });
@@ -57,7 +59,7 @@ export default function SignUp() {
         if (!rePass) setError((pre) => ({ ...pre, rePass: true }));
         if (!name) setError((pre) => ({ ...pre, name: true }));
         if (password !== rePass) setError((pre) => ({ ...pre, name: true }));
-        if (email && phone && password === rePass && userName && password && name && rePass) {
+        if (email && phone && password === rePass && userName && password && name) {
             const res = await authentication.register({
                 email,
                 phone_number: phone,
@@ -65,6 +67,8 @@ export default function SignUp() {
                 password,
                 name,
             });
+            if (res?.status) setMessage(res.message);
+            else setError((pre) => ({ ...pre, phone: true }));
         }
     };
 
@@ -184,6 +188,7 @@ export default function SignUp() {
                                     </FormGroup>
                                 </div>
                             </Grid>
+                            <p className="text-red-500 text-sm">{message}</p>
                             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                                 Sign Up
                             </Button>

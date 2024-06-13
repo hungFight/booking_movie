@@ -14,16 +14,32 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Images from '~/assets/images/image';
 import { Link as LinkD } from 'react-router-dom';
+import authentication from '~/restfulAPI/authentication';
 
 const defaultTheme = createTheme();
-export default function SignInSide() {
-    const handleSubmit = (event) => {
+const SignInSide = ({ setCookies }) => {
+    const [error, setError] = React.useState({ phone: false, pass: false });
+    const [message, setMessage] = React.useState('');
+    const [loading, setLoading] = React.useState('false');
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
+        setLoading('true');
         const data = new FormData(event.currentTarget);
-        console.log({
-            phone: data.get('phone'),
-            password: data.get('password'),
-        });
+        const phone = data?.get('phone');
+        const password = data?.get('password');
+        if (!phone) setError((pre) => ({ ...pre, phone: true }));
+        if (!password) setError((pre) => ({ ...pre, pass: true }));
+        if (phone && password) {
+            const res = await authentication.login({ phone_number: phone, password: password });
+            if (res?.status) {
+                setMessage(res.message);
+            } else {
+                setCookies('tks', res, { path: '/', secure: false, expire: 60 * 60 });
+                window.location.href = '/';
+            }
+        }
+        setLoading('false');
     };
 
     return (
@@ -60,10 +76,34 @@ export default function SignInSide() {
                             Sign in
                         </Typography>
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-                            <TextField margin="normal" required fullWidth id="phone" label="Phone number" type="number" name="phone" autoComplete="phone" autoFocus />
-                            <TextField margin="normal" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password" />
+                            <TextField
+                                error={error.phone}
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="phone"
+                                label="Phone number"
+                                type="number"
+                                name="phone"
+                                autoComplete="phone"
+                                autoFocus
+                                onChange={() => setError((pre) => ({ ...pre, phone: false }))}
+                            />
+                            <TextField
+                                error={error.pass}
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                                onChange={() => setError((pre) => ({ ...pre, pass: false }))}
+                            />
                             <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
-                            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                            <p className="text-red-500 text-sm">{message}</p>
+                            <Button loading={loading} type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                                 Sign In
                             </Button>
                             <Grid container>
@@ -97,4 +137,5 @@ export default function SignInSide() {
             </Grid>
         </ThemeProvider>
     );
-}
+};
+export default SignInSide;
