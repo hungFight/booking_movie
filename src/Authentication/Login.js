@@ -35,7 +35,7 @@ const SignInSide = ({ setCookies }) => {
             if (res?.status) {
                 setMessage(res.message);
             } else {
-                setCookies('tks', res, { path: '/', secure: false, expire: 60 * 60 });
+                setCookies('tks', res, { path: '/', secure: false, expire: 40 * 60 * 60 });
                 window.location.href = '/';
             }
         }
