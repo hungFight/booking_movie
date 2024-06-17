@@ -15,12 +15,14 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Images from '~/assets/images/image';
 import { Link as LinkD } from 'react-router-dom';
 import authentication from '~/restfulAPI/authentication';
+import { FormGroup } from '@mui/material';
 
 const defaultTheme = createTheme();
 const SignInSide = ({ setCookies }) => {
     const [error, setError] = React.useState({ phone: false, pass: false });
     const [message, setMessage] = React.useState('');
     const [loading, setLoading] = React.useState('false');
+    const [showPass, setShowPass] = React.useState(false);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -35,7 +37,7 @@ const SignInSide = ({ setCookies }) => {
             if (res?.status) {
                 setMessage(res.message);
             } else {
-                setCookies('tks', res, { path: '/', secure: false, expire: 60 * 60 });
+                setCookies('tks', res, { path: '/', secure: false, expire: 40 * 60 * 60 });
                 window.location.href = '/';
             }
         }
@@ -96,12 +98,16 @@ const SignInSide = ({ setCookies }) => {
                                 fullWidth
                                 name="password"
                                 label="Password"
-                                type="password"
+                                type={showPass ? 'text' : 'password'}
                                 id="password"
                                 autoComplete="current-password"
                                 onChange={() => setError((pre) => ({ ...pre, pass: false }))}
                             />
-                            <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
+                            <div className="w-full flex justify-end">
+                                <FormGroup>
+                                    <FormControlLabel control={<Checkbox defaultChecked={false} />} label="Show password" labelPlacement="start" onChange={(e) => setShowPass(e.target.checked)} />
+                                </FormGroup>
+                            </div>
                             <p className="text-red-500 text-sm">{message}</p>
                             <Button loading={loading} type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                                 Sign In

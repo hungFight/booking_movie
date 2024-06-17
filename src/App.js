@@ -11,7 +11,7 @@ function App() {
     useEffect(() => {
         if (!cookies.tks && !window.location.pathname.includes('login')) {
             window.location.href = 'login';
-        } else if (window.location.pathname.includes('login')) window.location.href = '/';
+        } else if (cookies.tks && window.location.pathname.includes('login')) window.location.href = '/';
     }, [cookies?.tks]);
     return (
         <div className="App">
