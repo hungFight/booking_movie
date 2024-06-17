@@ -6,6 +6,7 @@ import Images from './assets/images/image';
 import ResetPassword from './Authentication/ResetPassword';
 import { useCookies } from 'react-cookie';
 import { useEffect } from 'react';
+import MovieDetail from './Movie/Detail';
 function App() {
     const [cookies, setCookies] = useCookies(['tks']);
     useEffect(() => {
@@ -20,6 +21,7 @@ function App() {
             </div>{' '}
             <Routes>
                 <Route path="/login" element={<SignInSide setCookies={setCookies} />} />
+                <Route path="/movie/detail" element={<MovieDetail />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/resetPassword" element={<ResetPassword />} />
             </Routes>

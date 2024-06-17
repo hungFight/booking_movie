@@ -45,3 +45,44 @@
 .changColor input::placeholder {
   color: rgb(152, 152, 152) !important
 }
+
+.movie-detail {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+.movie-poster img {
+  width: 200px;
+  border-radius: 10px;
+}
+
+.movie-info {
+  margin-left: 20px;
+}
+
+.movie-info h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.movie-meta {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.movie-rating {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.movie-details p {
+  margin: 5px 0;
+  width: 100%;
+}
+
+.movie-details strong {
+  font-weight: bold;
+}
