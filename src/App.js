@@ -33,6 +33,12 @@ import Cinema from './scenes/management/cinema/index';
 import AddCinema from './scenes/management/cinema/add';
 import Promotion from './scenes/management/promotion/index';
 import AddPromotion from './scenes/management/promotion/add';
+import { useEffect } from 'react';
+import { useCookies } from 'react-cookie';
+import Images from './assets/images/image';
+import SignInSide from './Authentication/Login';
+import Register from './scenes/auth/register';
+import ResetPassword from './Authentication/ResetPassword';
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -45,47 +51,47 @@ function App() {
   return (
     <div className="App">
       <div className="w-40 h-40 absolute top-3 right-9">
-        <img src={Images.logoApp} alt="Cinema" className="w-full h-full" />
-      </div>{' '}
+        <img src={ Images.logoApp } alt="Cinema" className="w-full h-full" />
+      </div>{ ' ' }
       <Routes>
-        <Route path="/login" element={<SignInSide setCookies={setCookies} />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/resetPassword" element={<ResetPassword />} />
+        <Route path="/login" element={ <SignInSide setCookies={ setCookies } /> } />
+        <Route path="/register" element={ <Register /> } />
+        <Route path="/resetPassword" element={ <ResetPassword /> } />
       </Routes>
-      <ColorModeContext.Provider value={colorMode}>
-        <ThemeProvider theme={theme}>
+      <ColorModeContext.Provider value={ colorMode }>
+        <ThemeProvider theme={ theme }>
           <CssBaseline />
-          <Box className="app" sx={{ height: "100%" }}>
+          <Box className="app" sx={ { height: "100%" } }>
             <ProSideBar />
             <main className='content h-full overflow-auto' >
               <Topbar />
               <Routes>
-                <Route path='/admin/' element={<Dashboard />} />
-                <Route path='/admin/management/invoices' element={<Invoices />} />
-                <Route path='/admin/form' element={<Form />} />
-                <Route path='/admin/faq' element={<FAQ />} />
-                <Route path='/admin/bar' element={<Bar />} />
-                <Route path='/admin/line' element={<Line />} />
-                <Route path='/admin/pie' element={<Pie />} />
-                <Route path='/admin/geography' element={<Geography />} />
-                <Route path='/admin/system/user' element={<User />} />
-                <Route path='/admin/system/user/add' element={<AddUser />} />
-                <Route path='/admin/system/user/user-info' element={<UserInfo />} />
-                <Route path='/admin/management/movie' element={<Movie />} />
-                <Route path='/admin/management/movie/add' element={<AddMovie />} />
-                <Route path='/admin/management/schedule' element={<Schedule />} />
-                <Route path='/admin/management/schedule/add' element={<AddSchedule />} />
-                <Route path='/admin/management/ticket' element={<Ticket />} />
-                <Route path='/admin/management/ticket/add' element={<AddTicket />} />
-                <Route path='/admin/management/seat' element={<Seat />} />
-                <Route path='/admin/management/seat/add' element={<AddSeat />} />
-                <Route path='/admin/management/rooms' element={<Room />} />
-                <Route path='/admin/management/rooms/add' element={<AddRoom />} />
-                <Route path='/admin/management/billTicket' element={<BillTicket />} />
-                <Route path='/admin/management/cinema' element={<Cinema />} />
-                <Route path='/admin/management/cinema/add' element={<AddCinema />} />
-                <Route path='/admin/management/promotion' element={<Promotion />} />
-                <Route path='/admin/management/promotion/add' element={<AddPromotion />} />
+                <Route path='/admin/' element={ <Dashboard /> } />
+                <Route path='/admin/management/invoices' element={ <Invoices /> } />
+                <Route path='/admin/form' element={ <Form /> } />
+                <Route path='/admin/faq' element={ <FAQ /> } />
+                <Route path='/admin/bar' element={ <Bar /> } />
+                <Route path='/admin/line' element={ <Line /> } />
+                <Route path='/admin/pie' element={ <Pie /> } />
+                <Route path='/admin/geography' element={ <Geography /> } />
+                <Route path='/admin/system/user' element={ <User /> } />
+                <Route path='/admin/system/user/add' element={ <AddUser /> } />
+                <Route path='/admin/system/user/user-info' element={ <UserInfo /> } />
+                <Route path='/admin/management/movie' element={ <Movie /> } />
+                <Route path='/admin/management/movie/add' element={ <AddMovie /> } />
+                <Route path='/admin/management/schedule' element={ <Schedule /> } />
+                <Route path='/admin/management/schedule/add' element={ <AddSchedule /> } />
+                <Route path='/admin/management/ticket' element={ <Ticket /> } />
+                <Route path='/admin/management/ticket/add' element={ <AddTicket /> } />
+                <Route path='/admin/management/seat' element={ <Seat /> } />
+                <Route path='/admin/management/seat/add' element={ <AddSeat /> } />
+                <Route path='/admin/management/rooms' element={ <Room /> } />
+                <Route path='/admin/management/rooms/add' element={ <AddRoom /> } />
+                <Route path='/admin/management/billTicket' element={ <BillTicket /> } />
+                <Route path='/admin/management/cinema' element={ <Cinema /> } />
+                <Route path='/admin/management/cinema/add' element={ <AddCinema /> } />
+                <Route path='/admin/management/promotion' element={ <Promotion /> } />
+                <Route path='/admin/management/promotion/add' element={ <AddPromotion /> } />
 
               </Routes>
             </main>

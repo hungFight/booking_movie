@@ -8,12 +8,13 @@ import Register from './scenes/auth/register';
 import { AuthProvider, AuthContext } from './contexts/auth-context';
 import { ContextProvider } from './contexts/theme-context';
 import './styles/tailwind.css';
+import { useCookies } from 'react-cookie';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const AuthenticatedRoute = ({ children }) => {
-  const { isAuthenticated } = React.useContext(AuthContext);
+  const [cookies, setCookies] = useCookies(['tks']);
 
-  return isAuthenticated ? children : <Navigate to="/admin/login" />;
+  return cookies?.tks ? children : <Navigate to="/login" />;
 };
 
 root.render(
@@ -21,11 +22,11 @@ root.render(
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/admin/login" element={<Login />} />
-          <Route path="/admin/register" element={<Register />} />
-          <Route path="*" element={<AuthenticatedRoute><ContextProvider>
+          <Route path="/admin/login" element={ <Login /> } />
+          <Route path="/admin/register" element={ <Register /> } />
+          <Route path="*" element={ <AuthenticatedRoute><ContextProvider>
             <App />
-          </ContextProvider></AuthenticatedRoute>} />
+          </ContextProvider></AuthenticatedRoute> } />
           {/* <Route
             path="*"
             element=

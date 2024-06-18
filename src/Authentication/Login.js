@@ -37,7 +37,7 @@ const SignInSide = ({ setCookies }) => {
             if (res?.status) {
                 setMessage(res.message);
             } else {
-                setCookies('tks', res, { path: '/', secure: false, expire: 40 * 60 * 60 });
+                if (setCookies) setCookies('tks', res, { path: '/', secure: false, expire: 40 * 60 * 60 });
                 window.location.href = '/';
             }
         }
@@ -45,41 +45,41 @@ const SignInSide = ({ setCookies }) => {
     };
 
     return (
-        <ThemeProvider theme={defaultTheme}>
-            <Grid container component="main" sx={{ height: '100vh' }}>
+        <ThemeProvider theme={ defaultTheme }>
+            <Grid container component="main" sx={ { height: '100vh' } }>
                 <CssBaseline />
                 <Grid
                     item
-                    xs={false}
-                    sm={4}
-                    md={4}
-                    sx={{
-                        backgroundImage: `url(${Images.logoLogin})`,
+                    xs={ false }
+                    sm={ 4 }
+                    md={ 4 }
+                    sx={ {
+                        backgroundImage: `url(${ Images.logoLogin })`,
                         backgroundRepeat: 'no-repeat',
                         backgroundColor: (t) => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
-                    }}
+                    } }
                 />
-                <Grid item xs={12} sm={8} md={4} component={Paper} elevation={6} square>
+                <Grid item xs={ 12 } sm={ 8 } md={ 4 } component={ Paper } elevation={ 6 } square>
                     <Box
-                        sx={{
+                        sx={ {
                             my: 8,
                             mx: 4,
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
-                        }}
+                        } }
                     >
-                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                        <Avatar sx={ { m: 1, bgcolor: 'secondary.main' } }>
                             <LockOutlinedIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5">
                             Sign in
                         </Typography>
-                        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                        <Box component="form" noValidate onSubmit={ handleSubmit } sx={ { mt: 1 } }>
                             <TextField
-                                error={error.phone}
+                                error={ error.phone }
                                 margin="normal"
                                 required
                                 fullWidth
@@ -89,27 +89,27 @@ const SignInSide = ({ setCookies }) => {
                                 name="phone"
                                 autoComplete="phone"
                                 autoFocus
-                                onChange={() => setError((pre) => ({ ...pre, phone: false }))}
+                                onChange={ () => setError((pre) => ({ ...pre, phone: false })) }
                             />
                             <TextField
-                                error={error.pass}
+                                error={ error.pass }
                                 margin="normal"
                                 required
                                 fullWidth
                                 name="password"
                                 label="Password"
-                                type={showPass ? 'text' : 'password'}
+                                type={ showPass ? 'text' : 'password' }
                                 id="password"
                                 autoComplete="current-password"
-                                onChange={() => setError((pre) => ({ ...pre, pass: false }))}
+                                onChange={ () => setError((pre) => ({ ...pre, pass: false })) }
                             />
                             <div className="w-full flex justify-end">
                                 <FormGroup>
-                                    <FormControlLabel control={<Checkbox defaultChecked={false} />} label="Show password" labelPlacement="start" onChange={(e) => setShowPass(e.target.checked)} />
+                                    <FormControlLabel control={ <Checkbox defaultChecked={ false } /> } label="Show password" labelPlacement="start" onChange={ (e) => setShowPass(e.target.checked) } />
                                 </FormGroup>
                             </div>
-                            <p className="text-red-500 text-sm">{message}</p>
-                            <Button loading={loading} type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                            <p className="text-red-500 text-sm">{ message }</p>
+                            <Button loading={ loading } type="submit" fullWidth variant="contained" sx={ { mt: 3, mb: 2 } }>
                                 Sign In
                             </Button>
                             <Grid container>
@@ -119,26 +119,26 @@ const SignInSide = ({ setCookies }) => {
                                     </Link>
                                 </Grid>
                                 <Grid item>
-                                    <LinkD to="/register" style={{ color: '#1976d2', textDecoration: 'none' }}>
+                                    <LinkD to="/register" style={ { color: '#1976d2', textDecoration: 'none' } }>
                                         Don't have an account? Sign Up
                                     </LinkD>
                                 </Grid>
                             </Grid>
                         </Box>
                     </Box>
-                </Grid>{' '}
+                </Grid>{ ' ' }
                 <Grid
                     item
-                    xs={false}
-                    sm={4}
-                    md={4}
-                    sx={{
-                        backgroundImage: `url(${Images.loginTwo})`,
+                    xs={ false }
+                    sm={ 4 }
+                    md={ 4 }
+                    sx={ {
+                        backgroundImage: `url(${ Images.loginTwo })`,
                         backgroundRepeat: 'no-repeat',
                         backgroundColor: (t) => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
-                    }}
+                    } }
                 />
             </Grid>
         </ThemeProvider>
