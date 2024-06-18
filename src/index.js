@@ -2,19 +2,41 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Login from './scenes/auth/login';
+import Register from './scenes/auth/register';
+import { AuthProvider, AuthContext } from './contexts/auth-context';
+import { ContextProvider } from './contexts/theme-context';
 import './styles/tailwind.css';
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+const AuthenticatedRoute = ({ children }) => {
+  const { isAuthenticated } = React.useContext(AuthContext);
+
+  return isAuthenticated ? children : <Navigate to="/admin/login" />;
+};
+
 root.render(
-    <React.StrictMode>
-        <Router>
+  <React.StrictMode>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/admin/login" element={<Login />} />
+          <Route path="/admin/register" element={<Register />} />
+          <Route path="*" element={<AuthenticatedRoute><ContextProvider>
             <App />
-        </Router>
-    </React.StrictMode>,
+          </ContextProvider></AuthenticatedRoute>} />
+          {/* <Route
+            path="*"
+            element=
+            {
+              <ContextProvider>
+                <App />
+              </ContextProvider>
+            } /> */}
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
+  </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
