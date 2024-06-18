@@ -303,7 +303,7 @@ const ProSidebar = () => {
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
               title="Dashboard"
-              to="/"
+              to="/admin"
               icon={<HomeIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -325,63 +325,63 @@ const ProSidebar = () => {
             >
               <Item
                 title="Movies"
-                to="/management/movie"
+                to="/admin/management/movie"
                 icon={<MovieFilterOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
                 title="Schedule"
-                to="/management/schedule"
+                to="/admin/management/schedule"
                 icon={<CalendarMonthIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
                 title="Ticket"
-                to="/management/ticket"
+                to="/admin/management/ticket"
                 icon={<ConfirmationNumberIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
                 title="Seat"
-                to="/management/seat"
+                to="/admin/management/seat"
                 icon={<EventSeatIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
                 title="Invoices"
-                to="/management/invoices"
+                to="/admin/management/invoices"
                 icon={<ReceiptIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
                 title="Rooms"
-                to="/management/rooms"
+                to="/admin/management/rooms"
                 icon={<MeetingRoomIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
                 title="BillTicket"
-                to="/management/billTicket"
+                to="/admin/management/billTicket"
                 icon={<ReceiptLongIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
                 title="Cinema"
-                to="/management/cinema"
+                to="/admin/management/cinema"
                 icon={<TheatersIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
                 title="Promotion"
-                to="/management/promotion"
+                to="/admin/management/promotion"
                 icon={<DiscountIcon />}
                 selected={selected}
                 setSelected={setSelected}
@@ -404,14 +404,14 @@ const ProSidebar = () => {
             >
               <Item
                 title="User"
-                to="/system/user"
+                to="/admin/system/user"
                 icon={<PersonIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
                 title="FAQ Page"
-                to="/faq"
+                to="/admin/faq"
                 icon={<HelpOutlineOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
@@ -427,14 +427,14 @@ const ProSidebar = () => {
             </Typography>
             <Item
               title="Sales Report"
-              to="/sales-report"
+              to="/admin/sales-report"
               icon={<ReportIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="Customer Report"
-              to="/customer-report"
+              to="/admin/customer-report"
               icon={<ReportIcon />}
               selected={selected}
               setSelected={setSelected}

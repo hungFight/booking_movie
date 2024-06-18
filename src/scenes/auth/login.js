@@ -47,7 +47,7 @@ const Login = () => {
                 }).then((response) => {
                     if(response.status === 200) {
                         login(response.data.data.accessToken);
-                        navigate('/');
+                        navigate('/admin');
                     }else {
                         alert("Username or password is incorrect");
                     }

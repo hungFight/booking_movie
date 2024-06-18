@@ -57,9 +57,9 @@ import { ContextProvider } from './contexts/theme-context';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const AuthenticatedRoute = ({ children }) => {
-  // const { isAuthenticated } = React.useContext(AuthContext);
+  const { isAuthenticated } = React.useContext(AuthContext);
 
-  // return isAuthenticated ? children : <Navigate to="/login" />;
+  return isAuthenticated ? children : <Navigate to="/admin/login" />;
 };
 
 root.render(
@@ -67,17 +67,19 @@ root.render(
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          {/* <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="*" element={<AuthenticatedRoute><App /></AuthenticatedRoute>} /> */}
-          <Route
+          <Route path="/admin/login" element={<Login />} />
+          <Route path="/admin/register" element={<Register />} />
+          <Route path="*" element={<AuthenticatedRoute><ContextProvider>
+            <App />
+          </ContextProvider></AuthenticatedRoute>} />
+          {/* <Route
             path="*"
             element=
             {
               <ContextProvider>
                 <App />
               </ContextProvider>
-            } />
+            } /> */}
         </Routes>
       </BrowserRouter>
     </AuthProvider>

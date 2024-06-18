@@ -45,32 +45,32 @@ function App() {
           <main className='content h-full overflow-auto' >
             <Topbar />
             <Routes>
-              <Route path='/' element={<Dashboard />} />
-              <Route path='/management/invoices' element={<Invoices />} />
-              <Route path='/form' element={<Form />} />
-              <Route path='/faq' element={<FAQ />} />
-              <Route path='/bar' element={<Bar />} />
-              <Route path='/line' element={<Line />} />
-              <Route path='/pie' element={<Pie />} />
-              <Route path='/geography' element={<Geography />} />
-              <Route path='/system/user' element={<User />} />
-              <Route path='/system/user/add' element={<AddUser />} />
-              <Route path='/system/user/user-info' element={<UserInfo />} />
-              <Route path='/management/movie' element={<Movie />} />
-              <Route path='/management/movie/add' element={<AddMovie />} />
-              <Route path='/management/schedule' element={<Schedule />} />
-              <Route path='/management/schedule/add' element={<AddSchedule />} />
-              <Route path='/management/ticket' element={<Ticket />} />
-              <Route path='/management/ticket/add' element={<AddTicket />} />
-              <Route path='/management/seat' element={<Seat />} />
-              <Route path='/management/seat/add' element={<AddSeat />} />
-              <Route path='/management/rooms' element={<Room />} />
-              <Route path='/management/rooms/add' element={<AddRoom />} />
-              <Route path='/management/billTicket' element={<BillTicket />} />
-              <Route path='/management/cinema' element={<Cinema />} />
-              <Route path='/management/cinema/add' element={<AddCinema />} />
-              <Route path='/management/promotion' element={<Promotion/>} />
-              <Route path='/management/promotion/add' element={<AddPromotion/>} />
+              <Route path='/admin/' element={<Dashboard />} />
+              <Route path='/admin/management/invoices' element={<Invoices />} />
+              <Route path='/admin/form' element={<Form />} />
+              <Route path='/admin/faq' element={<FAQ />} />
+              <Route path='/admin/bar' element={<Bar />} />
+              <Route path='/admin/line' element={<Line />} />
+              <Route path='/admin/pie' element={<Pie />} />
+              <Route path='/admin/geography' element={<Geography />} />
+              <Route path='/admin/system/user' element={<User />} />
+              <Route path='/admin/system/user/add' element={<AddUser />} />
+              <Route path='/admin/system/user/user-info' element={<UserInfo />} />
+              <Route path='/admin/management/movie' element={<Movie />} />
+              <Route path='/admin/management/movie/add' element={<AddMovie />} />
+              <Route path='/admin/management/schedule' element={<Schedule />} />
+              <Route path='/admin/management/schedule/add' element={<AddSchedule />} />
+              <Route path='/admin/management/ticket' element={<Ticket />} />
+              <Route path='/admin/management/ticket/add' element={<AddTicket />} />
+              <Route path='/admin/management/seat' element={<Seat />} />
+              <Route path='/admin/management/seat/add' element={<AddSeat />} />
+              <Route path='/admin/management/rooms' element={<Room />} />
+              <Route path='/admin/management/rooms/add' element={<AddRoom />} />
+              <Route path='/admin/management/billTicket' element={<BillTicket />} />
+              <Route path='/admin/management/cinema' element={<Cinema />} />
+              <Route path='/admin/management/cinema/add' element={<AddCinema />} />
+              <Route path='/admin/management/promotion' element={<Promotion/>} />
+              <Route path='/admin/management/promotion/add' element={<AddPromotion/>} />
 
             </Routes>
           </main>
