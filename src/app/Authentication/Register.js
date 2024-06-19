@@ -11,20 +11,20 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Images from '../assets/images/image';
+import Images from '../../assets/images/image';
 import { FormControlLabel, FormGroup, Paper } from '@mui/material';
 import authentication from '~/restfulAPI/authentication';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 function Copyright(props) {
     return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
+        <Typography variant="body2" color="text.secondary" align="center" { ...props }>
+            { 'Copyright © ' }
             <Link color="inherit" href="https://mui.com/">
                 Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
+            </Link>{ ' ' }
+            { new Date().getFullYear() }
+            { '.' }
         </Typography>
     );
 }
@@ -73,45 +73,45 @@ export default function SignUp() {
     };
 
     return (
-        <ThemeProvider theme={defaultTheme}>
-            <Grid container component="main" sx={{ height: '100vh' }}>
+        <ThemeProvider theme={ defaultTheme }>
+            <Grid container component="main" sx={ { height: '100vh' } }>
                 <CssBaseline />
                 <Grid
                     item
-                    xs={false}
-                    sm={1}
-                    md={4}
-                    sx={{
-                        backgroundImage: `url(${Images.register})`,
+                    xs={ false }
+                    sm={ 1 }
+                    md={ 4 }
+                    sx={ {
+                        backgroundImage: `url(${ Images.register })`,
                         backgroundRepeat: 'no-repeat',
                         backgroundColor: (t) => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
-                    }}
+                    } }
                 />
-                <Grid item xs={12} sm={8} md={4} component={Paper} elevation={6} square>
+                <Grid item xs={ 12 } sm={ 8 } md={ 4 } component={ Paper } elevation={ 6 } square>
                     <Box
-                        sx={{
+                        sx={ {
                             my: 8,
                             mx: 4,
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
-                        }}
+                        } }
                     >
-                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                        <Avatar sx={ { m: 1, bgcolor: 'secondary.main' } }>
                             <LockOutlinedIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5">
                             Sign up
                         </Typography>
-                        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-                            <Grid container spacing={2}>
-                                <Grid item xs={12} sm={6}>
+                        <Box component="form" noValidate onSubmit={ handleSubmit } sx={ { mt: 3 } }>
+                            <Grid container spacing={ 2 }>
+                                <Grid item xs={ 12 } sm={ 6 }>
                                     <TextField
-                                        error={error.userName}
+                                        error={ error.userName }
                                         required
-                                        onChange={(e) => setError((pre) => ({ ...pre, userName: false }))}
+                                        onChange={ (e) => setError((pre) => ({ ...pre, userName: false })) }
                                         fullWidth
                                         id="userName"
                                         label="User Name"
@@ -119,11 +119,11 @@ export default function SignUp() {
                                         autoComplete="family-name"
                                     />
                                 </Grid>
-                                <Grid item xs={12} sm={6}>
+                                <Grid item xs={ 12 } sm={ 6 }>
                                     <TextField
                                         required
-                                        onChange={(e) => setError((pre) => ({ ...pre, name: false }))}
-                                        error={error.name}
+                                        onChange={ (e) => setError((pre) => ({ ...pre, name: false })) }
+                                        error={ error.name }
                                         fullWidth
                                         id="Name"
                                         label="Name"
@@ -131,11 +131,11 @@ export default function SignUp() {
                                         autoComplete="family-name"
                                     />
                                 </Grid>
-                                <Grid item xs={12}>
+                                <Grid item xs={ 12 }>
                                     <TextField
                                         required
-                                        onChange={(e) => setError((pre) => ({ ...pre, phone: false }))}
-                                        error={error.phone}
+                                        onChange={ (e) => setError((pre) => ({ ...pre, phone: false })) }
+                                        error={ error.phone }
                                         fullWidth
                                         id="phone"
                                         label="Phone Number"
@@ -143,12 +143,12 @@ export default function SignUp() {
                                         autoComplete="phone"
                                         type="number"
                                     />
-                                </Grid>{' '}
-                                <Grid item xs={12}>
+                                </Grid>{ ' ' }
+                                <Grid item xs={ 12 }>
                                     <TextField
                                         required
-                                        onChange={(e) => setError((pre) => ({ ...pre, email: false }))}
-                                        error={error.email}
+                                        onChange={ (e) => setError((pre) => ({ ...pre, email: false })) }
+                                        error={ error.email }
                                         fullWidth
                                         id="email"
                                         label="Email"
@@ -156,45 +156,45 @@ export default function SignUp() {
                                         autoComplete="email"
                                     />
                                 </Grid>
-                                <Grid item xs={12}>
+                                <Grid item xs={ 12 }>
                                     <TextField
                                         required
-                                        onChange={(e) => setError((pre) => ({ ...pre, pass: false }))}
-                                        error={error.pass}
+                                        onChange={ (e) => setError((pre) => ({ ...pre, pass: false })) }
+                                        error={ error.pass }
                                         fullWidth
                                         name="password"
                                         label="Password"
-                                        type={`${showPass ? 'text' : 'password'}`}
+                                        type={ `${ showPass ? 'text' : 'password' }` }
                                         id="password"
                                         autoComplete="new-password"
                                     />
-                                </Grid>{' '}
-                                <Grid item xs={12}>
+                                </Grid>{ ' ' }
+                                <Grid item xs={ 12 }>
                                     <TextField
                                         required
-                                        onChange={(e) => setError((pre) => ({ ...pre, rePass: false }))}
-                                        error={error.rePass}
+                                        onChange={ (e) => setError((pre) => ({ ...pre, rePass: false })) }
+                                        error={ error.rePass }
                                         fullWidth
                                         name="rePass"
                                         label="Enter your password again"
-                                        type={`${showPass ? 'text' : 'password'}`}
+                                        type={ `${ showPass ? 'text' : 'password' }` }
                                         id="rePass"
                                         autoComplete="new-password"
                                     />
                                 </Grid>
                                 <div className="w-full flex justify-end">
                                     <FormGroup>
-                                        <FormControlLabel control={<Checkbox defaultChecked={false} />} label="Show password" labelPlacement="start" onChange={(e) => setShowPass(e.target.checked)} />
+                                        <FormControlLabel control={ <Checkbox defaultChecked={ false } /> } label="Show password" labelPlacement="start" onChange={ (e) => setShowPass(e.target.checked) } />
                                     </FormGroup>
                                 </div>
                             </Grid>
-                            <p className="text-red-500 text-sm">{message}</p>
-                            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                            <p className="text-red-500 text-sm">{ message }</p>
+                            <Button type="submit" fullWidth variant="contained" sx={ { mt: 3, mb: 2 } }>
                                 Sign Up
                             </Button>
                             <Grid container justifyContent="flex-end">
                                 <Grid item>
-                                    <LinkD to="/login" style={{ color: '#1976d2', textDecoration: 'none' }}>
+                                    <LinkD to="/login" style={ { color: '#1976d2', textDecoration: 'none' } }>
                                         Already have an account? Sign in
                                     </LinkD>
                                 </Grid>
@@ -204,16 +204,16 @@ export default function SignUp() {
                 </Grid>
                 <Grid
                     item
-                    xs={false}
-                    sm={1}
-                    md={4}
-                    sx={{
-                        backgroundImage: `url(${Images.registerTwo})`,
+                    xs={ false }
+                    sm={ 1 }
+                    md={ 4 }
+                    sx={ {
+                        backgroundImage: `url(${ Images.registerTwo })`,
                         backgroundRepeat: 'no-repeat',
                         backgroundColor: (t) => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
-                    }}
+                    } }
                 />
             </Grid>
             {/* <Container component="main" maxWidth="xs">

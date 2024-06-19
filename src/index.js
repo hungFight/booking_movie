@@ -11,23 +11,18 @@ import './styles/tailwind.css';
 import { useCookies } from 'react-cookie';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const AuthenticatedRoute = ({ children }) => {
-  const [cookies, setCookies] = useCookies(['tks']);
 
-  return cookies?.tks ? children : <Navigate to="/login" />;
-};
 
 root.render(
   <React.StrictMode>
     <AuthProvider>
       <BrowserRouter>
-        <Routes>
-          <Route path="/admin/login" element={ <Login /> } />
-          <Route path="/admin/register" element={ <Register /> } />
-          <Route path="*" element={ <AuthenticatedRoute><ContextProvider>
-            <App />
-          </ContextProvider></AuthenticatedRoute> } />
-          {/* <Route
+        <ContextProvider>
+          <App />
+        </ContextProvider>
+        {/* <Route path="*" element={ <AuthenticatedRoute><ContextProvider>
+          </ContextProvider></AuthenticatedRoute> } /> */}
+        {/* <Route
             path="*"
             element=
             {
@@ -35,7 +30,7 @@ root.render(
                 <App />
               </ContextProvider>
             } /> */}
-        </Routes>
+
       </BrowserRouter>
     </AuthProvider>
   </React.StrictMode>
