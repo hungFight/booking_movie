@@ -65,7 +65,7 @@ const Register = () => {
                     })
                 */
                 alert("Registered successfully!")
-                navigate('/login');
+                navigate('/admin/login');
             } catch (err) {
                 helpers.setStatus({ success: false });
                 helpers.setErrors({ submit: err.message });
@@ -83,7 +83,7 @@ const Register = () => {
     return (
         <>
             <Box
-                sx={{
+                sx={ {
                     display: "flex",
                     alignContent: "center",
                     alignItems: "center",
@@ -91,10 +91,10 @@ const Register = () => {
                     width: "100%",
                     height: "100%",
                     backgroundColor: colors.blueAccent[500]
-                }}
+                } }
             >
                 <Box
-                    sx={{
+                    sx={ {
                         backgroundColor: colors.grey[900],
                         display: "flex",
                         borderRadius: "20px",
@@ -103,7 +103,7 @@ const Register = () => {
                         width: "80%",
                         height: "85%",
                         overflow: 'hidden'
-                    }}
+                    } }
                 >
                     <Box
                         width="50%"
@@ -111,49 +111,49 @@ const Register = () => {
                     >
                         <img
                             alt="background"
-                            src={`../../assets/background.jpg`}
-                            style={{
+                            src={ `../../assets/background.jpg` }
+                            style={ {
                                 objectFit: 'cover', // Đảm bảo hình ảnh bao phủ toàn bộ Box
                                 width: '100%',
                                 height: '100%',
                                 borderRadius: 'inherit', // Đảm bảo hình ảnh tuân theo borderRadius của Box
-                            }}
+                            } }
                         />
                     </Box>
                     <Box
-                        sx={{
+                        sx={ {
                             px: 9,
                             width: "50%",
-                        }}
+                        } }
                     >
                         <div>
-                            <Stack spacing={1} sx={{ mb: 3 }}>
+                            <Stack spacing={ 1 } sx={ { mb: 3 } }>
                                 <Typography
                                     variant="h3"
-                                    display={'flex'}
-                                    alignItems={'center'}
-                                    justifyContent={'center'}
-                                    style={{
+                                    display={ 'flex' }
+                                    alignItems={ 'center' }
+                                    justifyContent={ 'center' }
+                                    style={ {
                                         color: colors.blueAccent[300],
                                         fontWeight: 'bold'
-                                    }}
+                                    } }
                                 >
                                     Registration
                                 </Typography>
                             </Stack>
-                            <form noValidate onSubmit={formik.handleSubmit}>
-                                <Stack spacing={2}>
+                            <form noValidate onSubmit={ formik.handleSubmit }>
+                                <Stack spacing={ 2 }>
                                     <TextField
-                                        error={!!(formik.touched.phoneNumber && formik.errors.phoneNumber)}
+                                        error={ !!(formik.touched.phoneNumber && formik.errors.phoneNumber) }
                                         fullWidth
-                                        helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
+                                        helperText={ formik.touched.phoneNumber && formik.errors.phoneNumber }
                                         label="PhoneNumber"
                                         name="phoneNumber"
-                                        onBlur={formik.handleBlur}
-                                        onChange={formik.handleChange}
+                                        onBlur={ formik.handleBlur }
+                                        onChange={ formik.handleChange }
                                         type="text"
-                                        value={formik.values.phoneNumber}
-                                        InputProps={{
+                                        value={ formik.values.phoneNumber }
+                                        InputProps={ {
                                             endAdornment: (
                                                 <InputAdornment position="end">
                                                     <IconButton
@@ -163,19 +163,19 @@ const Register = () => {
                                                     </IconButton>
                                                 </InputAdornment>
                                             ),
-                                        }}
+                                        } }
                                     />
                                     <TextField
-                                        error={!!(formik.touched.email && formik.errors.email)}
+                                        error={ !!(formik.touched.email && formik.errors.email) }
                                         fullWidth
-                                        helperText={formik.touched.email && formik.errors.email}
+                                        helperText={ formik.touched.email && formik.errors.email }
                                         label="Email"
                                         name="email"
-                                        onBlur={formik.handleBlur}
-                                        onChange={formik.handleChange}
+                                        onBlur={ formik.handleBlur }
+                                        onChange={ formik.handleChange }
                                         type="text"
-                                        value={formik.values.email}
-                                        InputProps={{
+                                        value={ formik.values.email }
+                                        InputProps={ {
                                             endAdornment: (
                                                 <InputAdornment position="end">
                                                     <IconButton
@@ -185,19 +185,19 @@ const Register = () => {
                                                     </IconButton>
                                                 </InputAdornment>
                                             ),
-                                        }}
+                                        } }
                                     />
                                     <TextField
-                                        error={!!(formik.touched.username && formik.errors.username)}
+                                        error={ !!(formik.touched.username && formik.errors.username) }
                                         fullWidth
-                                        helperText={formik.touched.username && formik.errors.username}
+                                        helperText={ formik.touched.username && formik.errors.username }
                                         label="Username"
                                         name="username"
-                                        onBlur={formik.handleBlur}
-                                        onChange={formik.handleChange}
+                                        onBlur={ formik.handleBlur }
+                                        onChange={ formik.handleChange }
                                         type="text"
-                                        value={formik.values.username}
-                                        InputProps={{
+                                        value={ formik.values.username }
+                                        InputProps={ {
                                             endAdornment: (
                                                 <InputAdornment position="end">
                                                     <IconButton
@@ -207,64 +207,64 @@ const Register = () => {
                                                     </IconButton>
                                                 </InputAdornment>
                                             ),
-                                        }}
+                                        } }
                                     />
                                     <TextField
-                                        error={!!(formik.touched.password && formik.errors.password)}
+                                        error={ !!(formik.touched.password && formik.errors.password) }
                                         fullWidth
-                                        helperText={formik.touched.password && formik.errors.password}
+                                        helperText={ formik.touched.password && formik.errors.password }
                                         label="Password"
                                         name="password"
-                                        onBlur={formik.handleBlur}
-                                        onChange={formik.handleChange}
-                                        type={showPassword ? "text" : "password"}
-                                        value={formik.values.password}
-                                        InputProps={{
+                                        onBlur={ formik.handleBlur }
+                                        onChange={ formik.handleChange }
+                                        type={ showPassword ? "text" : "password" }
+                                        value={ formik.values.password }
+                                        InputProps={ {
                                             endAdornment: (
                                                 <InputAdornment position="end">
                                                     <IconButton
-                                                        onClick={handleTogglePasswordVisibility}
+                                                        onClick={ handleTogglePasswordVisibility }
                                                         edge="end"
                                                     >
-                                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                        { showPassword ? <VisibilityOff /> : <Visibility /> }
                                                     </IconButton>
                                                 </InputAdornment>
                                             ),
-                                        }}
+                                        } }
                                     />
 
-                                    <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
+                                    <Box display={ 'flex' } alignItems={ 'center' } justifyContent={ 'space-between' }>
                                         <FormControlLabel
-                                            control={<Checkbox defaultChecked size='small' />}
+                                            control={ <Checkbox defaultChecked size='small' /> }
                                             label="I agree to the terms & conditions"
                                         />
                                     </Box>
                                 </Stack>
-                                {formik.errors.submit && (
-                                    <Typography color="error" sx={{ mt: 3 }} variant="body2">
-                                        {formik.errors.submit}
+                                { formik.errors.submit && (
+                                    <Typography color="error" sx={ { mt: 3 } } variant="body2">
+                                        { formik.errors.submit }
                                     </Typography>
-                                )}
+                                ) }
                                 <Button
                                     fullWidth
                                     size="large"
-                                    sx={{ mt: 3, backgroundColor: '#1C2536' }}
+                                    sx={ { mt: 3, backgroundColor: '#1C2536' } }
                                     type="submit"
                                     variant="contained"
-                                    style={{
+                                    style={ {
                                         background: colors.blueAccent[300],
                                         borderRadius: 20
-                                    }}
+                                    } }
                                 >
                                     Register
                                 </Button>
                                 <Typography
-                                    mt={2}
+                                    mt={ 2 }
                                     color="text.secondary"
                                     variant="body2"
-                                    display={'flex'}
-                                    alignItems={'center'}
-                                    justifyContent={'center'}
+                                    display={ 'flex' }
+                                    alignItems={ 'center' }
+                                    justifyContent={ 'center' }
                                 >
                                     Already have an account?
                                     <Link
@@ -272,14 +272,14 @@ const Register = () => {
                                         href="/login"
                                         underline="hover"
                                         variant="subtitle2"
-                                        fontWeight={'bold'}
+                                        fontWeight={ 'bold' }
                                     >
                                         Login
                                     </Link>
                                 </Typography>
                             </form>
                         </div>
-                    </Box>              
+                    </Box>
                 </Box>
             </Box>
         </>

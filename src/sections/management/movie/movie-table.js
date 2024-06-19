@@ -11,12 +11,14 @@ import { Box, Stack, useTheme } from "@mui/material";
 import { tokens } from "../../../theme";
 import Header from "../../../components/Header";
 import MovieEdit from "./movie-edit";
+import movie from "~/restfulAPI/movie";
 
 const MovieTable = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [isModalDetailOpen, setIsModalDetailOpen] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
+    const [rows, setRows] = useState([]);
     const [openEditMovie, setOpenEditMovie] = useState(false);
 
     const handleOpenEditMovie = (param) => {
@@ -36,86 +38,96 @@ const MovieTable = () => {
     const handleCloseDetail = () => {
         setIsModalDetailOpen(false);
     }
-
-    const rows = [
-        {
-            id: 1,
-            stt: 1,
-            movieDuration: 120,
-            endTime: '2023-05-01T20:00:00',
-            premiereDate: "15-01-2024",
-            description: "An epic adventure",
-            director: "John Doe",
-            image: "https://example.com/image1.jpg",
-            movieType: "Kinh dị",
-            name: "Epic Adventure",
-        },
-        {
-            id: 2,
-            stt: 2,
-            image: "https://source.unsplash.com/random?wallpapers",
-            movieDuration: 150,
-            endTime: "2023-05-02T21:30:00",
-            premiereDate: "02-04-2024",
-            description: "A mysterious thriller",
-            director: "Jane Smith",
-            image: "https://example.com/image2.jpg",
-            movieType: "Kinh dị",
-            name: "Mystery Journey",
-        },
-        {
-            id: 3,
-            stt: 3,
-            image: "https://source.unsplash.com/random?wallpapers",
-            movieDuration: 110,
-            endTime: "2023-05-03T18:45:00",
-            premiereDate: "15-04-2024",
-            description: "A heartwarming drama",
-            director: "Michael Johnson",
-            image: "https://example.com/image3.jpg",
-            movieType: "Kinh dị",
-            name: "Tender Moments",
-        },
-        {
-            id: 4,
-            stt: 4,
-            image: "https://source.unsplash.com/random?wallpapers",
-            movieDuration: 100,
-            endTime: "2023-05-04T17:15:00",
-            premiereDate: "10-07-2023",
-            description: "A sci-fi adventure",
-            director: "David Lee",
-            image: "https://example.com/image4.jpg",
-            movieType: "Kinh dị",
-            name: "Galactic Odyssey",
-        },
-        {
-            id: 5,
-            stt: 5,
-            image: "https://source.unsplash.com/random?wallpapers",
-            movieDuration: 130,
-            endTime: "2023-05-05T19:30:00",
-            premiereDate: "10-07-2023",
-            description: "A romantic comedy",
-            director: "Emily Brown",
-            image: "https://example.com/image5.jpg",
-            movieType: "Kinh dị",
-            name: "Love in Bloom",
-        },
-        {
-            id: 6,
-            stt: 6,
-            image: "https://source.unsplash.com/random?wallpapers",
-            movieDuration: 140,
-            endTime: "2023-05-06T22:00:00",
-            premiereDate: "20-04-2024",
-            description: "A gripping thriller",
-            director: "Alex Turner",
-            image: "https://example.com/image6.jpg",
-            movieType: "Kinh dị",
-            name: "Behind Closed Doors",
-        },
-    ]
+    React.useEffect(() => {
+        async function getMoive() {
+            const res = await movie.getAll()
+            if (res) setRows(() => {
+                return res.map(r => {
+                    return { ...r, id: r.id, stt: r.id, movieType: r.movieType.movieTypeName, image: r.heroImage }
+                })
+            })
+        }
+        getMoive()
+    }, [])
+    // const rows = [
+    //     {
+    //         id: 1,
+    //         stt: 1,
+    //         movieDuration: 120,
+    //         endTime: '2023-05-01T20:00:00',
+    //         premiereDate: "15-01-2024",
+    //         description: "An epic adventure",
+    //         director: "John Doe",
+    //         image: "https://example.com/image1.jpg",
+    //         movieType: "Kinh dị",
+    //         name: "Epic Adventure",
+    //     },
+    //     {
+    //         id: 2,
+    //         stt: 2,
+    //         image: "https://source.unsplash.com/random?wallpapers",
+    //         movieDuration: 150,
+    //         endTime: "2023-05-02T21:30:00",
+    //         premiereDate: "02-04-2024",
+    //         description: "A mysterious thriller",
+    //         director: "Jane Smith",
+    //         image: "https://example.com/image2.jpg",
+    //         movieType: "Kinh dị",
+    //         name: "Mystery Journey",
+    //     },
+    //     {
+    //         id: 3,
+    //         stt: 3,
+    //         image: "https://source.unsplash.com/random?wallpapers",
+    //         movieDuration: 110,
+    //         endTime: "2023-05-03T18:45:00",
+    //         premiereDate: "15-04-2024",
+    //         description: "A heartwarming drama",
+    //         director: "Michael Johnson",
+    //         image: "https://example.com/image3.jpg",
+    //         movieType: "Kinh dị",
+    //         name: "Tender Moments",
+    //     },
+    //     {
+    //         id: 4,
+    //         stt: 4,
+    //         image: "https://source.unsplash.com/random?wallpapers",
+    //         movieDuration: 100,
+    //         endTime: "2023-05-04T17:15:00",
+    //         premiereDate: "10-07-2023",
+    //         description: "A sci-fi adventure",
+    //         director: "David Lee",
+    //         image: "https://example.com/image4.jpg",
+    //         movieType: "Kinh dị",
+    //         name: "Galactic Odyssey",
+    //     },
+    //     {
+    //         id: 5,
+    //         stt: 5,
+    //         image: "https://source.unsplash.com/random?wallpapers",
+    //         movieDuration: 130,
+    //         endTime: "2023-05-05T19:30:00",
+    //         premiereDate: "10-07-2023",
+    //         description: "A romantic comedy",
+    //         director: "Emily Brown",
+    //         image: "https://example.com/image5.jpg",
+    //         movieType: "Kinh dị",
+    //         name: "Love in Bloom",
+    //     },
+    //     {
+    //         id: 6,
+    //         stt: 6,
+    //         image: "https://source.unsplash.com/random?wallpapers",
+    //         movieDuration: 140,
+    //         endTime: "2023-05-06T22:00:00",
+    //         premiereDate: "20-04-2024",
+    //         description: "A gripping thriller",
+    //         director: "Alex Turner",
+    //         image: "https://example.com/image6.jpg",
+    //         movieType: "Kinh dị",
+    //         name: "Behind Closed Doors",
+    //     },
+    // ]
 
     const columns = [
         { field: "stt", headerName: "STT", width: 50 },
@@ -135,12 +147,12 @@ const MovieTable = () => {
                     <img
                         src="https://source.unsplash.com/random?wallpapers"
                         alt="image"
-                        style={{
+                        style={ {
                             height: 40,
                             width: 40,
                             borderRadius: '20%',
                             // display: 'block',
-                        }}
+                        } }
                     />
                 </Box>
             )
@@ -164,9 +176,9 @@ const MovieTable = () => {
                     height="100%"
                 >
                     <ActionColumn
-                        handleViewDetail={handleViewDetail}
-                        openDialogEdit={handleOpenEditMovie}
-                        params={params}
+                        handleViewDetail={ handleViewDetail }
+                        openDialogEdit={ handleOpenEditMovie }
+                        params={ params }
                     // handleDelete={() => handleDelete(params.row)}
                     />
                 </Box>
@@ -176,7 +188,7 @@ const MovieTable = () => {
     return (
         <Stack>
             <DataGrid
-                sx={{
+                sx={ {
                     "& .name-column--cell": {
                         // color: colors.greenAccent[300],
                     },
@@ -192,30 +204,30 @@ const MovieTable = () => {
                         backgroundColor: colors.blueAccent[700],
                     },
                     "& .MuiCheckbox-root": {
-                        color: `${colors.greenAccent[200]} !important`,
+                        color: `${ colors.greenAccent[200] } !important`,
                     },
-                }}
-                rows={rows}
-                columns={columns}
-                initialState={{
+                } }
+                rows={ rows }
+                columns={ columns }
+                initialState={ {
                     pagination: {
                         paginationModel: { page: 0, pageSize: 5 },
                     },
-                }}
+                } }
 
-                pageSizeOptions={[5, 10]}
+                pageSizeOptions={ [5, 10] }
                 checkboxSelection
             />
             <ModalDetail
-                open={isModalDetailOpen}
-                onClose={handleCloseDetail}
-                rowData={selectedRow}
-                columns={columns}
+                open={ isModalDetailOpen }
+                onClose={ handleCloseDetail }
+                rowData={ selectedRow }
+                columns={ columns }
             />
             <MovieEdit
-                open={openEditMovie}
-                onClose={handleCloseEditMovie}
-                rowData={selectedRow}
+                open={ openEditMovie }
+                onClose={ handleCloseEditMovie }
+                rowData={ selectedRow }
             />
         </Stack>
     );

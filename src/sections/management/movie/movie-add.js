@@ -14,7 +14,9 @@ import { Save } from "@mui/icons-material";
 import "react-quill/dist/quill.snow.css";
 import { DropzoneArea } from "mui-file-dropzone";
 import ReactQuill from 'react-quill';
-
+import movie from '~/restfulAPI/movie';
+import { v4 } from 'uuid'
+import moment from 'moment';
 
 const AddMovie = () => {
     const theme = useTheme();
@@ -31,8 +33,15 @@ const AddMovie = () => {
     };
 
     const handleChange = (files) => {
-        setFiles(files);
-    };
+        const urls = []
+        for (let i = 0; i < files.length; i++) {
+            const url = URL.createObjectURL(files[i]);
+            console.log(url);
+            urls.push(url)
+        }
+        setFiles(urls);
+    }
+        ;
 
     const validationSchema = Yup.object({
         movieDuration: Yup
@@ -69,7 +78,7 @@ const AddMovie = () => {
         name: "",
         director: "",
         movieType: "",
-        premiereDate: "",
+        premiereDate: "", endTime: '',
         description: "",
         submit: null
     };
@@ -81,6 +90,10 @@ const AddMovie = () => {
 
             try {
                 console.log("Giá trị vừa nhập vào là:", values);
+                const data = await movie.create({
+                    movie_type_id: 1, end_time: new Date(values.endTime), image: v4(), hero_image: files[0], trailer: "trailer",
+                    rate_id: 1, movie_duration: values.movieDuration, language: "English", premiere_date: moment(values.premiereDate).format('YYYY-MM-DD'), description: values.description, director: values.director
+                })
                 setOpenSnackBar(true);
             } catch (err) {
                 console.error("Lỗi:", err);
@@ -103,38 +116,38 @@ const AddMovie = () => {
                 <Box>
                     <TextField
                         color="info"
-                        error={!!(formik.touched.name && formik.errors.name)}
-                        helperText={formik.touched.name && formik.errors.name}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        value={formik.values.name}
+                        error={ !!(formik.touched.name && formik.errors.name) }
+                        helperText={ formik.touched.name && formik.errors.name }
+                        onBlur={ formik.handleBlur }
+                        onChange={ formik.handleChange }
+                        value={ formik.values.name }
                         name="name"
-                        sx={{ marginTop: "12px" }}
+                        sx={ { marginTop: "12px" } }
                         size="small"
                         label="Name"
                         fullWidth
                         variant="outlined"
                     />
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <LocalizationProvider dateAdapter={ AdapterDayjs }>
                         <DatePicker
-                            sx={{
+                            sx={ {
                                 width: "100%",
                                 marginTop: '12px'
-                            }}
+                            } }
                             label="Premiere Date"
                             name="premiereDate"
                             format="DD/MM/YYYY"
-                            // value={formik.values.premiereDate}
-                            onChange={(value) => {
+                            // value={ formik.values.premiereDate }
+                            onChange={ (value) => {
                                 if (value != null) {
                                     formik.setFieldValue('premiereDate', Date.parse(value));
                                     setIsDateSelected(true)
                                 } else {
                                     formik.setFieldValue('premiereDate', '');
                                 }
-                            }}
+                            } }
 
-                            slotProps={{
+                            slotProps={ {
                                 textField: {
                                     color: 'info',
                                     variant: "outlined",
@@ -145,19 +158,49 @@ const AddMovie = () => {
                                     helperText: formik.touched.premiereDate && formik.errors.premiereDate, // Sử dụng formik.touched và formik.errors
                                     error: !!(formik.touched.premiereDate && formik.errors.premiereDate) // Hiển thị error khi trường bị chạm và có lỗi
                                 },
-                            }}
+                            } }
+                        /> <DatePicker
+                            sx={ {
+                                width: "100%",
+                                marginTop: '12px'
+                            } }
+                            label="End time"
+                            name="endTime"
+                            format="DD/MM/YYYY HH:mm:ss"
+                            // value={ formik.values.endTime }
+                            onChange={ (value) => {
+                                if (value != null) {
+                                    formik.setFieldValue('endTime', Date.parse(value));
+                                    setIsDateSelected(true)
+                                } else {
+                                    formik.setFieldValue('endTime', '');
+                                }
+                            } }
+
+                            slotProps={ {
+                                textField: {
+                                    color: 'info',
+                                    variant: "outlined",
+                                    size: "small",
+                                    onBlur: () => {
+                                        formik.setFieldTouched('endTime', true);
+                                    },
+                                    helperText: formik.touched.endTime && formik.errors.endTime, // Sử dụng formik.touched và formik.errors
+                                    error: !!(formik.touched.endTime && formik.errors.endTime) // Hiển thị error khi trường bị chạm và có lỗi
+                                },
+                            } }
                         />
                     </LocalizationProvider>
 
                     <TextField
                         color="info"
-                        error={!!(formik.touched.movieDuration && formik.errors.movieDuration)}
-                        helperText={formik.touched.movieDuration && formik.errors.movieDuration}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        value={formik.values.movieDuration}
+                        error={ !!(formik.touched.movieDuration && formik.errors.movieDuration) }
+                        helperText={ formik.touched.movieDuration && formik.errors.movieDuration }
+                        onBlur={ formik.handleBlur }
+                        onChange={ formik.handleChange }
+                        value={ formik.values.movieDuration }
                         name="movieDuration"
-                        sx={{ marginTop: "12px" }}
+                        sx={ { marginTop: "12px" } }
                         size="small"
                         label="MovieDuration"
                         fullWidth
@@ -167,13 +210,13 @@ const AddMovie = () => {
 
                     <TextField
                         color="info"
-                        error={!!(formik.touched.director && formik.errors.director)}
-                        helperText={formik.touched.director && formik.errors.director}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        value={formik.values.director}
+                        error={ !!(formik.touched.director && formik.errors.director) }
+                        helperText={ formik.touched.director && formik.errors.director }
+                        onBlur={ formik.handleBlur }
+                        onChange={ formik.handleChange }
+                        value={ formik.values.director }
                         name="director"
-                        sx={{ marginTop: "12px" }}
+                        sx={ { marginTop: "12px" } }
                         size="small"
                         label="Director"
                         fullWidth
@@ -181,80 +224,80 @@ const AddMovie = () => {
                     />
 
                     <Autocomplete
-                        sx={{ margin: "10px 0px 5px 0px" }}
+                        sx={ { margin: "10px 0px 5px 0px" } }
                         color='info'
                         fullWidth
-                        options={["Kinh dị", "Hành động", "Tình cảm"]}
-                        value={formik.values.movieType}
-                        onChange={(_, newValue) => {
+                        options={ ["Kinh dị", "Hành động", "Tình cảm"] }
+                        value={ formik.values.movieType }
+                        onChange={ (_, newValue) => {
                             formik.setFieldValue('movieType', newValue || null)
-                        }}
-                        renderInput={(params) => (
+                        } }
+                        renderInput={ (params) => (
                             <TextField
                                 variant="outlined"
                                 color='info'
-                                {...params}
+                                { ...params }
                                 label="Suất chiếu"
                                 name="movieType"
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.movieType && Boolean(formik.errors.movieType)}
-                                helperText={formik.touched.movieType && formik.errors.movieType}
+                                onBlur={ formik.handleBlur }
+                                error={ formik.touched.movieType && Boolean(formik.errors.movieType) }
+                                helperText={ formik.touched.movieType && formik.errors.movieType }
                             />
-                        )}
+                        ) }
                     />
 
-                    <Box style={{ width: "100%" }}>
-                        <Typography variant="h6" gutterBottom sx={{ fontSize: "12.5px", color: "#6C737F", margin: "12px 12px 12px 15px" }}>
+                    <Box style={ { width: "100%" } }>
+                        <Typography variant="h6" gutterBottom sx={ { fontSize: "12.5px", color: "#6C737F", margin: "12px 12px 12px 15px" } }>
                             Description
                         </Typography>
                         <ReactQuill
-                            style={{
+                            style={ {
                                 height: "100px ",
                                 margin: "12px 4px 50px 4px",
                                 borderRadius: "8px",
-                            }}
-                            onChange={(v) => formik.setFieldValue('description', v)}
-                            value={formik.values.description}
+                            } }
+                            onChange={ (v) => formik.setFieldValue('description', v) }
+                            value={ formik.values.description }
                             name="description"
-                            modules={{
+                            modules={ {
                                 toolbar: [
                                     [{ header: [1, 2, false] }],
                                     ["bold", "italic", "underline"],
                                     ["image", "code-block"],
                                 ],
-                            }}
+                            } }
                             theme="snow"
                         />
                     </Box>
 
                     <Box>
-                        <Typography variant="h6" gutterBottom sx={{ fontSize: "12.5px", color: "#6C737F", margin: "12px 12px 12px 15px" }}>
+                        <Typography variant="h6" gutterBottom sx={ { fontSize: "12.5px", color: "#6C737F", margin: "12px 12px 12px 15px" } }>
                             Add photos
                         </Typography>
                         <DropzoneArea
-                            onChange={handleChange}
-                            filesLimit={6}
+                            onChange={ handleChange }
+                            filesLimit={ 6 }
                         />
                     </Box>
                     <Box
-                        sx={{
+                        sx={ {
                             display: 'flex',
                             justifyContent: 'end',
                             width: '100%',
                             marginTop: '20px'
-                        }}
+                        } }
                     >
                         <Button
                             variant="contained"
-                            sx={{
+                            sx={ {
                                 background: "#228B22",
                                 color: "white",
                                 "&: hover": {
                                     background: "#008000"
                                 },
-                            }}
-                            startIcon={<Save />}
-                            onClick={formik.handleSubmit}
+                            } }
+                            startIcon={ <Save /> }
+                            onClick={ formik.handleSubmit }
                         >
                             Lưu
                         </Button>
@@ -262,9 +305,9 @@ const AddMovie = () => {
                 </Box>
             </Stack>
             <Snackbar
-                open={openSnackBar}
-                autoHideDuration={1500}
-                onClose={handleCloseSnackbar}
+                open={ openSnackBar }
+                autoHideDuration={ 1500 }
+                onClose={ handleCloseSnackbar }
             >
                 <MuiAlert severity='success'>
                     Create new movie successfully!

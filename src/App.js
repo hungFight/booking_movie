@@ -46,7 +46,8 @@ import MovieDetail from './app/Movie/Detail';
 
 const AuthenticatedRouteAdmin = ({ children }) => {
   const { isAuthenticated } = React.useContext(AuthContext);
-  return !isAuthenticated ? children : <Navigate to="/admin/login" />;
+  console.log(isAuthenticated, 'isAuthenticated');
+  return isAuthenticated ? children : <Navigate to="/admin/login" />;
 
 }; const AuthenticatedRoute = ({ children }) => {
   const [cookies, setCookies] = useCookies(['tks']);

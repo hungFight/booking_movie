@@ -12,6 +12,7 @@ class Authentication {
     };
     login = async (data) => {
         try {
+            
             const res = await http.post('/user/login', { ...data });
             return res.data;
         } catch (error) {

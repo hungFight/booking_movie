@@ -16,9 +16,9 @@ const Schedule = () => {
         <Box >
             <Box
                 component="main"
-                sx={{
+                sx={ {
                     py: 6
-                }}
+                } }
             >
                 <Container maxWidth="lg">
                     <Stack>
@@ -32,21 +32,21 @@ const Schedule = () => {
                                 <Header title="SCHEDULES" subtitle="List of schedule" />
                             </Box>
                             <Box>
-                                <Link to='/management/schedule/add'>
+                                <Link to='/admin/management/schedule/add'>
                                     <Button
-                                        startIcon={(
+                                        startIcon={ (
                                             <SvgIcon fontSize="small">
                                                 <AddCircleIcon />
                                             </SvgIcon>
-                                        )}
+                                        ) }
                                         variant="contained"
-                                        sx={{
+                                        sx={ {
                                             background: "#228B22",
                                             color: "white",
                                             "&: hover": {
                                                 background: "#008000"
                                             }
-                                        }}
+                                        } }
                                     >
                                         Thêm
                                     </Button>
