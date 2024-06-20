@@ -43,13 +43,19 @@ import Login from './scenes/auth/login';
 import SignUp from './app/Authentication/Register';
 import { AuthContext } from './contexts/auth-context';
 import MovieDetail from './app/Movie/Detail';
+// import jwt_decode from './utils/jwt_decode';
 
 const AuthenticatedRouteAdmin = ({ children }) => {
   const { isAuthenticated } = React.useContext(AuthContext);
-  console.log(isAuthenticated, 'isAuthenticated');
-  return isAuthenticated ? children : <Navigate to="/admin/login" />;
-
-}; const AuthenticatedRoute = ({ children }) => {
+  // if (token) {
+  // const decodeToken = jwt_decode(token);
+  // console.log(isAuthenticated, 'isAuthenticated', decodeToken);
+  // if (decodeToken.sub === 'ADMIN') return children
+  // }
+  return children
+  return <Navigate to="/admin/login" />
+};
+const AuthenticatedRoute = ({ children }) => {
   const [cookies, setCookies] = useCookies(['tks']);
   return cookies.tks ? children : <Navigate to="/login" />;
 };

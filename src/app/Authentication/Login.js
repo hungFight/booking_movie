@@ -16,6 +16,7 @@ import Images from '~/assets/images/image';
 import { Link as LinkD } from 'react-router-dom';
 import authentication from '~/restfulAPI/authentication';
 import { FormGroup } from '@mui/material';
+import { AuthContext } from '~/contexts/auth-context';
 
 const defaultTheme = createTheme();
 const SignInSide = ({ setCookies }) => {
@@ -23,7 +24,7 @@ const SignInSide = ({ setCookies }) => {
     const [message, setMessage] = React.useState('');
     const [loading, setLoading] = React.useState('false');
     const [showPass, setShowPass] = React.useState(false);
-
+    const { login } = React.useContext(AuthContext);
     const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading('true');
@@ -37,6 +38,7 @@ const SignInSide = ({ setCookies }) => {
             if (res?.status) {
                 setMessage(res.message);
             } else {
+                login(res);
                 localStorage.setItem('authToken', res);
                 window.location.href = '/';
             }

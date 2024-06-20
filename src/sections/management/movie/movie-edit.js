@@ -115,6 +115,7 @@ export default function MovieEdit({ open, onClose, rowData }) {
         name: "",
         director: "",
         premiereDate: "",
+        endTime: "",
         description: "",
         submit: null
     };
@@ -141,6 +142,7 @@ export default function MovieEdit({ open, onClose, rowData }) {
                 movieType: rowData?.movieType || '',
                 director: rowData?.director || '',
                 premiereDate: rowData?.premiereDate,
+                endTime: rowData?.endTime,
                 description: rowData?.description || '',
             })
         } catch (error) {
@@ -161,24 +163,24 @@ export default function MovieEdit({ open, onClose, rowData }) {
 
     return (
         <BootstrapDialog
-            onClose={() => handleClose(false)}
-            open={open}
+            onClose={ () => handleClose(false) }
+            open={ open }
             fullWidth
             maxWidth='md'
-            scroll={'body'}
+            scroll={ 'body' }
         >
-            <DialogTitle sx={{ m: 0, p: 2, backgroundColor: colors.blueAccent[500], color: 'white' }}>
+            <DialogTitle sx={ { m: 0, p: 2, backgroundColor: colors.blueAccent[500], color: 'white' } }>
                 Edit movie
             </DialogTitle>
             <IconButton
                 aria-label="close"
-                onClick={() => handleClose(false)}
-                sx={{
+                onClick={ () => handleClose(false) }
+                sx={ {
                     position: 'absolute',
                     right: 8,
                     top: 8,
                     // color: (theme) => theme.palette.grey[500],
-                }}
+                } }
             >
                 <SvgIcon fontSize="inherit">
                     <XCircleIcon />
@@ -186,46 +188,45 @@ export default function MovieEdit({ open, onClose, rowData }) {
             </IconButton>
             <DialogContent
                 dividers
-                sx={{
+                sx={ {
                     backgroundColor: colors.primary[400],
                     color: colors.primary[100]
-                }}
+                } }
             >
                 <Box>
                     <TextField
                         color="info"
-                        error={!!(formik.touched.name && formik.errors.name)}
-                        helperText={formik.touched.name && formik.errors.name}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        value={formik.values.name}
+                        error={ !!(formik.touched.name && formik.errors.name) }
+                        helperText={ formik.touched.name && formik.errors.name }
+                        onBlur={ formik.handleBlur }
+                        onChange={ formik.handleChange }
+                        value={ formik.values.name }
                         name="name"
-                        sx={{ marginTop: "12px" }}
+                        sx={ { marginTop: "12px" } }
                         size="small"
                         label="Name"
                         fullWidth
                         variant="outlined"
                     />
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <LocalizationProvider dateAdapter={ AdapterDayjs }>
                         <DatePicker
-                            sx={{
+                            sx={ {
                                 width: "100%",
                                 marginTop: '12px'
-                            }}
+                            } }
                             label="Premiere Date"
                             name="premiereDate"
                             format="DD/MM/YYYY"
-                            // value={formik.values.premiereDate}
-                            onChange={(value) => {
+                            // value={ rowData?.premiereDate }
+                            onChange={ (value) => {
                                 if (value != null) {
                                     formik.setFieldValue('premiereDate', Date.parse(value));
                                     setIsDateSelected(true)
                                 } else {
                                     formik.setFieldValue('premiereDate', '');
                                 }
-                            }}
-
-                            slotProps={{
+                            } }
+                            slotProps={ {
                                 textField: {
                                     color: 'info',
                                     variant: "outlined",
@@ -236,19 +237,49 @@ export default function MovieEdit({ open, onClose, rowData }) {
                                     helperText: formik.touched.premiereDate && formik.errors.premiereDate, // Sử dụng formik.touched và formik.errors
                                     error: !!(formik.touched.premiereDate && formik.errors.premiereDate) // Hiển thị error khi trường bị chạm và có lỗi
                                 },
-                            }}
+                            } }
+                        /> <DatePicker
+                            sx={ {
+                                width: "100%",
+                                marginTop: '12px'
+                            } }
+                            label="End time"
+                            name="endTime"
+                            format="DD/MM/YYYY HH:mm:ss"
+                            // value={ rowData?.endTime }
+                            onChange={ (value) => {
+                                if (value != null) {
+                                    formik.setFieldValue('endTime', Date.parse(value));
+                                    setIsDateSelected(true)
+                                } else {
+                                    formik.setFieldValue('endTime', '');
+                                }
+                            } }
+
+                            slotProps={ {
+                                textField: {
+                                    color: 'info',
+                                    variant: "outlined",
+                                    size: "small",
+                                    onBlur: () => {
+                                        formik.setFieldTouched('endTime', true);
+                                    },
+                                    helperText: formik.touched.endTime && formik.errors.endTime, // Sử dụng formik.touched và formik.errors
+                                    error: !!(formik.touched.endTime && formik.errors.endTime) // Hiển thị error khi trường bị chạm và có lỗi
+                                },
+                            } }
                         />
                     </LocalizationProvider>
 
                     <TextField
                         color="info"
-                        error={!!(formik.touched.movieDuration && formik.errors.movieDuration)}
-                        helperText={formik.touched.movieDuration && formik.errors.movieDuration}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        value={formik.values.movieDuration}
+                        error={ !!(formik.touched.movieDuration && formik.errors.movieDuration) }
+                        helperText={ formik.touched.movieDuration && formik.errors.movieDuration }
+                        onBlur={ formik.handleBlur }
+                        onChange={ formik.handleChange }
+                        value={ formik.values.movieDuration }
                         name="movieDuration"
-                        sx={{ marginTop: "12px" }}
+                        sx={ { marginTop: "12px" } }
                         size="small"
                         label="MovieDuration"
                         fullWidth
@@ -258,13 +289,13 @@ export default function MovieEdit({ open, onClose, rowData }) {
 
                     <TextField
                         color="info"
-                        error={!!(formik.touched.director && formik.errors.director)}
-                        helperText={formik.touched.director && formik.errors.director}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        value={formik.values.director}
+                        error={ !!(formik.touched.director && formik.errors.director) }
+                        helperText={ formik.touched.director && formik.errors.director }
+                        onBlur={ formik.handleBlur }
+                        onChange={ formik.handleChange }
+                        value={ formik.values.director }
                         name="director"
-                        sx={{ marginTop: "12px" }}
+                        sx={ { marginTop: "12px" } }
                         size="small"
                         label="Director"
                         fullWidth
@@ -272,80 +303,80 @@ export default function MovieEdit({ open, onClose, rowData }) {
                     />
 
                     <Autocomplete
-                        sx={{ margin: "10px 0px 5px 0px" }}
+                        sx={ { margin: "10px 0px 5px 0px" } }
                         color='info'
                         fullWidth
-                        options={["Kinh dị", "Hành động", "Tình cảm"]}
-                        value={formik.values.movieType}
-                        onChange={(_, newValue) => {
+                        options={ ["Kinh dị", "Hành động", "Tình cảm"] }
+                        value={ formik.values.movieType }
+                        onChange={ (_, newValue) => {
                             formik.setFieldValue('movieType', newValue || null)
-                        }}
-                        renderInput={(params) => (
+                        } }
+                        renderInput={ (params) => (
                             <TextField
                                 variant="outlined"
                                 color='info'
-                                {...params}
+                                { ...params }
                                 label="Suất chiếu"
                                 name="movieType"
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.movieType && Boolean(formik.errors.movieType)}
-                                helperText={formik.touched.movieType && formik.errors.movieType}
+                                onBlur={ formik.handleBlur }
+                                error={ formik.touched.movieType && Boolean(formik.errors.movieType) }
+                                helperText={ formik.touched.movieType && formik.errors.movieType }
                             />
-                        )}
+                        ) }
                     />
 
-                    <Box style={{ width: "100%" }}>
-                        <Typography variant="h6" gutterBottom sx={{ fontSize: "12.5px", color: "#6C737F", margin: "12px 12px 12px 15px" }}>
+                    <Box style={ { width: "100%" } }>
+                        <Typography variant="h6" gutterBottom sx={ { fontSize: "12.5px", color: "#6C737F", margin: "12px 12px 12px 15px" } }>
                             Description
                         </Typography>
                         <ReactQuill
-                            style={{
+                            style={ {
                                 height: "100px ",
                                 margin: "12px 4px 50px 4px",
                                 borderRadius: "8px",
-                            }}
-                            onChange={(v) => formik.setFieldValue('description', v)}
-                            value={formik.values.description}
+                            } }
+                            onChange={ (v) => formik.setFieldValue('description', v) }
+                            value={ formik.values.description }
                             name="description"
-                            modules={{
+                            modules={ {
                                 toolbar: [
                                     [{ header: [1, 2, false] }],
                                     ["bold", "italic", "underline"],
                                     ["image", "code-block"],
                                 ],
-                            }}
+                            } }
                             theme="snow"
                         />
                     </Box>
 
                     <Box>
-                        <Typography variant="h6" gutterBottom sx={{ fontSize: "12.5px", color: "#6C737F", margin: "12px 12px 12px 15px" }}>
+                        <Typography variant="h6" gutterBottom sx={ { fontSize: "12.5px", color: "#6C737F", margin: "12px 12px 12px 15px" } }>
                             Add photos
                         </Typography>
                         <DropzoneArea
-                            onChange={handleChange}
-                            filesLimit={6}
+                            onChange={ handleChange }
+                            filesLimit={ 6 }
                         />
                     </Box>
                     <Box
-                        sx={{
+                        sx={ {
                             display: 'flex',
                             justifyContent: 'end',
                             width: '100%',
                             marginTop: '20px'
-                        }}
+                        } }
                     >
                         <Button
                             variant="contained"
-                            sx={{
+                            sx={ {
                                 background: "#228B22",
                                 color: "white",
                                 "&: hover": {
                                     background: "#008000"
                                 },
-                            }}
-                            startIcon={<Save />}
-                            onClick={formik.handleSubmit}
+                            } }
+                            startIcon={ <Save /> }
+                            onClick={ formik.handleSubmit }
                         >
                             Lưu
                         </Button>
@@ -353,9 +384,9 @@ export default function MovieEdit({ open, onClose, rowData }) {
                 </Box>
             </DialogContent>
             <Snackbar
-                open={openSnackBar}
-                autoHideDuration={1500}
-                onClose={handleCloseSnackbar}
+                open={ openSnackBar }
+                autoHideDuration={ 1500 }
+                onClose={ handleCloseSnackbar }
             >
                 <MuiAlert severity='success'>
                     Edit new movie successfully!

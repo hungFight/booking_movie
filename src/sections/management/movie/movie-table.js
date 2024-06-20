@@ -40,17 +40,19 @@ const MovieTable = () => {
     }
     const handleDelete = async (params) => {
         console.log(params, 'params');
-        // const res = await movie.deleteById()
+        const res = await movie.deleteById(params.id)
+        if (res) getMoive()
+    }
+    async function getMoive() {
+        const res = await movie.getAll()
+        if (res) setRows(() => {
+            return res.map((r, index) => {
+                return { ...r, id: r.id, stt: index + 1, movieType: r.movieType.movieTypeName, image: r.heroImage }
+            })
+        })
     }
     React.useEffect(() => {
-        async function getMoive() {
-            const res = await movie.getAll()
-            if (res) setRows(() => {
-                return res.map((r, index) => {
-                    return { ...r, id: r.id, stt: index, movieType: r.movieType.movieTypeName, image: r.heroImage }
-                })
-            })
-        }
+
         getMoive()
     }, [])
 
