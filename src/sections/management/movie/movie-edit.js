@@ -28,7 +28,7 @@ import { Save } from "@mui/icons-material";
 import "react-quill/dist/quill.snow.css";
 import { DropzoneArea } from "mui-file-dropzone";
 import ReactQuill from 'react-quill';
-import dayjs from "dayjs";
+import moment from "moment";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -216,8 +216,8 @@ export default function MovieEdit({ open, onClose, rowData }) {
                             } }
                             label="Premiere Date"
                             name="premiereDate"
-                            format="DD/MM/YYYY"
-                            // value={ rowData?.premiereDate }
+                            format="DD-MM-YYYY"
+                            value={ moment(formik.values.premiereDate) }
                             onChange={ (value) => {
                                 if (value != null) {
                                     formik.setFieldValue('premiereDate', Date.parse(value));
@@ -246,7 +246,8 @@ export default function MovieEdit({ open, onClose, rowData }) {
                             label="End time"
                             name="endTime"
                             format="DD/MM/YYYY HH:mm:ss"
-                            // value={ rowData?.endTime }
+                            value={ moment(rowData?.endTime) }
+
                             onChange={ (value) => {
                                 if (value != null) {
                                     formik.setFieldValue('endTime', Date.parse(value));

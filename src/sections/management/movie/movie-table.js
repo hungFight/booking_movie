@@ -12,6 +12,7 @@ import { tokens } from "../../../theme";
 import Header from "../../../components/Header";
 import MovieEdit from "./movie-edit";
 import movie from "~/restfulAPI/movie";
+import moment from "moment";
 
 const MovieTable = () => {
     const theme = useTheme();
@@ -47,7 +48,7 @@ const MovieTable = () => {
         const res = await movie.getAll()
         if (res) setRows(() => {
             return res.map((r, index) => {
-                return { ...r, id: r.id, stt: index + 1, movieType: r.movieType.movieTypeName, image: r.heroImage }
+                return { ...r, id: r.id, stt: index + 1, movieType: r.movieType.movieTypeName, image: r.heroImage, premiereDate: moment(r?.premiereDate).format('DD-MM-YYYY') }
             })
         })
     }
@@ -166,6 +167,7 @@ const MovieTable = () => {
         },
         { field: "name", headerName: "Movie name", width: 130 },
         { field: "movieDuration", headerName: "Movie duration(minutes)", width: 80 },
+        { field: "endTime", headerName: "End time", width: 130 },
         { field: "premiereDate", headerName: "Premiere Date", width: 130 },
         { field: "director", headerName: "Director", width: 130 },
         { field: "movieType", headerName: "MovieType", width: 100 },

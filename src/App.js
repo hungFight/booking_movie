@@ -43,21 +43,27 @@ import Login from './scenes/auth/login';
 import SignUp from './app/Authentication/Register';
 import { AuthContext } from './contexts/auth-context';
 import MovieDetail from './app/Movie/Detail';
-// import jwt_decode from './utils/jwt_decode';
+import { jwtDecode } from 'jwt-decode'
 
 const AuthenticatedRouteAdmin = ({ children }) => {
-  const { isAuthenticated } = React.useContext(AuthContext);
-  // if (token) {
-  // const decodeToken = jwt_decode(token);
-  // console.log(isAuthenticated, 'isAuthenticated', decodeToken);
-  // if (decodeToken.sub === 'ADMIN') return children
-  // }
-  return children
-  return <Navigate to="/admin/login" />
+  const { isAuthenticated, token } = React.useContext(AuthContext);
+  if (token) {
+    const decodeToken = jwtDecode(token);
+    console.log(isAuthenticated, 'isAuthenticated', decodeToken);
+    if (decodeToken.role === 'ADMIN') return children
+    return <Navigate to="/" />
+  }
+  return <Navigate to="/login" />
 };
 const AuthenticatedRoute = ({ children }) => {
-  const [cookies, setCookies] = useCookies(['tks']);
-  return cookies.tks ? children : <Navigate to="/login" />;
+  const token = localStorage.getItem('authToken')
+  console.log(token, 'sss');
+  if (token) {
+    if (window.location.pathname.includes('login')) return <Navigate to="/" />;
+    return children
+  }
+  return <Navigate to="/login" />;
+
 };
 function App() {
   const [theme, colorMode] = useMode();
@@ -71,10 +77,11 @@ function App() {
       <Routes>
         <Route path="/login" element={ <SignInSide setCookies={ setCookies } /> } />
         <Route path="/register" element={ <SignUp /> } />
-        <Route path="/resetPassword" element={ <ResetPassword /> } />
         <Route path="/*" element={ <AuthenticatedRoute >
           <Routes>
             {/* home here */ }
+            {/* <Route path="/login" element={ <SignInSide setCookies={ setCookies } /> } /> */ }
+            <Route path="/resetPassword" element={ <ResetPassword /> } />
             <Route path="/movie/detail" element={ <MovieDetail /> } />
           </Routes>
         </AuthenticatedRoute> } />
