@@ -38,17 +38,22 @@ const MovieTable = () => {
     const handleCloseDetail = () => {
         setIsModalDetailOpen(false);
     }
+    const handleDelete = async (params) => {
+        console.log(params, 'params');
+        // const res = await movie.deleteById()
+    }
     React.useEffect(() => {
         async function getMoive() {
             const res = await movie.getAll()
             if (res) setRows(() => {
-                return res.map(r => {
-                    return { ...r, id: r.id, stt: r.id, movieType: r.movieType.movieTypeName, image: r.heroImage }
+                return res.map((r, index) => {
+                    return { ...r, id: r.id, stt: index, movieType: r.movieType.movieTypeName, image: r.heroImage }
                 })
             })
         }
         getMoive()
     }, [])
+
     // const rows = [
     //     {
     //         id: 1,
@@ -179,7 +184,7 @@ const MovieTable = () => {
                         handleViewDetail={ handleViewDetail }
                         openDialogEdit={ handleOpenEditMovie }
                         params={ params }
-                    // handleDelete={() => handleDelete(params.row)}
+                        handleDelete={ () => handleDelete(params) }
                     />
                 </Box>
             ),

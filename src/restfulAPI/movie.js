@@ -16,5 +16,13 @@ class Movie {
             console.log(error);
         }
     }
+    getAll = async (id) => {
+        try {
+            const res = await http.post('/movie/deleteMovie/' + id)
+            return res.data
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 export default new Movie()

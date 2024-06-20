@@ -90,9 +90,12 @@ const AddMovie = () => {
 
             try {
                 console.log("Giá trị vừa nhập vào là:", values);
+                const tim = moment(values.endTime).format('YYYY-MM-DD HH:mm:ss');
+                const dd = moment(tim).toISOString()
                 const data = await movie.create({
-                    movie_type_id: 1, end_time: new Date(values.endTime), image: v4(), hero_image: files[0], trailer: "trailer",
-                    rate_id: 1, movie_duration: values.movieDuration, language: "English", premiere_date: moment(values.premiereDate).format('YYYY-MM-DD'), description: values.description, director: values.director
+                    name: values.name,
+                    movie_type_id: 1, end_time: dd, image: v4(), hero_image: files[0], trailer: "trailer",
+                    rate_id: 1, movie_duration: Number(values.movieDuration), language: "English", premiere_date: moment(values.premiereDate).format('YYYY-MM-DD'), description: values.description, director: values.director
                 })
                 setOpenSnackBar(true);
             } catch (err) {
