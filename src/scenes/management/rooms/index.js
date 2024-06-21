@@ -16,9 +16,9 @@ const Room = () => {
         <Box >
             <Box
                 component="main"
-                sx={{
+                sx={ {
                     py: 6
-                }}
+                } }
             >
                 <Container maxWidth="lg">
                     <Stack>
@@ -32,21 +32,21 @@ const Room = () => {
                                 <Header title="ROOMS" subtitle="List of room" />
                             </Box>
                             <Box>
-                                <Link to='/management/rooms/add'>
+                                <Link to='/admin/management/rooms/add'>
                                     <Button
-                                        startIcon={(
+                                        startIcon={ (
                                             <SvgIcon fontSize="small">
                                                 <AddCircleIcon />
                                             </SvgIcon>
-                                        )}
+                                        ) }
                                         variant="contained"
-                                        sx={{
+                                        sx={ {
                                             background: "#228B22",
                                             color: "white",
                                             "&: hover": {
                                                 background: "#008000"
                                             }
-                                        }}
+                                        } }
                                     >
                                         Thêm
                                     </Button>

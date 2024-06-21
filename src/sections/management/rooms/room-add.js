@@ -14,12 +14,15 @@ import { Save } from "@mui/icons-material";
 import "react-quill/dist/quill.snow.css";
 import { DropzoneArea } from "mui-file-dropzone";
 import ReactQuill from 'react-quill';
+import room from '~/restfulAPI/room';
+import cinema from '~/restfulAPI/cinema';
 
 
 const AddRoom = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [files, setFiles] = useState([]);
+    const [rows, setRows] = useState([])
     const [openSnackBar, setOpenSnackBar] = useState(false);
     const handleCloseSnackbar = () => {
         setOpenSnackBar(false);
@@ -57,15 +60,33 @@ const AddRoom = () => {
         type: "",
         capacity: "",
         cinemaName: "",
+        cinemaId: null,
         description: "",
         submit: null
     };
-
+    React.useEffect(() => {
+        async function getAll() {
+            const res = await cinema.getAll()
+            setRows(res.map((r, index) => {
+                return { ...r, stt: index + 1 }
+            }))
+        }
+        getAll()
+    }, [])
     const formik = useFormik({
         initialValues,
         validationSchema,
         onSubmit: async (values, helpers) => {
             try {
+                // const data = await room({
+                //     "capacity": values.capacity,
+                //     "type": values.type,
+                //     "description": values.description,
+                //     "name": values.name,
+                //     // "cinema_id": values.
+
+                // })
+
                 console.log("Giá trị vừa nhập vào là:", values);
                 setOpenSnackBar(true);
             } catch (err) {
@@ -80,13 +101,13 @@ const AddRoom = () => {
                 <Box>
                     <TextField
                         color="info"
-                        error={!!(formik.touched.name && formik.errors.name)}
-                        helperText={formik.touched.name && formik.errors.name}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        value={formik.values.name}
+                        error={ !!(formik.touched.name && formik.errors.name) }
+                        helperText={ formik.touched.name && formik.errors.name }
+                        onBlur={ formik.handleBlur }
+                        onChange={ formik.handleChange }
+                        value={ formik.values.name }
                         name="name"
-                        sx={{ marginTop: "12px" }}
+                        sx={ { marginTop: "12px" } }
                         label="Name"
                         fullWidth
                         variant="outlined"
@@ -94,13 +115,13 @@ const AddRoom = () => {
 
                     <TextField
                         color="info"
-                        error={!!(formik.touched.type && formik.errors.type)}
-                        helperText={formik.touched.type && formik.errors.type}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        value={formik.values.type}
+                        error={ !!(formik.touched.type && formik.errors.type) }
+                        helperText={ formik.touched.type && formik.errors.type }
+                        onBlur={ formik.handleBlur }
+                        onChange={ formik.handleChange }
+                        value={ formik.values.type }
                         name="type"
-                        sx={{ marginTop: "12px" }}
+                        sx={ { marginTop: "12px" } }
                         label="Type"
                         fullWidth
                         variant="outlined"
@@ -108,13 +129,13 @@ const AddRoom = () => {
 
                     <TextField
                         color="info"
-                        error={!!(formik.touched.capacity && formik.errors.capacity)}
-                        helperText={formik.touched.capacity && formik.errors.capacity}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        value={formik.values.capacity}
+                        error={ !!(formik.touched.capacity && formik.errors.capacity) }
+                        helperText={ formik.touched.capacity && formik.errors.capacity }
+                        onBlur={ formik.handleBlur }
+                        onChange={ formik.handleChange }
+                        value={ formik.values.capacity }
                         name="capacity"
-                        sx={{ marginTop: "12px" }}
+                        sx={ { marginTop: "12px" } }
                         label="Capacity"
                         fullWidth
                         variant="outlined"
@@ -123,85 +144,85 @@ const AddRoom = () => {
 
                     <TextField
                         color="info"
-                        error={!!(formik.touched.code && formik.errors.code)}
-                        helperText={formik.touched.code && formik.errors.code}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        value={formik.values.code}
+                        error={ !!(formik.touched.code && formik.errors.code) }
+                        helperText={ formik.touched.code && formik.errors.code }
+                        onBlur={ formik.handleBlur }
+                        onChange={ formik.handleChange }
+                        value={ formik.values.code }
                         name="code"
-                        sx={{ marginTop: "12px" }}
+                        sx={ { marginTop: "12px" } }
                         label="Code"
                         fullWidth
                         variant="outlined"
                     />
 
                     <Autocomplete
-                        sx={{ margin: "10px 0px 5px 0px" }}
+                        sx={ { margin: "10px 0px 5px 0px" } }
                         color='info'
                         fullWidth
-                        options={["CGV", "Lotte Cinema", "Beta Cinema"]}
-                        value={formik.values.cinemaName}
-                        onChange={(_, newValue) => {
+                        options={ rows }
+                        value={ formik.values.cinemaName }
+                        onChange={ (_, newValue) => {
                             formik.setFieldValue('cinemaName', newValue || null)
-                        }}
-                        renderInput={(params) => (
+                        } }
+                        renderInput={ (params) => (
                             <TextField
                                 variant="outlined"
                                 color='info'
-                                {...params}
+                                { ...params }
                                 label="Cinema Name"
                                 name="cinemaName"
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.cinemaName && Boolean(formik.errors.cinemaName)}
-                                helperText={formik.touched.cinemaName && formik.errors.cinemaName}
+                                onBlur={ formik.handleBlur }
+                                error={ formik.touched.cinemaName && Boolean(formik.errors.cinemaName) }
+                                helperText={ formik.touched.cinemaName && formik.errors.cinemaName }
                             />
-                        )}
+                        ) }
                     />
 
-                    <Box style={{ width: "100%" }}>
-                        <Typography variant="h6" gutterBottom sx={{ fontSize: "12.5px", color: "#6C737F", margin: "12px 12px 12px 15px" }}>
+                    <Box style={ { width: "100%" } }>
+                        <Typography variant="h6" gutterBottom sx={ { fontSize: "12.5px", color: "#6C737F", margin: "12px 12px 12px 15px" } }>
                             Description
                         </Typography>
                         <ReactQuill
-                            style={{
+                            style={ {
                                 height: "100px ",
                                 margin: "12px 4px 50px 4px",
                                 borderRadius: "8px",
-                            }}
-                            onChange={(v) => formik.setFieldValue('description', v)}
-                            value={formik.values.description}
+                            } }
+                            onChange={ (v) => formik.setFieldValue('description', v) }
+                            value={ formik.values.description }
                             name="description"
-                            modules={{
+                            modules={ {
                                 toolbar: [
                                     [{ header: [1, 2, false] }],
                                     ["bold", "italic", "underline"],
                                     ["image", "code-block"],
                                 ],
-                            }}
+                            } }
                             theme="snow"
                         />
                     </Box>
 
                     <Box
-                        sx={{
+                        sx={ {
                             display: 'flex',
                             justifyContent: 'end',
                             width: '100%',
                             marginTop: '20px',
                             paddingBottom: '10px'
-                        }}
+                        } }
                     >
                         <Button
                             variant="contained"
-                            sx={{
+                            sx={ {
                                 background: "#228B22",
                                 color: "white",
                                 "&: hover": {
                                     background: "#008000"
                                 },
-                            }}
-                            startIcon={<Save />}
-                            onClick={formik.handleSubmit}
+                            } }
+                            startIcon={ <Save /> }
+                            onClick={ formik.handleSubmit }
                         >
                             Lưu
                         </Button>
@@ -209,9 +230,9 @@ const AddRoom = () => {
                 </Box>
             </Stack>
             <Snackbar
-                open={openSnackBar}
-                autoHideDuration={1500}
-                onClose={handleCloseSnackbar}
+                open={ openSnackBar }
+                autoHideDuration={ 1500 }
+                onClose={ handleCloseSnackbar }
             >
                 <MuiAlert severity='success'>
                     Create new room successfully!

@@ -29,6 +29,8 @@ import "react-quill/dist/quill.snow.css";
 import { DropzoneArea } from "mui-file-dropzone";
 import ReactQuill from 'react-quill';
 import moment from "moment";
+import movie from "~/restfulAPI/movie";
+import { v4 } from 'uuid'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -125,6 +127,20 @@ export default function MovieEdit({ open, onClose, rowData }) {
         validationSchema,
         onSubmit: async (values, helpers) => {
             try {
+                const res = await movie.update({
+                    movie_duration: values.movieDuration,
+                    end_time: values.endTime,
+                    premiere_date: values.premiereDate,
+                    description: values.description,
+                    director: values.director,
+                    image: v4(),
+                    hero_image: "fsfgere",
+                    language: "English",
+                    name: "high",
+                    trailer: "bhjufs",
+                    movie_type_id: 1,
+                    rate_id: 1
+                })
                 console.log("giá trị bạn vừa nhập vào là :", values)
                 formik.resetForm();
             } catch (err) {

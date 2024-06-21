@@ -11,13 +11,15 @@ import { Box, Stack, useTheme } from "@mui/material";
 import { tokens } from "../../../theme";
 import Header from "../../../components/Header";
 import CinemaEdit from "./cinema-edit";
+import cinema from "~/restfulAPI/cinema";
 
 const CinemaTable = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [isModalDetailOpen, setIsModalDetailOpen] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
-    const [openEditCinema, setOpenEditCinema] = useState(false);
+    const [openEditCinema, setOpenEditCinema] = useState(false),
+        [rows, setRows] = useState([])
 
     const handleOpenEditCinema = (param) => {
         setOpenEditCinema(true);
@@ -36,58 +38,15 @@ const CinemaTable = () => {
     const handleCloseDetail = () => {
         setIsModalDetailOpen(false);
     }
-
-    const rows = [
-        {
-            id: 1,
-            stt: 1,
-            nameOfCinema: "Epic Adventure",
-            code: 1238664768,
-            address: "Hà Nội",
-            description: "đây là rạp chiếu phim lớn nhất Hà Nội"
-        },
-        {
-            id: 2,
-            stt: 2,
-            nameOfCinema: "Mystery Journey",
-            code: 1238664768,
-            address: "Hà Nội",
-            description: "đây là rạp chiếu phim lớn nhất Hà Nội"
-        },
-        {
-            id: 3,
-            stt: 3,
-            nameOfCinema: "Tender Moments",
-            code: 1238664768,
-            address: "Hà Nội",
-            description: "đây là rạp chiếu phim lớn nhất Hà Nội"
-        },
-        {
-            id: 4,
-            stt: 4,
-            nameOfCinema: "Galactic Odyssey",
-            code: 1238664768,
-            address: "Hà Nội",
-            description: "đây là rạp chiếu phim lớn nhất Hà Nội"
-        },
-        {
-            id: 5,
-            stt: 5,
-            nameOfCinema: "Love in Bloom",
-            code: 1238664768,
-            address: "Hà Nội",
-            description: "đây là rạp chiếu phim lớn nhất Hà Nội"
-        },
-        {
-            id: 6,
-            stt: 6,
-            nameOfCinema: "Behind Closed Doors",
-            code: 1238664768,
-            address: "Hà Nội",
-            description: "đây là rạp chiếu phim lớn nhất Hà Nội"
-        },
-    ]
-
+    React.useEffect(() => {
+        async function getAll() {
+            const res = await cinema.getAll()
+            setRows(res.map((r, index) => {
+                return { ...r, stt: index + 1 }
+            }))
+        }
+        getAll()
+    }, [])
     const columns = [
         { field: "stt", headerName: "STT", width: 60 },
         { field: "nameOfCinema", headerName: "Cinema name", width: 170 },
@@ -107,9 +66,9 @@ const CinemaTable = () => {
                     height="100%"
                 >
                     <ActionColumn
-                        handleViewDetail={handleViewDetail}
-                        openDialogEdit={handleOpenEditCinema}
-                        params={params}
+                        handleViewDetail={ handleViewDetail }
+                        openDialogEdit={ handleOpenEditCinema }
+                        params={ params }
                     // handleDelete={() => handleDelete(params.row)}
                     />
                 </Box>
@@ -119,7 +78,7 @@ const CinemaTable = () => {
     return (
         <Stack>
             <DataGrid
-                sx={{
+                sx={ {
                     "& .name-column--cell": {
                         // color: colors.greenAccent[300],
                     },
@@ -135,30 +94,30 @@ const CinemaTable = () => {
                         backgroundColor: colors.blueAccent[700],
                     },
                     "& .MuiCheckbox-root": {
-                        color: `${colors.greenAccent[200]} !important`,
+                        color: `${ colors.greenAccent[200] } !important`,
                     },
-                }}
-                rows={rows}
-                columns={columns}
-                initialState={{
+                } }
+                rows={ rows }
+                columns={ columns }
+                initialState={ {
                     pagination: {
                         paginationModel: { page: 0, pageSize: 5 },
                     },
-                }}
+                } }
 
-                pageSizeOptions={[5, 10]}
+                pageSizeOptions={ [5, 10] }
                 checkboxSelection
             />
             <ModalDetail
-                open={isModalDetailOpen}
-                onClose={handleCloseDetail}
-                rowData={selectedRow}
-                columns={columns}
+                open={ isModalDetailOpen }
+                onClose={ handleCloseDetail }
+                rowData={ selectedRow }
+                columns={ columns }
             />
             <CinemaEdit
-                open={openEditCinema}
-                onClose={handleCloseEditCinema}
-                rowData={selectedRow}
+                open={ openEditCinema }
+                onClose={ handleCloseEditCinema }
+                rowData={ selectedRow }
             />
         </Stack>
     );

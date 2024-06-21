@@ -15,9 +15,9 @@ const AddRoom = () => {
         <Box>
             <Box
                 component="main"
-                sx={{
+                sx={ {
                     py: 6
-                }}
+                } }
             >
                 <Container maxWidth="lg">
                     <Stack>
@@ -31,22 +31,22 @@ const AddRoom = () => {
                                 <Header title="CREATE ROOM" subtitle="Create a new room" />
                             </Stack>
                             <div>
-                                <Link href='/management/rooms'>
+                                <Link href='/admin/management/rooms'>
                                     <Button
-                                        startIcon={(
+                                        startIcon={ (
                                             <SvgIcon fontSize="small">
                                                 <ArrowLongLeftIcon />
                                             </SvgIcon>
-                                        )}
+                                        ) }
                                         variant="contained"
-                                        sx={{
+                                        sx={ {
                                             background: "#228B22",
                                             color: "white",
                                             "&: hover": {
                                                 background: "#008000"
                                             },
                                             margin: '0px 6px'
-                                        }}
+                                        } }
                                     >
                                         Quay lại
                                     </Button>

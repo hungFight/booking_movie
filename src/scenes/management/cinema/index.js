@@ -16,9 +16,9 @@ const Cinema = () => {
         <Box >
             <Box
                 component="main"
-                sx={{
+                sx={ {
                     py: 6
-                }}
+                } }
             >
                 <Container maxWidth="lg">
                     <Stack>
@@ -32,21 +32,21 @@ const Cinema = () => {
                                 <Header title="CINEMAS" subtitle="List of cinema" />
                             </Box>
                             <Box>
-                                <Link to='/management/cinema/add'>
+                                <Link to='/admin/management/cinema/add'>
                                     <Button
-                                        startIcon={(
+                                        startIcon={ (
                                             <SvgIcon fontSize="small">
                                                 <AddCircleIcon />
                                             </SvgIcon>
-                                        )}
+                                        ) }
                                         variant="contained"
-                                        sx={{
+                                        sx={ {
                                             background: "#228B22",
                                             color: "white",
                                             "&: hover": {
                                                 background: "#008000"
                                             }
-                                        }}
+                                        } }
                                     >
                                         Thêm
                                     </Button>

@@ -8,7 +8,6 @@ class Http {
             baseURL: process.env.REACT_APP_SERVER_BOOKING,
             headers: {
                 'Content-Type': 'application/json',
-                Accept: 'application/json',
                 Authorization: 'Bearer ' + token,
             },
         });

@@ -33,15 +33,8 @@ const AddMovie = () => {
     };
 
     const handleChange = (files) => {
-        const urls = []
-        for (let i = 0; i < files.length; i++) {
-            const url = URL.createObjectURL(files[i]);
-            console.log(url);
-            urls.push(url)
-        }
-        setFiles(urls);
+        setFiles(files);
     }
-        ;
 
     const validationSchema = Yup.object({
         movieDuration: Yup
@@ -89,14 +82,25 @@ const AddMovie = () => {
         onSubmit: async (values, helpers) => {
 
             try {
-                console.log("Giá trị vừa nhập vào là:", values);
                 const tim = moment(values.endTime).format('YYYY-MM-DD HH:mm:ss');
-                const dd = moment(tim).toISOString()
-                const data = await movie.create({
-                    name: values.name,
-                    movie_type_id: 1, end_time: dd, image: v4(), hero_image: files[0], trailer: "trailer",
-                    rate_id: 1, movie_duration: Number(values.movieDuration), language: "English", premiere_date: moment(values.premiereDate).format('YYYY-MM-DD'), description: values.description, director: values.director
-                })
+                const dd = moment(tim).toISOString();
+                const premiereDate = moment(values.premiereDate).format('YYYY-MM-DD');
+
+                // Create FormData
+                const formData = new FormData();
+                formData.append('name', values.name);
+                formData.append('movie_type_id', 1);
+                formData.append('end_time', dd);
+                formData.append('image', v4());
+                formData.append('file', files[0]); // Assuming files[0] contains the file you want to upload
+                formData.append('trailer', "trailer");
+                formData.append('rate_id', 1);
+                formData.append('movie_duration', Number(values.movieDuration));
+                formData.append('language', "English");
+                formData.append('premiere_date', premiereDate);
+                formData.append('description', values.description);
+                formData.append('director', values.director);
+                const data = await movie.create(formData)
                 setOpenSnackBar(true);
             } catch (err) {
                 console.error("Lỗi:", err);
