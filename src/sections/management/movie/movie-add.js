@@ -17,14 +17,14 @@ import ReactQuill from 'react-quill';
 import movie from '~/restfulAPI/movie';
 import { v4 } from 'uuid'
 import moment from 'moment';
-
+import { useNavigate } from 'react-router-dom';
 const AddMovie = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const handleFormSubmit = (values) => {
         console.log(values);
     };
-
+    const navigate = useNavigate();
     const [files, setFiles] = useState([]);
     const [isDateSelected, setIsDateSelected] = useState(false);
     const [openSnackBar, setOpenSnackBar] = useState(false);

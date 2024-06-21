@@ -70,16 +70,16 @@ const MovieDetail = () => {
             <Box className='bg-neutral-900 '>
                 <div className=' relative'>
                     <video
-                        onClick={() => handlePlay(false)}
-                        ref={videoRef}
+                        onClick={ () => handlePlay(false) }
+                        ref={ videoRef }
                         className='h-[500px] w-full'
                     >
                         <source
-                            src={sampleVideo}
+                            src={ sampleVideo }
                             type="video/mp4"
                         />
                     </video>
-                    <PlayCircleOutlineRounded onClick={() => handlePlay(true)} className={play == true ? " hidden " : " block " + 'text-white top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] absolute text-[50px]'} ></PlayCircleOutlineRounded>
+                    <PlayCircleOutlineRounded onClick={ () => handlePlay(true) } className={ play == true ? " hidden " : " block " + 'text-white top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] absolute text-[50px]' } ></PlayCircleOutlineRounded>
                 </div>
             </Box>
 
@@ -88,34 +88,34 @@ const MovieDetail = () => {
             <Box className='px-4'>
                 <div className="flex mt-3">
                     <div className="movie-poster">
-                        <img src={movie.posterUrl} alt={`${movie.title} Poster`} />
+                        <img src={ movie.posterUrl } alt={ `${ movie.title } Poster` } />
                     </div>
                     <div className="movie-info">
-                        <h1 className="text-start">{movie.title}</h1>
+                        <h1 className="text-start">{ movie.title }</h1>
                         <div className="movie-meta flex items-center">
                             <CiClock2 />
-                            <span>{movie.duration} phút</span>
-                            <span>{movie.releaseDate}</span>
+                            <span>{ movie.duration } phút</span>
+                            <span>{ movie.releaseDate }</span>
                         </div>
                         <div className="movie-rating">
-                            <span>{movie.rating}</span>
-                            <span>({movie.votes} votes)</span>
+                            <span>{ movie.rating }</span>
+                            <span>({ movie.votes } votes)</span>
                         </div>
                         <div className="movie-details text-start">
                             <p>
-                                <strong>Quốc gia:</strong> {movie.country}
+                                <strong>Quốc gia:</strong> { movie.country }
                             </p>
                             <p>
-                                <strong>Nhà sản xuất:</strong> {movie.producer}
+                                <strong>Nhà sản xuất:</strong> { movie.producer }
                             </p>
                             <p>
-                                <strong>Thể loại:</strong> {movie.genre}
+                                <strong>Thể loại:</strong> { movie.genre }
                             </p>
                             <p>
-                                <strong>Đạo diễn:</strong> {movie.director}
+                                <strong>Đạo diễn:</strong> { movie.director }
                             </p>
                             <p>
-                                <strong>Diễn viên:</strong> {movie.actors.join(', ')}
+                                <strong>Diễn viên:</strong> { movie.actors.join(', ') }
                             </p>
                         </div>
                     </div>
@@ -147,19 +147,19 @@ const MovieDetail = () => {
                             </select>
                         </div>
                     </div>
-                    {schedules.map((schedule, index) => (
-                        <div key={index} className="mb-4">
-                            <h3 className="text-lg font-semibold">{schedule.cinema}</h3>
-                            <p className="text-sm text-gray-500">{schedule.type}</p>
+                    { schedules.map((schedule, index) => (
+                        <div key={ index } className="mb-4">
+                            <h3 className="text-lg font-semibold">{ schedule.cinema }</h3>
+                            <p className="text-sm text-gray-500">{ schedule.type }</p>
                             <div className="flex space-x-2 mt-2 justify-center">
-                                {schedule.times.map((time, idx) => (
-                                    <button key={idx} className="px-4 py-2 border rounded ">
-                                        {time}
+                                { schedule.times.map((time, idx) => (
+                                    <button key={ idx } className="px-4 py-2 border rounded ">
+                                        { time }
                                     </button>
-                                ))}
+                                )) }
                             </div>
                         </div>
-                    ))}
+                    )) }
                 </div>
             </Box>
         </div>
