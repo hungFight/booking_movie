@@ -41,7 +41,7 @@ const RoomTable = () => {
         {
             id: 1,
             stt: 1,
-            name: "Epic Adventure",
+            name: 'Large Room 0',
             code: 2012000,
             capacity: 50,
             type: 'Type 1',
@@ -51,7 +51,7 @@ const RoomTable = () => {
         {
             id: 2,
             stt: 2,
-            name: "Mystery Journey",
+            name: 'Small Room 01',
             code: 2012000,
             capacity: 50,
             type: 'Type 2',
@@ -61,7 +61,7 @@ const RoomTable = () => {
         {
             id: 3,
             stt: 3,
-            name: "Tender Moments",
+            name: "middle Room 02",
             code: 2012000,
             capacity: 50,
             type: 'Type 3',
@@ -71,7 +71,7 @@ const RoomTable = () => {
         {
             id: 4,
             stt: 4,
-            name: "Galactic Odyssey",
+            name: "Small Room 03",
             code: 2012000,
             capacity: 50,
             type: 'Type 3',
@@ -81,7 +81,7 @@ const RoomTable = () => {
         {
             id: 5,
             stt: 5,
-            name: "Love in Bloom",
+            name: 'Small Room 04',
             code: 2012000,
             capacity: 50,
             type: 'Type 4',
@@ -91,7 +91,7 @@ const RoomTable = () => {
         {
             id: 6,
             stt: 6,
-            name: "Behind Closed Doors",
+            name: "Small Room 05",
             code: 2012000,
             capacity: 50,
             type: 'Type 5',
@@ -121,9 +121,9 @@ const RoomTable = () => {
                     height="100%"
                 >
                     <ActionColumn
-                        handleViewDetail={handleViewDetail}
-                        openDialogEdit={handleOpenEditRoom}
-                        params={params}
+                        handleViewDetail={ handleViewDetail }
+                        openDialogEdit={ handleOpenEditRoom }
+                        params={ params }
                     // handleDelete={() => handleDelete(params.row)}
                     />
                 </Box>
@@ -133,7 +133,7 @@ const RoomTable = () => {
     return (
         <Stack>
             <DataGrid
-                sx={{
+                sx={ {
                     "& .name-column--cell": {
                         // color: colors.greenAccent[300],
                     },
@@ -149,30 +149,30 @@ const RoomTable = () => {
                         backgroundColor: colors.blueAccent[700],
                     },
                     "& .MuiCheckbox-root": {
-                        color: `${colors.greenAccent[200]} !important`,
+                        color: `${ colors.greenAccent[200] } !important`,
                     },
-                }}
-                rows={rows}
-                columns={columns}
-                initialState={{
+                } }
+                rows={ rows }
+                columns={ columns }
+                initialState={ {
                     pagination: {
                         paginationModel: { page: 0, pageSize: 5 },
                     },
-                }}
+                } }
 
-                pageSizeOptions={[5, 10]}
+                pageSizeOptions={ [5, 10] }
                 checkboxSelection
             />
             <ModalDetail
-                open={isModalDetailOpen}
-                onClose={handleCloseDetail}
-                rowData={selectedRow}
-                columns={columns}
+                open={ isModalDetailOpen }
+                onClose={ handleCloseDetail }
+                rowData={ selectedRow }
+                columns={ columns }
             />
             <RoomEdit
-                open={openEditRoom}
-                onClose={handleCloseEditRoom}
-                rowData={selectedRow}
+                open={ openEditRoom }
+                onClose={ handleCloseEditRoom }
+                rowData={ selectedRow }
             />
         </Stack>
     );

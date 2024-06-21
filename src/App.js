@@ -71,9 +71,6 @@ function App() {
 
   return (
     <div className="App h-full">
-      <div className="w-40 h-40 absolute top-3 right-9">
-        <img src={ Images.logoApp } alt="Cinema" className="w-full h-full" />
-      </div>{ ' ' }
       <Routes>
         <Route path="/login" element={ <SignInSide setCookies={ setCookies } /> } />
         <Route path="/register" element={ <SignUp /> } />

@@ -39,13 +39,13 @@ const UserTable = () => {
     }
 
     const rows = [
-        { id: 1, stt: 1, image: "https://source.unsplash.com/random?wallpapers", userName: 'nguyenthib', contactPersonName: 'Nguyễn Thị B', email: 'nguyenthib@example.com', phoneNumber: "0987654321", dateOfBirth: "2-1-2003" },
-        { id: 2, stt: 2, image: "https://source.unsplash.com/random?wallpapers", userName: 'tranvanc', contactPersonName: 'Trần Văn C', email: 'tranvanc@example.com', phoneNumber: "0123456789", dateOfBirth: "30-4-1975" },
-        { id: 3, stt: 3, image: "https://source.unsplash.com/random?wallpapers", userName: 'levand', contactPersonName: 'Lê Anh D', email: 'leanhd@example.com', phoneNumber: "0765432109", dateOfBirth: "2-9-2023" },
-        { id: 4, stt: 4, image: "https://source.unsplash.com/random?wallpapers", userName: 'phamthie', contactPersonName: 'Phạm Thị E', email: 'phamthie@example.com', phoneNumber: "0345678901", dateOfBirth: "12-8-1009" },
-        { id: 5, stt: 5, image: "https://source.unsplash.com/random?wallpapers", userName: 'hoangvanf', contactPersonName: 'Hoàng Văn F', email: 'hoangvanf@example.com', phoneNumber: "0567890123", dateOfBirth: "12-09-1234" },
-        { id: 6, stt: 6, image: "https://source.unsplash.com/random?wallpapers", userName: 'hoangvanf', contactPersonName: 'Hoàng Văn F', email: 'hoangvanf@example.com', phoneNumber: "0567890123", dateOfBirth: "12-09-1234" },
-        { id: 7, stt: 7, image: "https://source.unsplash.com/random?wallpapers", userName: 'hoangvanf', contactPersonName: 'Hoàng Văn F', email: 'hoangvanf@example.com', phoneNumber: "0567890123", dateOfBirth: "12-09-1234" },
+        { id: 1, stt: 1, image: "https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&height=900&width=1600&fit=bounds", userName: 'tranvanc', contactPersonName: 'Trần Văn C', email: 'tranvanc@example.com', phoneNumber: "0987654321", dateOfBirth: "2-1-2003" },
+        { id: 2, stt: 2, image: "https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&height=900&width=1600&fit=bounds", userName: 'tranvanc', contactPersonName: 'Trần Văn C', email: 'tranvanc@example.com', phoneNumber: "0123456789", dateOfBirth: "30-4-1975" },
+        { id: 3, stt: 3, image: "https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&height=900&width=1600&fit=bounds", userName: 'levand', contactPersonName: 'Lê Anh D', email: 'leanhd@example.com', phoneNumber: "0765432109", dateOfBirth: "2-9-2023" },
+        { id: 4, stt: 4, image: "https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&height=900&width=1600&fit=bounds", userName: 'phamthie', contactPersonName: 'Phạm Thị E', email: 'phamthie@example.com', phoneNumber: "0345678901", dateOfBirth: "12-8-1009" },
+        { id: 5, stt: 5, image: "https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&height=900&width=1600&fit=bounds", userName: 'hoangvanf', contactPersonName: 'Hoàng Văn F', email: 'hoangvanf@example.com', phoneNumber: "0567890123", dateOfBirth: "12-09-1234" },
+        { id: 6, stt: 6, image: "https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&height=900&width=1600&fit=bounds", userName: 'hoangvanf', contactPersonName: 'Hoàng Văn F', email: 'hoangvanf@example.com', phoneNumber: "0567890123", dateOfBirth: "12-09-1234" },
+        { id: 7, stt: 7, image: "https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&height=900&width=1600&fit=bounds", userName: 'hoangvanf', contactPersonName: 'Hoàng Văn F', email: 'hoangvanf@example.com', phoneNumber: "0567890123", dateOfBirth: "12-09-1234" },
     ];
 
     const columns = [
@@ -64,14 +64,14 @@ const UserTable = () => {
                 >
 
                     <img
-                        src="https://source.unsplash.com/random?wallpapers"
+                        src="https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&height=900&width=1600&fit=bounds"
                         alt="image"
-                        style={{
+                        style={ {
                             height: 40,
                             width: 40,
                             borderRadius: '20%',
                             // display: 'block',
-                        }}
+                        } }
                     />
                 </Box>
             )
@@ -94,9 +94,9 @@ const UserTable = () => {
                     height="100%"
                 >
                     <ActionColumn
-                        handleViewDetail={handleViewDetail}
-                        openDialogEdit={handleOpenEditUser}
-                        params={params}
+                        handleViewDetail={ handleViewDetail }
+                        openDialogEdit={ handleOpenEditUser }
+                        params={ params }
                     // handleDelete={() => handleDelete(params.row)}
                     />
 
@@ -107,7 +107,7 @@ const UserTable = () => {
     return (
         <Stack>
             <DataGrid
-                sx={{
+                sx={ {
                     "& .name-column--cell": {
                         // color: colors.greenAccent[300],
                     },
@@ -123,30 +123,30 @@ const UserTable = () => {
                         backgroundColor: colors.blueAccent[700],
                     },
                     "& .MuiCheckbox-root": {
-                        color: `${colors.greenAccent[200]} !important`,
+                        color: `${ colors.greenAccent[200] } !important`,
                     },
-                }}
-                rows={rows}
-                columns={columns}
-                initialState={{
+                } }
+                rows={ rows }
+                columns={ columns }
+                initialState={ {
                     pagination: {
                         paginationModel: { page: 0, pageSize: 5 },
                     },
-                }}
+                } }
 
-                pageSizeOptions={[5, 10]}
+                pageSizeOptions={ [5, 10] }
                 checkboxSelection
             />
             <ModalDetail
-                open={isModalDetailOpen}
-                onClose={handleCloseDetail}
-                rowData={selectedRow}
-                columns={columns}
+                open={ isModalDetailOpen }
+                onClose={ handleCloseDetail }
+                rowData={ selectedRow }
+                columns={ columns }
             />
             <UserEdit
-                open={openEditUser}
-                onClose={handleCloseEditUser}
-                rowData={selectedRow}
+                open={ openEditUser }
+                onClose={ handleCloseEditUser }
+                rowData={ selectedRow }
             />
         </Stack>
     );

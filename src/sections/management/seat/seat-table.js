@@ -41,7 +41,7 @@ const ScheduleTable = () => {
         {
             id: 1,
             stt: 1,
-            seatNumber: "Epic Adventure",
+            seatNumber: 1,
             seatStatus: "trống",
             line: 1238664768,
             roomName: "phòng vip",
@@ -50,7 +50,7 @@ const ScheduleTable = () => {
         {
             id: 2,
             stt: 2,
-            seatNumber: "Mystery Journey",
+            seatNumber: 2,
             seatStatus: "trống",
             line: 1238664768,
             roomName: "phòng vip",
@@ -59,7 +59,7 @@ const ScheduleTable = () => {
         {
             id: 3,
             stt: 3,
-            seatNumber: "Tender Moments",
+            seatNumber: 3,
             seatStatus: "trống",
             line: 1238664768,
             roomName: "phòng vip",
@@ -68,7 +68,7 @@ const ScheduleTable = () => {
         {
             id: 4,
             stt: 4,
-            seatNumber: "Galactic Odyssey",
+            seatNumber: 4,
             seatStatus: "trống",
             line: 1238664768,
             roomName: "phòng vip",
@@ -77,7 +77,7 @@ const ScheduleTable = () => {
         {
             id: 5,
             stt: 5,
-            seatNumber: "Love in Bloom",
+            seatNumber: 5,
             seatStatus: "trống",
             line: 1238664768,
             roomName: "phòng vip",
@@ -86,7 +86,7 @@ const ScheduleTable = () => {
         {
             id: 6,
             stt: 6,
-            seatNumber: "Behind Closed Doors",
+            seatNumber: 6,
             seatStatus: "trống",
             line: 1238664768,
             roomName: "phòng vip",
@@ -114,9 +114,9 @@ const ScheduleTable = () => {
                     height="100%"
                 >
                     <ActionColumn
-                        handleViewDetail={handleViewDetail}
-                        openDialogEdit={handleOpenEditSchedule}
-                        params={params}
+                        handleViewDetail={ handleViewDetail }
+                        openDialogEdit={ handleOpenEditSchedule }
+                        params={ params }
                     // handleDelete={() => handleDelete(params.row)}
                     />
                 </Box>
@@ -126,7 +126,7 @@ const ScheduleTable = () => {
     return (
         <Stack>
             <DataGrid
-                sx={{
+                sx={ {
                     "& .name-column--cell": {
                         // color: colors.greenAccent[300],
                     },
@@ -142,25 +142,25 @@ const ScheduleTable = () => {
                         backgroundColor: colors.blueAccent[700],
                     },
                     "& .MuiCheckbox-root": {
-                        color: `${colors.greenAccent[200]} !important`,
+                        color: `${ colors.greenAccent[200] } !important`,
                     },
-                }}
-                rows={rows}
-                columns={columns}
-                initialState={{
+                } }
+                rows={ rows }
+                columns={ columns }
+                initialState={ {
                     pagination: {
                         paginationModel: { page: 0, pageSize: 5 },
                     },
-                }}
+                } }
 
-                pageSizeOptions={[5, 10]}
+                pageSizeOptions={ [5, 10] }
                 checkboxSelection
             />
             <ModalDetail
-                open={isModalDetailOpen}
-                onClose={handleCloseDetail}
-                rowData={selectedRow}
-                columns={columns}
+                open={ isModalDetailOpen }
+                onClose={ handleCloseDetail }
+                rowData={ selectedRow }
+                columns={ columns }
             />
             {/* <ScheduleEdit
                 open={openEditSchedule}
