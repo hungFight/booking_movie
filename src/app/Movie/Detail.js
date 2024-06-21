@@ -6,7 +6,7 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css/navigation';
 import '../../App.css'
 import { Box, Card, CardContent, Typography } from '@mui/material';
-import { CardCover } from '@mui/joy';
+// import { CardCover } from '@mui/joy';
 import { PlayCircleOutline, PlayCircleOutlineRounded } from '@mui/icons-material';
 import sampleVideo from '~/assets/videos/trailerMovie.mp4';
 
