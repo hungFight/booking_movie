@@ -44,6 +44,7 @@ import SignUp from './app/Authentication/Register';
 import { AuthContext } from './contexts/auth-context';
 import MovieDetail from './app/Movie/Detail';
 import { jwtDecode } from 'jwt-decode'
+import Homepage from './app/Homepage';
 
 const AuthenticatedRouteAdmin = ({ children }) => {
   const { isAuthenticated, token } = React.useContext(AuthContext);
@@ -80,6 +81,8 @@ function App() {
             {/* <Route path="/login" element={ <SignInSide setCookies={ setCookies } /> } /> */ }
             <Route path="/resetPassword" element={ <ResetPassword /> } />
             <Route path="/movie/detail" element={ <MovieDetail /> } />
+            <Route path="/homepage" element={ <Homepage /> } />
+            
           </Routes>
         </AuthenticatedRoute> } />
         <Route path="/admin/login" element={ <Login /> } />
