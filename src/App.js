@@ -1,9 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
-import SignInSide from './Authentication/Login';
-import { Route, Routes } from 'react-router-dom';
-import Register from './Authentication/Register';
-import { Image, Layout } from 'antd';
+import { ColorModeContext, useMode } from './theme';
+import { Box, CssBaseline, ThemeProvider } from '@mui/material';
+import { Routes, Route, Navigate } from "react-router-dom";
+import Topbar from './scenes/global/Topbar';
+import ProSideBar from './scenes/global/Sidebar';
+import Dashboard from './scenes/dashboard';
+import Invoices from './scenes/management/invoices';
+import Bar from './scenes/bar';
+import Form from './scenes/form';
+import Line from './scenes/line';
+import Pie from './scenes/pie';
+import FAQ from './scenes/faq';
+// import Login from './scenes/login';
+import Geography from './scenes/geography';
+import User from './scenes/system/user';
+// import Login from './scenes/auth/login';
+// import Register from './scenes/auth/register';
+import "./index.css";
+import AddUser from './scenes/system/user/add';
+import UserInfo from './scenes/system/user/user-info';
+import Movie from './scenes/management/movie/index';
+import AddMovie from './scenes/management/movie/add';
+import Schedule from './scenes/management/schedule/index';
+import AddSchedule from './scenes/management/schedule/add';
+import Ticket from './scenes/management/ticket/index';
+import AddTicket from './scenes/management/ticket/add';
+import Seat from './scenes/management/seat/index';
+import AddSeat from './scenes/management/seat/add';
+import Room from './scenes/management/rooms/index';
+import AddRoom from './scenes/management/rooms/add';
+import BillTicket from './scenes/management/billTicket/index';
+import Cinema from './scenes/management/cinema/index';
+import AddCinema from './scenes/management/cinema/add';
+import Promotion from './scenes/management/promotion/index';
+import AddPromotion from './scenes/management/promotion/add';
+import React, { useEffect } from 'react';
+import { useCookies } from 'react-cookie';
 import Images from './assets/images/image';
 import SignInSide from './app/Authentication/Login';
 import Register from './scenes/auth/register';
@@ -12,22 +43,28 @@ import Login from './scenes/auth/login';
 import SignUp from './app/Authentication/Register';
 import { AuthContext } from './contexts/auth-context';
 import MovieDetail from './app/Movie/Detail';
+import { jwtDecode } from 'jwt-decode'
 import Homepage from './app/Homepage';
-// import jwt_decode from './utils/jwt_decode';
 
 const AuthenticatedRouteAdmin = ({ children }) => {
-  const { isAuthenticated } = React.useContext(AuthContext);
-  // if (token) {
-  // const decodeToken = jwt_decode(token);
-  // console.log(isAuthenticated, 'isAuthenticated', decodeToken);
-  // if (decodeToken.sub === 'ADMIN') return children
-  // }
-  return children
-  return <Navigate to="/admin/login" />
+  const { isAuthenticated, token } = React.useContext(AuthContext);
+  if (token) {
+    const decodeToken = jwtDecode(token);
+    console.log(isAuthenticated, 'isAuthenticated', decodeToken);
+    if (decodeToken.role === 'ADMIN') return children
+    return <Navigate to="/" />
+  }
+  return <Navigate to="/login" />
 };
 const AuthenticatedRoute = ({ children }) => {
-  const [cookies, setCookies] = useCookies(['tks']);
-  return !cookies.tks ? children : <Navigate to="/login" />;
+  const token = localStorage.getItem('authToken')
+  console.log(token, 'sss');
+  if (token) {
+    if (window.location.pathname.includes('login')) return <Navigate to="/" />;
+    return children
+  }
+  return <Navigate to="/login" />;
+
 };
 function App() {
   const [theme, colorMode] = useMode();
@@ -35,18 +72,17 @@ function App() {
 
   return (
     <div className="App h-full">
-      <div className="w-40 h-40 absolute top-3 right-9">
-        <img src={ Images.logoApp } alt="Cinema" className="w-full h-full" />
-      </div>{ ' ' }
       <Routes>
         <Route path="/login" element={ <SignInSide setCookies={ setCookies } /> } />
         <Route path="/register" element={ <SignUp /> } />
-        <Route path="/resetPassword" element={ <ResetPassword /> } />
-        <Route path="/*" element={ <AuthenticatedRoute >  
+        <Route path="/*" element={ <AuthenticatedRoute >
           <Routes>
             {/* home here */ }
+            {/* <Route path="/login" element={ <SignInSide setCookies={ setCookies } /> } /> */ }
+            <Route path="/resetPassword" element={ <ResetPassword /> } />
             <Route path="/movie/detail" element={ <MovieDetail /> } />
             <Route path="/homepage" element={ <Homepage /> } />
+            
           </Routes>
         </AuthenticatedRoute> } />
         <Route path="/admin/login" element={ <Login /> } />
