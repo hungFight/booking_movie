@@ -1,17 +1,9 @@
 import http from "~/utils/http";
 
-class Room {
+class Seat {
     create = async (data) => {
         try {
-            const res = await http.post('/room/create', data)
-            return res.data
-        } catch (error) {
-            console.log(error);
-        }
-    };
-    update = async (id, data) => {
-        try {
-            const res = await http.put('/room/update/' + id, data)
+            const res = await http.post('/seat/create', data)
             return res.data
         } catch (error) {
             console.log(error);
@@ -19,7 +11,7 @@ class Room {
     };
     getAll = async () => {
         try {
-            const res = await http.get('/room')
+            const res = await http.get('/seat')
             return res.data
         } catch (error) {
             console.log(error);
@@ -27,11 +19,11 @@ class Room {
     }
     deleteById = async (id) => {
         try {
-            const res = await http.delete('/room/deleteRoom/' + id)
+            const res = await http.delete('/seat/deleteSeat/' + id)
             return res.data
         } catch (error) {
             console.log(error);
         }
     }
 }
-export default new Room()
+export default new Seat()

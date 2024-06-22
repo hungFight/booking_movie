@@ -11,6 +11,7 @@ import { Box, Stack, useTheme } from "@mui/material";
 import { tokens } from "../../../theme";
 import Header from "../../../components/Header";
 import RoomEdit from "./room-edit";
+import room from "~/restfulAPI/room";
 
 const RoomTable = () => {
     const theme = useTheme();
@@ -18,6 +19,7 @@ const RoomTable = () => {
     const [isModalDetailOpen, setIsModalDetailOpen] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
     const [openEditRoom, setOpenEditRoom] = useState(false);
+    const [rows, setRows] = useState([]);
 
     const handleOpenEditRoom = (param) => {
         setOpenEditRoom(true);
@@ -36,69 +38,21 @@ const RoomTable = () => {
     const handleCloseDetail = () => {
         setIsModalDetailOpen(false);
     }
+    const handleDelete = async (data) => {
+        console.table(data, 'data')
+        const res = await room.deleteById(data.id)
+        if (res) setRows(pre => pre.filter((r, index) => r.id !== data.id))
+    }
+    async function getAll() {
+        const res = await room.getAll()
+        setRows(res.map((r, index) => {
+            return { ...r, stt: index + 1, cinemaName: r.cinema.nameOfCinema }
+        }))
+    }
+    React.useEffect(() => {
+        getAll()
+    }, [])
 
-    const rows = [
-        {
-            id: 1,
-            stt: 1,
-            name: 'Large Room 0',
-            code: 2012000,
-            capacity: 50,
-            type: 'Type 1',
-            cinemaName: 'Lotte Cinema',
-            description: 'Phòng vip',
-        },
-        {
-            id: 2,
-            stt: 2,
-            name: 'Small Room 01',
-            code: 2012000,
-            capacity: 50,
-            type: 'Type 2',
-            cinemaName: 'Lotte Cinema',
-            description: "phòng siêu rộng",
-        },
-        {
-            id: 3,
-            stt: 3,
-            name: "middle Room 02",
-            code: 2012000,
-            capacity: 50,
-            type: 'Type 3',
-            cinemaName: 'Lotte Cinema',
-            description: "phòng siêu vip",
-        },
-        {
-            id: 4,
-            stt: 4,
-            name: "Small Room 03",
-            code: 2012000,
-            capacity: 50,
-            type: 'Type 3',
-            cinemaName: 'Lotte Cinema',
-            description: "phòng siêu vip",
-        },
-        {
-            id: 5,
-            stt: 5,
-            name: 'Small Room 04',
-            code: 2012000,
-            capacity: 50,
-            type: 'Type 4',
-            cinemaName: 'Lotte Cinema',
-            description: "phòng siêu vip",
-        },
-        {
-            id: 6,
-            stt: 6,
-            name: "Small Room 05",
-            code: 2012000,
-            capacity: 50,
-            type: 'Type 5',
-            cinemaName: 'Lotte Cinema',
-            description: "phòng siêu vip",
-        },
-    ]
 
     const columns = [
         { field: "stt", headerName: "STT", width: 50 },
@@ -124,7 +78,7 @@ const RoomTable = () => {
                         handleViewDetail={ handleViewDetail }
                         openDialogEdit={ handleOpenEditRoom }
                         params={ params }
-                    // handleDelete={() => handleDelete(params.row)}
+                        handleDelete={ () => handleDelete(params.row) }
                     />
                 </Box>
             ),
@@ -170,6 +124,7 @@ const RoomTable = () => {
                 columns={ columns }
             />
             <RoomEdit
+                getAll={ getAll }
                 open={ openEditRoom }
                 onClose={ handleCloseEditRoom }
                 rowData={ selectedRow }
