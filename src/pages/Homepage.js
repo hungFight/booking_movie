@@ -15,9 +15,21 @@ import { Grid, formControlClasses, InputLabel, Autocomplete, TextField, Tabs } f
 import { Button, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import { FavoriteOutlined, Image, RemoveRedEye, ViewAgenda } from '@mui/icons-material';
-import LayoutHeaderFooter from './layout (1)/LayoutHeaderFooter/LayoutHeaderFooter';
+import LayoutHeaderFooter from '~/app/Layout/LayoutHeaderFooter/LayoutHeaderFooter';
+import { useState } from 'react';
 
 function Homepage() {
+    const [tabFilmVal, setTabFilmVal] = useState(0)
+    const [tabCinemaCorner, setTabCinemaCorner] = useState(0)
+
+    const handleTabFilmChange = (val) => {
+        setTabFilmVal(val)
+    }
+
+    const handleTabCinemaCornerChange = (val) => {
+        setTabCinemaCorner(val)
+    }
+
     const top100Films = [
         { label: 'The Shawshank Redemption', year: 1994 },
         { label: 'The Godfather', year: 1972 },
@@ -102,26 +114,32 @@ function Homepage() {
                 <Box className="px-28 mt-10">
                     <Box className="flex items-center mb-[30px]">
                         <div style={{ fontSize: '20px' }} className="mr-4 uppercase font-semibold border-l-4 border-l-blue-700 pl-2">
-                            phim
+                            Film
                         </div>
-                        <Tabs variant="scrollable">
+                        <Tabs value={tabFilmVal} variant="scrollable">
                             <Tab
+                                value={0}
                                 label="Now showing"
                                 className="font-semibold text-neutral-400"
+                                onClick={() => handleTabFilmChange(0)}
                                 sx={{
                                     textTransform: 'unset',
                                 }}
                             />
                             <Tab
+                                value={1}
                                 label="Coming soon"
                                 className="font-semibold text-neutral-400"
+                                onClick={() => handleTabFilmChange(1)}
                                 sx={{
                                     textTransform: 'unset',
                                 }}
                             />
                             <Tab
+                                value={2}
                                 label="IMAX Film"
                                 className="font-semibold text-neutral-400"
+                                onClick={() => handleTabFilmChange(2)}
                                 sx={{
                                     textTransform: 'unset',
                                 }}
@@ -132,7 +150,7 @@ function Homepage() {
                     <Box>
                         <Grid container spacing={2}>
                             <Grid item xs={3}>
-                                <Link to="/filmDetail">
+                                <Link to="/movie/detail">
                                     <Card className="shadow-none">
                                         <CardMedia
                                             sx={{
@@ -174,17 +192,21 @@ function Homepage() {
                         <div style={{ fontSize: '20px' }} className="mr-4 uppercase font-semibold border-l-4 border-l-blue-700 pl-2">
                             Cinema corner
                         </div>
-                        <Tabs variant="scrollable">
+                        <Tabs value={tabCinemaCorner} variant="scrollable">
                             <Tab
+                                value={0}
                                 label="Film comments"
                                 className="font-semibold text-neutral-400"
+                                onClick={() => handleTabCinemaCornerChange(0)}
                                 sx={{
                                     textTransform: 'unset',
                                 }}
                             />
                             <Tab
+                                value={1}
                                 label="Cinema blog"
                                 className="font-semibold text-neutral-400"
+                                onClick={() => handleTabCinemaCornerChange(1)}
                                 sx={{
                                     textTransform: 'unset',
                                 }}

@@ -42,9 +42,21 @@ import ResetPassword from './app/Authentication/ResetPassword';
 import Login from './scenes/auth/login';
 import SignUp from './app/Authentication/Register';
 import { AuthContext } from './contexts/auth-context';
-import MovieDetail from './app/Movie/Detail';
+import MovieDetail from './pages/Movie/Detail';
 import { jwtDecode } from 'jwt-decode'
-import Homepage from './app/Homepage';
+import Homepage from '~/pages/Homepage';
+import Feedback from './pages/Feedback/Feedback';
+import AboutUs from './pages/AboutUs/AboutUs';
+import Answers from './pages/Answer/Answers';
+import PrivacyPolicy from './pages/Policy/PrivacyPolicy';
+import TermsOfUse from './pages/Term/TermsOfUse';
+import OperatingRegulations from './pages/Regulation/OperatingRegulations';
+import MovieGenre from './pages/MovieGenre/MovieGenre';
+import MovieBlog from './pages/MovieBlog/MovieBlog';
+import MovieCommentary from './pages/MovieCommentary/MovieCommentary';
+import GoodMovieMonth from './pages/GoodMovieMonth/GoodMovieMonth';
+import TheaterDetail from './pages/TheaterDetail/TheaterDetail';
+import Booking from './pages/Booking/Booking';
 
 const AuthenticatedRouteAdmin = ({ children }) => {
   const { isAuthenticated, token } = React.useContext(AuthContext);
@@ -57,6 +69,7 @@ const AuthenticatedRouteAdmin = ({ children }) => {
   return <Navigate to="/login" />
 };
 const AuthenticatedRoute = ({ children }) => {
+  return children
   const token = localStorage.getItem('authToken')
   console.log(token, 'sss');
   if (token) {
@@ -82,6 +95,18 @@ function App() {
             <Route path="/resetPassword" element={ <ResetPassword /> } />
             <Route path="/movie/detail" element={ <MovieDetail /> } />
             <Route path="/homepage" element={ <Homepage /> } />
+            <Route path="/feedback" element={ <Feedback /> } />
+            <Route path="/about-us" element={ <AboutUs /> } />
+            <Route path="/answer" element={ <Answers /> } />
+            <Route path="/policy" element={ <PrivacyPolicy /> } />
+            <Route path="/term" element={ <TermsOfUse /> } />
+            <Route path="/operating-regulation" element={ <OperatingRegulations /> } />
+            <Route path="/movie-genre" element={ <MovieGenre /> } />
+            <Route path="/movie-commentary" element={ <MovieCommentary /> } />
+            <Route path="/movie-blog" element={ <MovieBlog /> } />
+            <Route path="/good-movie-month" element={ <GoodMovieMonth /> } />
+            <Route path="/theater-ticket-price" element={ <TheaterDetail /> } />
+            <Route path="/booking" element={ <Booking /> } />
             
           </Routes>
         </AuthenticatedRoute> } />
