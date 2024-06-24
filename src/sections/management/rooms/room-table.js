@@ -78,6 +78,7 @@ const RoomTable = () => {
                         handleViewDetail={ handleViewDetail }
                         openDialogEdit={ handleOpenEditRoom }
                         params={ params }
+                    
                         handleDelete={ () => handleDelete(params.row) }
                     />
                 </Box>

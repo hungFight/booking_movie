@@ -10,6 +10,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Box, Stack, useTheme } from "@mui/material";
 import { tokens } from "../../../theme";
 import Header from "../../../components/Header";
+import seat from "~/restfulAPI/seat";
 // import ScheduleEdit from "./schedule-edit";
 
 const ScheduleTable = () => {
@@ -18,6 +19,7 @@ const ScheduleTable = () => {
     const [isModalDetailOpen, setIsModalDetailOpen] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
     const [openEditSchedule, setOpenEditSchedule] = useState(false);
+    const [rows, setRows] = useState([]);
 
     const handleOpenEditSchedule = (param) => {
         setOpenEditSchedule(true);
@@ -36,70 +38,22 @@ const ScheduleTable = () => {
     const handleCloseDetail = () => {
         setIsModalDetailOpen(false);
     }
-
-    const rows = [
-        {
-            id: 1,
-            stt: 1,
-            seatNumber: 1,
-            seatStatus: "trống",
-            line: 1238664768,
-            roomName: "phòng vip",
-            seatType: "Vip"
-        },
-        {
-            id: 2,
-            stt: 2,
-            seatNumber: 2,
-            seatStatus: "trống",
-            line: 1238664768,
-            roomName: "phòng vip",
-            seatType: "Vip"
-        },
-        {
-            id: 3,
-            stt: 3,
-            seatNumber: 3,
-            seatStatus: "trống",
-            line: 1238664768,
-            roomName: "phòng vip",
-            seatType: "Vip"
-        },
-        {
-            id: 4,
-            stt: 4,
-            seatNumber: 4,
-            seatStatus: "trống",
-            line: 1238664768,
-            roomName: "phòng vip",
-            seatType: "Vip"
-        },
-        {
-            id: 5,
-            stt: 5,
-            seatNumber: 5,
-            seatStatus: "trống",
-            line: 1238664768,
-            roomName: "phòng vip",
-            seatType: "Vip"
-        },
-        {
-            id: 6,
-            stt: 6,
-            seatNumber: 6,
-            seatStatus: "trống",
-            line: 1238664768,
-            roomName: "phòng vip",
-            seatType: "Vip"
-        },
-    ]
-
+    async function getAll() {
+        const res = await seat.getAll()
+        setRows(res.map((r, index) => {
+            return { ...r, stt: index + 1, seatStatus: r.seatStatus.nameStatus, roomName: r.room.name, cinemaName: r.room.cinema?.nameOfCinema }
+        }))
+    }
+    React.useEffect(() => {
+        getAll()
+    }, [])
     const columns = [
         { field: "stt", headerName: "STT", width: 50 },
-        { field: "seatNumber", headerName: "Seat Number", width: 170 },
+        { field: "number", headerName: "Seat Number", width: 170 },
         { field: "seatStatus", headerName: "Seat Status", width: 160 },
         { field: "line", headerName: "Line", width: 160 },
         { field: "roomName", headerName: "Room Name", width: 150 },
+        { field: "cinemaName", headerName: "Cinema Name", width: 150 },
         { field: "seatType", headerName: "Seat Type", width: 150 },
         {
             field: "action",

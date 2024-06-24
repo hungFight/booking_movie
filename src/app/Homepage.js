@@ -129,7 +129,7 @@ function Homepage() {
                 <Box>
                     <Grid container spacing={ 2 }>
                         <Grid item xs={ 3 }>
-                            <Link to="/filmDetail">
+                            <Link to="/movie/detail">
                                 <Card className="shadow-none">
                                     <CardMedia
                                         sx={ {
