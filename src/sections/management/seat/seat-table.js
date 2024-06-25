@@ -13,7 +13,7 @@ import Header from "../../../components/Header";
 import seat from "~/restfulAPI/seat";
 // import ScheduleEdit from "./schedule-edit";
 
-const ScheduleTable = () => {
+const SeatTable = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [isModalDetailOpen, setIsModalDetailOpen] = useState(false);
@@ -117,12 +117,12 @@ const ScheduleTable = () => {
                 columns={ columns }
             />
             {/* <ScheduleEdit
-                open={openEditSchedule}
-                onClose={handleCloseEditSchedule}
-                rowData={selectedRow}
+                open={ openEditSchedule }
+                onClose={ handleCloseEditSchedule }
+                rowData={ selectedRow }
             /> */}
         </Stack>
     );
 }
 
-export default ScheduleTable;
+export default SeatTable;
