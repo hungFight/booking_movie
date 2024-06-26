@@ -28,7 +28,11 @@ const ScheduleTable = () => {
         setOpenEditSchedule(true);
         setSelectedRow(param.row)
     }
-
+    const handleDelete = async (params) => {
+        console.log(params, 'params');
+        const res = await schedule.deleteById(params.id)
+        if (res) getAll()
+    }
     const handleCloseEditSchedule = () => {
         setOpenEditSchedule(false);
     }
@@ -45,7 +49,7 @@ const ScheduleTable = () => {
     async function getAll() {
         const res = await schedule.getAll()
         setRows(res.map((r, index) => {
-            return { ...r, stt: index + 1, startTime: moment(r.startAt).format("dd-MM-yyyy HH:mm:ss"), endTime: moment(r.endAt).format("dd-MM-yyyy HH:mm:ss"), movieName: r.movie.name, roomName: r.room.name }
+            return { ...r, stt: index + 1, startTime: moment(r.startAt).format("YYYY/MM/DD hh:mm"), endTime: moment(r.endAt).format("YYYY/MM/DD hh:mm"), movieName: r.movie.name, roomName: r.room.name }
         }))
     }
     React.useEffect(() => {
@@ -77,7 +81,7 @@ const ScheduleTable = () => {
                         handleViewDetail={ handleViewDetail }
                         openDialogEdit={ handleOpenEditSchedule }
                         params={ params }
-                    // handleDelete={() => handleDelete(params.row)}
+                        handleDelete={ () => handleDelete(params.row) }
                     />
                 </Box>
             ),
@@ -122,11 +126,12 @@ const ScheduleTable = () => {
                 rowData={ selectedRow }
                 columns={ columns }
             />
-            <ScheduleEdit
+            { openEditSchedule && <ScheduleEdit
                 open={ openEditSchedule }
                 onClose={ handleCloseEditSchedule }
                 rowData={ selectedRow }
-            />
+            /> }
+
         </Stack>
     );
 }

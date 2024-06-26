@@ -17,10 +17,10 @@ import {
     useTheme,
     Snackbar
 } from "@mui/material";
-import { useFormik } from "formik";
+import { useFormik } from "formik"; import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import * as Yup from "yup";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
+import { DatePicker, DateTimePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import { tokens } from '../../../theme';
 import MuiAlert from '@mui/material/Alert';
 
@@ -29,6 +29,9 @@ import "react-quill/dist/quill.snow.css";
 import { DropzoneArea } from "mui-file-dropzone";
 import ReactQuill from 'react-quill';
 import dayjs from "dayjs";
+import schedule from "~/restfulAPI/schedule";
+import movie from "~/restfulAPI/movie";
+import room from "~/restfulAPI/room";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -56,9 +59,14 @@ export default function MovieEdit({ open, onClose, rowData }) {
     const colors = tokens(theme.palette.mode);
     const [isEndTimeSelected, setIsEndTimeSelected] = useState(false);
     const [openSnackBar, setOpenSnackBar] = useState(false);
+    const [startTime, setStartTime] = useState(dayjs(rowData?.startTime));
+    const [endTime, setEndTime] = useState(dayjs(rowData?.endTime));
+    const [rows, setRows] = useState([]);
+    const [roomData, setRoomData] = useState([]);
     const handleCloseSnackbar = () => {
         setOpenSnackBar(false);
     };
+    console.log(startTime, 'startTime', endTime);
 
     const handleClose = (isEvent) => {
         formik.resetForm();
@@ -68,7 +76,9 @@ export default function MovieEdit({ open, onClose, rowData }) {
     const validationSchema = Yup.object({
         code: Yup
             .string()
-            .required('Vui lòng chọn thông tin vào trường này'),
+            .required('Vui lòng chọn thông tin vào trường này'), price: Yup
+                .string()
+                .required('Vui lòng chọn thông tin vào trường này'),
         name: Yup
             .string()
             .required('Vui lòng nhập thông tin vào trường này'),
@@ -78,31 +88,14 @@ export default function MovieEdit({ open, onClose, rowData }) {
         roomName: Yup
             .string()
             .required('Vui lòng nhập thông tin vào trường này'),
-        startTime: Yup
-            .string()
-            .required('Vui lòng nhập thông tin vào trường này'),
-        endTime: Yup
-            .string()
-            .required('Vui lòng nhập thông tin vào trường này')
-            .test(
-                'is-gioRa-greater-than-gioVao',
-                'Thời gian kết thúc phải lớn hơn thời gian bắt đầu.',
-                function (endTime) {
-                    const { startTime } = this.parent;
-                    return endTime > startTime;
-                }
-            ),
     });
 
     const initialValues = {
         code: "",
         price: "",
         name: "",
-        startTime: "",
-        endTime: "",
-        premiereDate: "",
-        movieName: "",
         roomName: "",
+        movieName: "",
         submit: null
     };
 
@@ -112,7 +105,18 @@ export default function MovieEdit({ open, onClose, rowData }) {
         onSubmit: async (values, helpers) => {
             try {
                 console.log("giá trị bạn vừa nhập vào là :", values)
-                formik.resetForm();
+
+                const datas = {
+                    price: values.price,
+                    start_at: startTime,
+                    end_at: endTime,
+                    code: values.code,
+                    name: values.name,
+                    "room_id": roomData.find(r => r.name === values.roomName).id,
+                    "movie_id": rows.find(r => r.name === values.movieName).id
+                };
+                const res = await schedule.update(rowData.id, datas)
+                // formik.resetForm();
             } catch (err) {
                 console.error("Lỗi")
             }
@@ -121,14 +125,10 @@ export default function MovieEdit({ open, onClose, rowData }) {
 
     useEffect(() => {
         try {
-            console.log(rowData, 'rowData pre');
-
             formik.setValues({
                 name: rowData?.name || '',
                 price: rowData?.price || '',
                 code: rowData?.code || '',
-                startTime: rowData?.startTime,
-                endTime: rowData?.endTime,
                 movieName: rowData?.movieName || '',
                 roomName: rowData?.roomName || '',
             })
@@ -137,20 +137,15 @@ export default function MovieEdit({ open, onClose, rowData }) {
             console.error("Đã xảy ra lỗi . Vui lòng kiểm tra lại !!!", error);
         }
     }, [open, rowData])
-
-    useEffect(() => {
-        if (formik.values.endTime <= formik.values.timeIn && isEndTimeSelected === true) {
-            formik.setFieldError('endTime', 'Thời gian kết thúc phải lớn hơn thời gian bắt đầu');
-            formik.setFieldTouched('endTime', true);
-        } else {
-            formik.setFieldError('endTime', ''); // Reset error when endTime is valid
-        }
-        console.log(formik.values, 'rowData');
-
-    }, [formik.values.endTime, formik.values.timeIn, isEndTimeSelected]);
-
-    console.log(formik.values.premiereDate);
-
+    async function getAll() {
+        const res = await movie.getAll()
+        setRows(res)
+        const resRoom = await room.getAll()
+        setRoomData(resRoom)
+    }
+    React.useEffect(() => {
+        getAll()
+    }, [])
     return (
         <BootstrapDialog
             onClose={ () => handleClose(false) }
@@ -212,69 +207,73 @@ export default function MovieEdit({ open, onClose, rowData }) {
                     <Grid container spacing={ 1 }>
                         <Grid item xs={ 6 }>
                             <LocalizationProvider dateAdapter={ AdapterDayjs }>
-                                <DatePicker
-                                    sx={ {
-                                        width: "100%",
-                                        marginTop: '12px'
-                                    } }
-                                    label="Start time"
-                                    name="startTime"
-                                    // value={ formik.values.startTime }
-                                    onChange={ (value) => {
-                                        if (value != null) {
-                                            formik.setFieldValue('startTime', Date.parse(value));
-                                        } else {
-                                            formik.setFieldValue('startTime', '');
-                                        }
-                                    } }
+                                <DemoContainer components={ ['DateTimePicker'] }>
+                                    <DateTimePicker
+                                        sx={ {
+                                            width: "100%",
+                                            marginTop: '12px'
+                                        } }
+                                        label="Start time"
+                                        name="startTime"
+                                        value={ startTime }
+                                        onChange={ (value) => {
+                                            if (value) {
+                                                formik.setFieldValue('startTime', Date.parse(value));
+                                            } else {
+                                                formik.setFieldValue('startTime', '');
+                                            }
+                                        } }
 
-                                    slotProps={ {
-                                        textField: {
-                                            color: 'info',
-                                            variant: "outlined",
-                                            size: "small",
-                                            onBlur: () => {
-                                                formik.setFieldTouched('startTime', true);
+                                        slotProps={ {
+                                            textField: {
+                                                color: 'info',
+                                                variant: "outlined",
+                                                size: "small",
+                                                onBlur: () => {
+                                                    formik.setFieldTouched('startTime', true);
+                                                },
+                                                helperText: formik.touched.startTime && formik.errors.startTime, // Sử dụng formik.touched và formik.errors
+                                                error: !!(formik.touched.startTime && formik.errors.startTime) // Hiển thị error khi trường bị chạm và có lỗi
                                             },
-                                            helperText: formik.touched.startTime && formik.errors.startTime, // Sử dụng formik.touched và formik.errors
-                                            error: !!(formik.touched.startTime && formik.errors.startTime) // Hiển thị error khi trường bị chạm và có lỗi
-                                        },
-                                    } }
-                                />
-
+                                        } }
+                                    />
+                                </DemoContainer>
                             </LocalizationProvider>
                         </Grid>
                         <Grid item xs={ 6 }>
                             <LocalizationProvider dateAdapter={ AdapterDayjs }>
-                                <DatePicker
-                                    sx={ {
-                                        width: "100%",
-                                        marginTop: '12px'
-                                    } }
-                                    label="End time"
-                                    name="endTime"
-                                    value={ formik.values.endTime }
-                                    onChange={ (value) => {
-                                        if (value != null) {
-                                            formik.setFieldValue('endTime', Date.parse(value));
-                                        } else {
-                                            formik.setFieldValue('endTime', '');
-                                        }
-                                    } }
+                                <DemoContainer components={ ['DateTimePicker'] }>
 
-                                    slotProps={ {
-                                        textField: {
-                                            color: 'info',
-                                            variant: "outlined",
-                                            size: "small",
-                                            onBlur: () => {
-                                                formik.setFieldTouched('endTime', true);
+                                    <DateTimePicker
+                                        sx={ {
+                                            width: "100%",
+                                            marginTop: '12px'
+                                        } }
+                                        label="End time"
+                                        name="endTime"
+                                        value={ endTime }
+                                        onChange={ (value) => {
+                                            if (value != null) {
+                                                formik.setFieldValue('endTime', Date.parse(value));
+                                            } else {
+                                                formik.setFieldValue('endTime', '');
+                                            }
+                                        } }
+
+                                        slotProps={ {
+                                            textField: {
+                                                color: 'info',
+                                                variant: "outlined",
+                                                size: "small",
+                                                onBlur: () => {
+                                                    formik.setFieldTouched('endTime', true);
+                                                },
+                                                helperText: formik.touched.endTime && formik.errors.endTime, // Sử dụng formik.touched và formik.errors
+                                                error: !!(formik.touched.endTime && formik.errors.endTime) // Hiển thị error khi trường bị chạm và có lỗi
                                             },
-                                            helperText: formik.touched.endTime && formik.errors.endTime, // Sử dụng formik.touched và formik.errors
-                                            error: !!(formik.touched.endTime && formik.errors.endTime) // Hiển thị error khi trường bị chạm và có lỗi
-                                        },
-                                    } }
-                                />
+                                        } }
+                                    />
+                                </DemoContainer>
                             </LocalizationProvider>
                         </Grid>
                     </Grid>
@@ -297,7 +296,7 @@ export default function MovieEdit({ open, onClose, rowData }) {
                         sx={ { margin: "10px 0px 5px 0px" } }
                         color='info'
                         fullWidth
-                        options={ ["Kinh dị", "Hành động", "Tình cảm"] }
+                        options={ rows.map(r => r.name) }
                         value={ formik.values.movieName }
                         onChange={ (_, newValue) => {
                             formik.setFieldValue('movieName', newValue || null)
@@ -320,7 +319,7 @@ export default function MovieEdit({ open, onClose, rowData }) {
                         sx={ { margin: "10px 0px 5px 0px" } }
                         color='info'
                         fullWidth
-                        options={ ["Phòng 1", "Phòng 2", "Phòng 3"] }
+                        options={ roomData.map(r => r.name) }
                         value={ formik.values.roomName }
                         onChange={ (_, newValue) => {
                             formik.setFieldValue('roomName', newValue || null)

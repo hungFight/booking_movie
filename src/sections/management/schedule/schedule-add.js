@@ -104,8 +104,8 @@ const AddSchedule = () => {
                 // Prepare the data for the request
                 const datas = {
                     price: values.price,
-                    start_at: moment(values.startTime).toISOString(),
-                    end_at: moment(values.endTime).toISOString(),
+                    start_at: values.startTime,
+                    end_at: values.endTime,
                     code: values.code,
                     name: values.name,
                     "room_id": roomData.find(r => r.name === values.roomName).id,

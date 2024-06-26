@@ -26,7 +26,7 @@ class Schedule {
     }
     deleteById = async (id) => {
         try {
-            const res = await http.delete('/movie/deleteMovie/' + id)
+            const res = await http.delete('/schedule/deleteSchedule/' + id)
             return res.data
         } catch (error) {
             console.log(error);

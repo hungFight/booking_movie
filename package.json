@@ -29,7 +29,7 @@
         "apexcharts": "3.37.0",
         "axios": "^1.7.0",
         "date-fns": "2.29.3",
-        "dayjs": "^1.11.10",
+        "dayjs": "^1.11.11",
         "formik": "^2.4.6",
         "jspdf": "^2.5.1",
         "jspdf-autotable": "^3.7.0",
