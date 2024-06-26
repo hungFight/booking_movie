@@ -7,7 +7,6 @@ class Http {
         this.instance = axios.create({
             baseURL: process.env.REACT_APP_SERVER_BOOKING,
             headers: {
-                'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + token,
             },
         });

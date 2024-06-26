@@ -16,15 +16,21 @@ import { DropzoneArea } from "mui-file-dropzone";
 import ReactQuill from 'react-quill';
 import schedule from '~/restfulAPI/schedule';
 import moment from 'moment';
+import movie from '~/restfulAPI/movie';
+import room from '~/restfulAPI/room';
+import { useNavigate } from 'react-router-dom';
 
 
 const AddSchedule = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [isEndTimeSelected, setIsEndTimeSelected] = useState(false);
+    const [rows, setRows] = useState([]);
+    const [roomData, setRoomData] = useState([]);
     const handleFormSubmit = (values) => {
         console.log(values);
     };
+    const navigate = useNavigate();
 
     const [files, setFiles] = useState([]);
     const [isDateSelected, setIsDateSelected] = useState(false);
@@ -40,6 +46,9 @@ const AddSchedule = () => {
     const validationSchema = Yup.object({
         code: Yup
             .string()
+            .required('Vui lòng chọn thông tin vào trường này'),
+        price: Yup
+            .number()
             .required('Vui lòng chọn thông tin vào trường này'),
         name: Yup
             .string()
@@ -72,12 +81,20 @@ const AddSchedule = () => {
         name: "",
         startTime: "",
         endTime: "",
-        premiereDate: "",
+        price: null,
         movieName: "",
         roomName: "",
         submit: null
     };
-
+    async function getAll() {
+        const res = await movie.getAll()
+        setRows(res)
+        const resRoom = await room.getAll()
+        setRoomData(resRoom)
+    }
+    React.useEffect(() => {
+        getAll()
+    }, [])
     const formik = useFormik({
         initialValues,
         validationSchema,
@@ -85,19 +102,30 @@ const AddSchedule = () => {
 
             try {
                 // Prepare the data for the request
-                const data = {
-                    price: 45,
+                const datas = {
+                    price: values.price,
                     start_at: moment(values.startTime).toISOString(),
                     end_at: moment(values.endTime).toISOString(),
                     code: values.code,
                     name: values.name,
-                    movie_id: "2",
-                    seat_id: "2"
+                    "room_id": roomData.find(r => r.name === values.roomName).id,
+                    "movie_id": rows.find(r => r.name === values.movieName).id
                 };
-                // Make the request to create a new schedule
-                const response = await schedule.create(data);
+                const response = await schedule.create(datas);
 
-                console.log('Schedule created:', response.data);
+                // {
+                //     "price": 45,
+                //         "start_at": "2018-02-05T11:59:11.332Z",
+                //             "end_at": "2018-02-05T11:59:11.332Z",
+                //                 "code": "dfsavgfs123",
+                //                     "name": "i don't know",
+                //                         "movie_id": "2",
+                //                             "seat_id": "2"
+
+                // }
+                // Make the request to create a new schedule
+                navigate('/admin/management/schedule')
+                console.log('Schedule created:', datas);
                 setOpenSnackBar(true);
             } catch (err) {
                 console.error("Lỗi:", err);
@@ -130,68 +158,90 @@ const AddSchedule = () => {
                         label="Name"
                         fullWidth
                         variant="outlined"
+                    /> <TextField
+                        color="info"
+                        error={ !!(formik.touched.price && formik.errors.price) }
+                        helperText={ formik.touched.price && formik.errors.price }
+                        onBlur={ formik.handleBlur }
+                        onChange={ formik.handleChange }
+                        value={ formik.values.price }
+                        name="price"
+                        sx={ { marginTop: "12px" } }
+                        label="Price"
+                        fullWidth
+                        variant="outlined"
                     />
                     <Grid container spacing={ 1 }>
                         <Grid item xs={ 6 }>
                             <LocalizationProvider dateAdapter={ AdapterDayjs }>
-                                <TimePicker
+                                <DatePicker
                                     sx={ {
                                         width: "100%",
                                         marginTop: '12px'
                                     } }
-                                    label="Thời gian bắt đầu"
-                                    format="DD/MM/YYYY HH:mm:ss"
+                                    label="Premiere Date"
                                     name="startTime"
-                                    // value={formik.values.startTime}
+                                    format="DD/MM/YYYY HH:mm:ss"
+                                    // value={ formik.values.premiereDate }
                                     onChange={ (value) => {
-                                        formik.setFieldValue('startTime', Date.parse(value));
+                                        if (value != null) {
+                                            formik.setFieldValue('startTime', Date.parse(value));
+                                            setIsDateSelected(true)
+                                        } else {
+                                            formik.setFieldValue('startTime', '');
+                                        }
                                     } }
 
                                     slotProps={ {
                                         textField: {
+                                            color: 'info',
                                             variant: "outlined",
-                                            color: "info",
+                                            size: "small",
                                             onBlur: () => {
                                                 formik.setFieldTouched('startTime', true);
-                                                // formik.handleBlur();
                                             },
                                             helperText: formik.touched.startTime && formik.errors.startTime, // Sử dụng formik.touched và formik.errors
                                             error: !!(formik.touched.startTime && formik.errors.startTime) // Hiển thị error khi trường bị chạm và có lỗi
                                         },
                                     } }
                                 />
+
                             </LocalizationProvider>
                         </Grid>
                         <Grid item xs={ 6 }>
                             <LocalizationProvider dateAdapter={ AdapterDayjs }>
-                                <TimePicker
+                                <DatePicker
                                     sx={ {
                                         width: "100%",
                                         marginTop: '12px'
                                     } }
-                                    label="Thời gian kết thúc"
+                                    label="Premiere Date"
                                     name="endTime"
                                     format="DD/MM/YYYY HH:mm:ss"
-
-
-                                    // value={formik.values.endTime}
+                                    // value={ formik.values.premiereDate }
                                     onChange={ (value) => {
-                                        formik.setFieldValue('endTime', Date.parse(value));
-                                        setIsEndTimeSelected(true);
+                                        if (value != null) {
+                                            formik.setFieldValue('endTime', Date.parse(value));
+                                            setIsDateSelected(true)
+                                        } else {
+                                            formik.setFieldValue('endTime', '');
+                                        }
                                     } }
+
                                     slotProps={ {
                                         textField: {
+                                            color: 'info',
                                             variant: "outlined",
-                                            color: "info",
+                                            size: "small",
                                             onBlur: () => {
                                                 formik.setFieldTouched('endTime', true);
-                                                // formik.handleBlur();
                                             },
                                             helperText: formik.touched.endTime && formik.errors.endTime, // Sử dụng formik.touched và formik.errors
                                             error: !!(formik.touched.endTime && formik.errors.endTime) // Hiển thị error khi trường bị chạm và có lỗi
                                         },
                                     } }
                                 />
+
                             </LocalizationProvider>
                         </Grid>
                     </Grid>
@@ -214,7 +264,7 @@ const AddSchedule = () => {
                         sx={ { margin: "10px 0px 5px 0px" } }
                         color='info'
                         fullWidth
-                        options={ ["Kinh dị", "Hành động", "Tình cảm"] }
+                        options={ rows.map(r => r.name) }
                         value={ formik.values.movieName }
                         onChange={ (_, newValue) => {
                             formik.setFieldValue('movieName', newValue || null)
@@ -237,7 +287,7 @@ const AddSchedule = () => {
                         sx={ { margin: "10px 0px 5px 0px" } }
                         color='info'
                         fullWidth
-                        options={ ["Phòng 1", "Phòng 2", "Phòng 3"] }
+                        options={ roomData.map(r => r.name) }
                         value={ formik.values.roomName }
                         onChange={ (_, newValue) => {
                             formik.setFieldValue('roomName', newValue || null)

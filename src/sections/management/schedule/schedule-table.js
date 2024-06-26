@@ -11,6 +11,10 @@ import { Box, Stack, useTheme } from "@mui/material";
 import { tokens } from "../../../theme";
 import Header from "../../../components/Header";
 import ScheduleEdit from "./schedule-edit";
+import room from "~/restfulAPI/room";
+import cinema from "~/restfulAPI/cinema";
+import schedule from "~/restfulAPI/schedule";
+import moment from "moment";
 
 const ScheduleTable = () => {
     const theme = useTheme();
@@ -18,6 +22,7 @@ const ScheduleTable = () => {
     const [isModalDetailOpen, setIsModalDetailOpen] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
     const [openEditSchedule, setOpenEditSchedule] = useState(false);
+    const [rows, setRows] = useState([]);
 
     const handleOpenEditSchedule = (param) => {
         setOpenEditSchedule(true);
@@ -37,68 +42,15 @@ const ScheduleTable = () => {
         setIsModalDetailOpen(false);
     }
 
-    const rows = [
-        {
-            id: 1,
-            stt: 1,
-            name: "Epic Adventure",
-            code: 1238664768,
-            startTime: '2023-05-01T20:00:00',
-            endTime: '2023-05-01T20:00:00',
-            movieName: "Đảo Hải Tặc",
-            roomName: "Phòng vip"
-        },
-        {
-            id: 2,
-            stt: 2,
-            name: "Mystery Journey",
-            code: 1238664768,
-            startTime: '2023-05-01T20:00:00',
-            endTime: "2023-05-02T21:30:00",
-            movieName: "Đảo Hải Tặc",
-            roomName: "Phòng vip"
-        },
-        {
-            id: 3,
-            stt: 3,
-            name: "Tender Moments",
-            code: 1238664768,
-            startTime: '2023-05-01T20:00:00',
-            endTime: "2023-05-03T18:45:00",
-            movieName: "Đảo Hải Tặc",
-            roomName: "Phòng vip"
-        },
-        {
-            id: 4,
-            stt: 4,
-            name: "Galactic Odyssey",
-            code: 1238664768,
-            startTime: '2023-05-01T20:00:00',
-            endTime: "2023-05-04T17:15:00",
-            movieName: "Đảo Hải Tặc",
-            roomName: "Phòng vip"
-        },
-        {
-            id: 5,
-            stt: 5,
-            name: "Love in Bloom",
-            code: 1238664768,
-            startTime: '2023-05-01T20:00:00',
-            endTime: "2023-05-05T19:30:00",
-            movieName: "Đảo Hải Tặc",
-            roomName: "Phòng vip"
-        },
-        {
-            id: 6,
-            stt: 6,
-            name: "Behind Closed Doors",
-            code: 1238664768,
-            startTime: '2023-05-01T20:00:00',
-            endTime: "2023-05-06T22:00:00",
-            movieName: "Đảo Hải Tặc",
-            roomName: "Phòng vip"
-        },
-    ]
+    async function getAll() {
+        const res = await schedule.getAll()
+        setRows(res.map((r, index) => {
+            return { ...r, stt: index + 1, startTime: moment(r.startAt).format("dd-MM-yyyy HH:mm:ss"), endTime: moment(r.endAt).format("dd-MM-yyyy HH:mm:ss"), movieName: r.movie.name, roomName: r.room.name }
+        }))
+    }
+    React.useEffect(() => {
+        getAll()
+    }, [])
 
     const columns = [
         { field: "stt", headerName: "STT", width: 50 },
@@ -107,6 +59,7 @@ const ScheduleTable = () => {
         { field: "startTime", headerName: "StartTime", width: 150 },
         { field: "endTime", headerName: "EndTime", width: 150 },
         { field: "movieName", headerName: "MovieName", width: 120 },
+        { field: "price", headerName: "Price", width: 120 },
         { field: "roomName", headerName: "RoomName", width: 120 },
         {
             field: "action",
@@ -121,9 +74,9 @@ const ScheduleTable = () => {
                     height="100%"
                 >
                     <ActionColumn
-                        handleViewDetail={handleViewDetail}
-                        openDialogEdit={handleOpenEditSchedule}
-                        params={params}
+                        handleViewDetail={ handleViewDetail }
+                        openDialogEdit={ handleOpenEditSchedule }
+                        params={ params }
                     // handleDelete={() => handleDelete(params.row)}
                     />
                 </Box>
@@ -133,7 +86,7 @@ const ScheduleTable = () => {
     return (
         <Stack>
             <DataGrid
-                sx={{
+                sx={ {
                     "& .name-column--cell": {
                         // color: colors.greenAccent[300],
                     },
@@ -149,30 +102,30 @@ const ScheduleTable = () => {
                         backgroundColor: colors.blueAccent[700],
                     },
                     "& .MuiCheckbox-root": {
-                        color: `${colors.greenAccent[200]} !important`,
+                        color: `${ colors.greenAccent[200] } !important`,
                     },
-                }}
-                rows={rows}
-                columns={columns}
-                initialState={{
+                } }
+                rows={ rows }
+                columns={ columns }
+                initialState={ {
                     pagination: {
                         paginationModel: { page: 0, pageSize: 5 },
                     },
-                }}
+                } }
 
-                pageSizeOptions={[5, 10]}
+                pageSizeOptions={ [5, 10] }
                 checkboxSelection
             />
             <ModalDetail
-                open={isModalDetailOpen}
-                onClose={handleCloseDetail}
-                rowData={selectedRow}
-                columns={columns}
+                open={ isModalDetailOpen }
+                onClose={ handleCloseDetail }
+                rowData={ selectedRow }
+                columns={ columns }
             />
             <ScheduleEdit
-                open={openEditSchedule}
-                onClose={handleCloseEditSchedule}
-                rowData={selectedRow}
+                open={ openEditSchedule }
+                onClose={ handleCloseEditSchedule }
+                rowData={ selectedRow }
             />
         </Stack>
     );

@@ -89,18 +89,21 @@ const AddMovie = () => {
                 // Create FormData
                 const formData = new FormData();
                 formData.append('name', values.name);
-                formData.append('movie_type_id', 1);
-                formData.append('end_time', dd);
+                formData.append('movieTypeId', 1);
+                formData.append('endTime', dd);
                 formData.append('image', v4());
-                formData.append('file', files[0]); // Assuming files[0] contains the file you want to upload
+                for (let i = 0; i < files.length; i++) {
+                    formData.append('file', files[i]);
+                }// Assuming files[0] contains the file you want to upload
                 formData.append('trailer', "trailer");
-                formData.append('rate_id', 1);
-                formData.append('movie_duration', Number(values.movieDuration));
+                formData.append('rateId', 1);
+                formData.append('movieDuration', Number(values.movieDuration));
                 formData.append('language', "English");
-                formData.append('premiere_date', premiereDate);
+                formData.append('premiereDate', premiereDate);
                 formData.append('description', values.description);
                 formData.append('director', values.director);
                 const data = await movie.create(formData)
+                navigate('/admin/management/movie')
                 setOpenSnackBar(true);
             } catch (err) {
                 console.error("Lỗi:", err);

@@ -15,6 +15,8 @@ import { Grid, formControlClasses, InputLabel, Autocomplete, TextField, Tabs } f
 import { Button, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import { FavoriteOutlined, Image, RemoveRedEye, ViewAgenda } from '@mui/icons-material';
+import React, { useState } from 'react';
+import movie from '~/restfulAPI/movie';
 
 function Homepage() {
     const top100Films = [
@@ -26,7 +28,18 @@ function Homepage() {
         { label: "Schindler's List", year: 1993 },
         { label: 'Pulp Fiction', year: 1994 },
     ];
-
+    const [movies, setMovies] = useState([])
+    async function getMoive() {
+        const res = await movie.getAll()
+        if (res) setRows(() => {
+            return res.map((r, index) => {
+                return { ...r, id: r.id, stt: index + 1, movieType: r.movieType.movieTypeName, image: r.heroImage, premiereDate: moment(r?.premiereDate).format('DD-MM-YYYY') }
+            })
+        })
+    }
+    React.useEffect(() => {
+        getMoive()
+    }, [])
     return (
         <>
             <Box className="relative">
@@ -129,7 +142,7 @@ function Homepage() {
                 <Box>
                     <Grid container spacing={ 2 }>
                         <Grid item xs={ 3 }>
-                            <Link to="/movie/detail">
+                            { movies.map(r => <Link key={ r.id } to="/movie/detail">
                                 <Card className="shadow-none">
                                     <CardMedia
                                         sx={ {
@@ -153,10 +166,11 @@ function Homepage() {
                                     </CardMedia>
 
                                     <CardContent className="py-[10px] px-0">
-                                        <h4 className="font-semibold text-left">Những Mảnh Ghép Cảm Xúc 2</h4>
+                                        <h4 className="font-semibold text-left">{ r.name }</h4>
                                     </CardContent>
                                 </Card>
-                            </Link>
+                            </Link>) }
+
                         </Grid>
                     </Grid>
 

@@ -4,6 +4,7 @@ class Schedule {
     create = async (data) => {
         try {
             const res = await http.post('/schedule/create', data)
+            return res.data
         } catch (error) {
             console.log(error);
         }
@@ -17,7 +18,7 @@ class Schedule {
     };
     getAll = async () => {
         try {
-            const res = await http.get('/movie/')
+            const res = await http.get('/schedule')
             return res.data
         } catch (error) {
             console.log(error);

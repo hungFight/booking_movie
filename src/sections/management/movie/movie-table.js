@@ -48,7 +48,7 @@ const MovieTable = () => {
         const res = await movie.getAll()
         if (res) setRows(() => {
             return res.map((r, index) => {
-                return { ...r, id: r.id, stt: index + 1, movieType: r.movieType.movieTypeName, image: r.heroImage, premiereDate: moment(r?.premiereDate).format('DD-MM-YYYY') }
+                return { ...r, id: r.id, stt: index + 1, movieType: r.movieType.movieTypeName, image: `http://localhost:8081/api/movie/images?imageName=${ r.image }`, premiereDate: moment(r?.premiereDate).format('DD-MM-YYYY') }
             })
         })
     }
@@ -57,85 +57,6 @@ const MovieTable = () => {
         getMoive()
     }, [])
 
-    // const rows = [
-    //     {
-    //         id: 1,
-    //         stt: 1,
-    //         movieDuration: 120,
-    //         endTime: '2023-05-01T20:00:00',
-    //         premiereDate: "15-01-2024",
-    //         description: "An epic adventure",
-    //         director: "John Doe",
-    //         image: "https://example.com/image1.jpg",
-    //         movieType: "Kinh dị",
-    //         name: "Epic Adventure",
-    //     },
-    //     {
-    //         id: 2,
-    //         stt: 2,
-    //         image: "https://source.unsplash.com/random?wallpapers",
-    //         movieDuration: 150,
-    //         endTime: "2023-05-02T21:30:00",
-    //         premiereDate: "02-04-2024",
-    //         description: "A mysterious thriller",
-    //         director: "Jane Smith",
-    //         image: "https://example.com/image2.jpg",
-    //         movieType: "Kinh dị",
-    //         name: "Mystery Journey",
-    //     },
-    //     {
-    //         id: 3,
-    //         stt: 3,
-    //         image: "https://source.unsplash.com/random?wallpapers",
-    //         movieDuration: 110,
-    //         endTime: "2023-05-03T18:45:00",
-    //         premiereDate: "15-04-2024",
-    //         description: "A heartwarming drama",
-    //         director: "Michael Johnson",
-    //         image: "https://example.com/image3.jpg",
-    //         movieType: "Kinh dị",
-    //         name: "Tender Moments",
-    //     },
-    //     {
-    //         id: 4,
-    //         stt: 4,
-    //         image: "https://source.unsplash.com/random?wallpapers",
-    //         movieDuration: 100,
-    //         endTime: "2023-05-04T17:15:00",
-    //         premiereDate: "10-07-2023",
-    //         description: "A sci-fi adventure",
-    //         director: "David Lee",
-    //         image: "https://example.com/image4.jpg",
-    //         movieType: "Kinh dị",
-    //         name: "Galactic Odyssey",
-    //     },
-    //     {
-    //         id: 5,
-    //         stt: 5,
-    //         image: "https://source.unsplash.com/random?wallpapers",
-    //         movieDuration: 130,
-    //         endTime: "2023-05-05T19:30:00",
-    //         premiereDate: "10-07-2023",
-    //         description: "A romantic comedy",
-    //         director: "Emily Brown",
-    //         image: "https://example.com/image5.jpg",
-    //         movieType: "Kinh dị",
-    //         name: "Love in Bloom",
-    //     },
-    //     {
-    //         id: 6,
-    //         stt: 6,
-    //         image: "https://source.unsplash.com/random?wallpapers",
-    //         movieDuration: 140,
-    //         endTime: "2023-05-06T22:00:00",
-    //         premiereDate: "20-04-2024",
-    //         description: "A gripping thriller",
-    //         director: "Alex Turner",
-    //         image: "https://example.com/image6.jpg",
-    //         movieType: "Kinh dị",
-    //         name: "Behind Closed Doors",
-    //     },
-    // ]
 
     const columns = [
         { field: "stt", headerName: "STT", width: 50 },
@@ -144,8 +65,9 @@ const MovieTable = () => {
             headerName: "Image",
             width: 80,
             // headerAlign: "center",
-            renderCell: (params) => (
-                <Box
+            renderCell: (params) => {
+                console.log(params, 'params');
+                return <Box
                     display="flex"
                     justifyContent="start"
                     alignItems="center"
@@ -153,8 +75,9 @@ const MovieTable = () => {
                 >
 
                     <img
-                        src="https://source.unsplash.com/random?wallpapers"
+                        src={ params.value }
                         alt="image"
+                        className="object-cover"
                         style={ {
                             height: 40,
                             width: 40,
@@ -163,7 +86,7 @@ const MovieTable = () => {
                         } }
                     />
                 </Box>
-            )
+            }
         },
         { field: "name", headerName: "Movie name", width: 130 },
         { field: "movieDuration", headerName: "Movie duration(minutes)", width: 80 },

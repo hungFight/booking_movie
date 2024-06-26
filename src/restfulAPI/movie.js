@@ -10,7 +10,7 @@ class Movie {
     };
     getAll = async () => {
         try {
-            const res = await http.get('/movie/')
+            const res = await http.get('/movie')
             return res.data
         } catch (error) {
             console.log(error);

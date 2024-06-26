@@ -19,11 +19,11 @@ function Header() {
 
     const InputSearch = <Input placeholder="Tìm kiếm..." variant="filled" />;
     const Event = () => (
-        <Row gutter={16} className="bg-white">
-            <Col className="gutter-row" span={6}>
+        <Row gutter={ 16 } className="bg-white">
+            <Col className="gutter-row" span={ 6 }>
                 <div className="flex flex-col items-center gap-2 pt-11 ">
                     <div>
-                        <img style={{ height: '80px' }} src={ruleEvent} />
+                        <img style={ { height: '80px' } } src={ ruleEvent } />
                     </div>
                     <h5 className="text-justity text-sm font-bold text-zinc-500">Thể Lệ</h5>
                     <Button type="primary" size="middle" className="bg-white text-orange-500 border-orange-500 hover:bg-orange-500 hover:text-white">
@@ -31,10 +31,10 @@ function Header() {
                     </Button>
                 </div>
             </Col>
-            <Col className="gutter-row" span={6}>
+            <Col className="gutter-row" span={ 6 }>
                 <div className="flex flex-col items-center gap-2 pt-11 ">
                     <div>
-                        <img style={{ height: '80px' }} src={benefitEvent} />
+                        <img style={ { height: '80px' } } src={ benefitEvent } />
                     </div>
                     <h5 className="text-justity text-sm font-bold text-zinc-500">Quyền Lợi</h5>
                     <Button type="primary" size="middle" className="bg-white text-orange-500 border-orange-500 hover:bg-orange-500 hover:text-white">
@@ -42,10 +42,10 @@ function Header() {
                     </Button>
                 </div>
             </Col>
-            <Col className="gutter-row" span={6}>
+            <Col className="gutter-row" span={ 6 }>
                 <div className="flex flex-col items-center gap-2 pt-11 ">
                     <div>
-                        <img style={{ height: '80px' }} src={guidEvent} />
+                        <img style={ { height: '80px' } } src={ guidEvent } />
                     </div>
                     <h5 className="text-justity text-sm font-bold text-zinc-500">Hướng Dẫn</h5>
                     <Button type="primary" size="middle" className="bg-white text-orange-500 border-orange-500 hover:bg-orange-500 hover:text-white">
@@ -53,10 +53,10 @@ function Header() {
                     </Button>
                 </div>
             </Col>
-            <Col className="gutter-row" span={6}>
+            <Col className="gutter-row" span={ 6 }>
                 <div className="flex flex-col items-center gap-2 pt-6">
                     <div>
-                        <img style={{ height: '80px' }} src={registerEvent} />
+                        <img style={ { height: '80px' } } src={ registerEvent } />
                     </div>
                     <h5 className="text-justity text-sm font-bold text-zinc-500">Đăng Ký Thành Viên G-Star Nhận Ngay Ưu Đãi!</h5>
                     <Button type="primary" size="middle" className="bg-orange-500 text-white">
@@ -70,46 +70,46 @@ function Header() {
     return (
         <div className="py-6 flex justify-between items-center px-28">
             <div className="">
-                <Link to="/homepage">
-                    <img className="" width={120} src={HeaderLogo} />
+                <Link to="/">
+                    <img className="" width={ 120 } src={ HeaderLogo } />
                 </Link>
             </div>
 
             <div className="">
                 <ul className="flex items-center">
                     <li className="px-6 py-2">
-                        <img src={getTicker} width={112} height={36} />
+                        <img src={ getTicker } width={ 112 } height={ 36 } />
                     </li>
                     <li className="px-6 py-2 text-zinc-500 hover:text-orange-500 cursor-pointer">
                         <span>Phim</span>
-                        <KeyboardArrowDownIcon style={{ color: 'currentcolor' }} />
+                        <KeyboardArrowDownIcon style={ { color: 'currentcolor' } } />
                     </li>
                     <li className="px-6 py-2 text-zinc-500 hover:text-orange-500 cursor-pointer">
                         <span>Góc điện ảnh</span>
-                        <KeyboardArrowDownIcon style={{ color: 'currentcolor' }} />
+                        <KeyboardArrowDownIcon style={ { color: 'currentcolor' } } />
                     </li>
                     <li className="px-6 py-2 text-zinc-500 hover:text-orange-500 cursor-pointer">
                         <span>Sự kiện</span>
-                        <KeyboardArrowDownIcon style={{ color: 'currentcolor' }} />
+                        <KeyboardArrowDownIcon style={ { color: 'currentcolor' } } />
                     </li>
                     <li className="px-6 py-2 text-zinc-500 hover:text-orange-500 cursor-pointer">
                         <span>Rạp/Giá vé</span>
-                        <KeyboardArrowDownIcon style={{ color: 'currentcolor' }} />
+                        <KeyboardArrowDownIcon style={ { color: 'currentcolor' } } />
                     </li>
                 </ul>
             </div>
 
             <div>
                 <div className="flex items-center gap-3">
-                    <Popover content={InputSearch} trigger="click">
+                    <Popover content={ InputSearch } trigger="click">
                         <Button type="text">
                             <Search color="primary" />
                         </Button>
                     </Popover>
                     <Link to="/login" className="hover:text-orange-500 cursor-pointer">Đăng nhập</Link>
                     <div>
-                        <Popover content={Event} placement="bottomRight">
-                            <img src={joinStar} className="ant-popover-open" />
+                        <Popover content={ Event } placement="bottomRight">
+                            <img src={ joinStar } className="ant-popover-open" />
                         </Popover>
                     </div>
                 </div>
