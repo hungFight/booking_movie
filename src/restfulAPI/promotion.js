@@ -1,18 +1,7 @@
-import http from "~/utils/http";
-
-class Movie {
+class Promotion {
     create = async (data) => {
         try {
             const res = await http.post('/movie/createMovie', data)
-            return res.data
-        } catch (error) {
-            console.log(error);
-        }
-    };
-    addType = async (movieId, movieTypeId) => {
-        try {
-            const res = await http.post(`/movie/addMovieTypeToMovie?movieId=${ movieId }&movieTypeId=${ movieTypeId }`)
-            return res.data
         } catch (error) {
             console.log(error);
         }
@@ -25,17 +14,17 @@ class Movie {
             console.log(error);
         }
     };
-    findType = async (id) => {
+    getAllMovieType = async () => {
         try {
-            const res = await http.get(`/movie/findMovieTypeByMovieId?id=${ id }`)
+            const res = await http.get('/movie/findAllMovieType')
             return res.data
         } catch (error) {
             console.log(error);
         }
-    };
+    }
     getAllMovieType = async () => {
         try {
-            const res = await http.get('/movie/findAllMovieType')
+            const res = await http.get('/movie')
             return res.data
         } catch (error) {
             console.log(error);
@@ -50,4 +39,4 @@ class Movie {
         }
     }
 }
-export default new Movie()
+export default new Promotion()

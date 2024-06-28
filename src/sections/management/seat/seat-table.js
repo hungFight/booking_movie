@@ -41,8 +41,12 @@ const SeatTable = () => {
     async function getAll() {
         const res = await seat.getAll()
         setRows(res.map((r, index) => {
-            return { ...r, stt: index + 1, seatStatus: r.seatStatus.nameStatus, roomName: r.room.name, cinemaName: r.room.cinema?.nameOfCinema }
+            return { ...r, stt: index + 1, seatStatus: r.seatStatus.nameStatus, roomName: r.room?.name, cinemaName: r.room?.cinema?.nameOfCinema }
         }))
+    }
+    const handleDelete = async (params) => {
+        const res = await seat.deleteById(params.id)
+        if (res) getAll()
     }
     React.useEffect(() => {
         getAll()
@@ -71,7 +75,7 @@ const SeatTable = () => {
                         handleViewDetail={ handleViewDetail }
                         openDialogEdit={ handleOpenEditSchedule }
                         params={ params }
-                    // handleDelete={() => handleDelete(params.row)}
+                        handleDelete={ () => handleDelete(params.row) }
                     />
                 </Box>
             ),

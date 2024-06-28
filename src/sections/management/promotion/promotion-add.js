@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useFormik, Formik } from "formik";
 import * as Yup from "yup";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
+import { DatePicker, DateTimePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import { tokens } from '../../../theme';
 import MuiAlert from '@mui/material/Alert';
 
@@ -14,6 +14,7 @@ import { Save } from "@mui/icons-material";
 import "react-quill/dist/quill.snow.css";
 import { DropzoneArea } from "mui-file-dropzone";
 import ReactQuill from 'react-quill';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 
 
 const AddPromotion = () => {
@@ -112,88 +113,101 @@ const AddPromotion = () => {
                 <Box>
                     <TextField
                         color="info"
-                        error={!!(formik.touched.promotionName && formik.errors.promotionName)}
-                        helperText={formik.touched.promotionName && formik.errors.promotionName}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        value={formik.values.promotionName}
+                        error={ !!(formik.touched.promotionName && formik.errors.promotionName) }
+                        helperText={ formik.touched.promotionName && formik.errors.promotionName }
+                        onBlur={ formik.handleBlur }
+                        onChange={ formik.handleChange }
+                        value={ formik.values.promotionName }
                         name="promotionName"
-                        sx={{ marginTop: "12px" }}
+                        sx={ { marginTop: "12px" } }
                         label="PromotionName"
                         fullWidth
                         variant="outlined"
                     />
 
-                    <Grid container spacing={1}>
-                        <Grid item xs={6}>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <TimePicker
-                                    sx={{
-                                        width: "100%",
-                                        marginTop: '12px'
-                                    }}
-                                    label="Thời gian bắt đầu"
-                                    name="startTime"
-                                    // value={formik.values.startTime}
-                                    onChange={(value) => {
-                                        formik.setFieldValue('startTime', Date.parse(value));
-                                    }}
+                    <Grid container spacing={ 1 }>
+                        <Grid item xs={ 6 }>
+                            <LocalizationProvider dateAdapter={ AdapterDayjs }>
+                                <DemoContainer components={ ['DateTimePicker'] }>
+                                    <DateTimePicker
+                                        sx={ {
+                                            width: "100%",
+                                            marginTop: '12px'
+                                        } }
+                                        label="Start time"
+                                        name="startTime"
+                                        // value={ startTime }
+                                        onChange={ (value) => {
+                                            if (value) {
+                                                formik.setFieldValue('startTime', Date.parse(value));
+                                            } else {
+                                                formik.setFieldValue('startTime', '');
+                                            }
+                                        } }
 
-                                    slotProps={{
-                                        textField: {
-                                            variant: "outlined",
-                                            color: "info",
-                                            onBlur: () => {
-                                                formik.setFieldTouched('startTime', true);
-                                                // formik.handleBlur();
+                                        slotProps={ {
+                                            textField: {
+                                                color: 'info',
+                                                variant: "outlined",
+                                                size: "small",
+                                                onBlur: () => {
+                                                    formik.setFieldTouched('startTime', true);
+                                                },
+                                                helperText: formik.touched.startTime && formik.errors.startTime, // Sử dụng formik.touched và formik.errors
+                                                error: !!(formik.touched.startTime && formik.errors.startTime) // Hiển thị error khi trường bị chạm và có lỗi
                                             },
-                                            helperText: formik.touched.startTime && formik.errors.startTime, // Sử dụng formik.touched và formik.errors
-                                            error: !!(formik.touched.startTime && formik.errors.startTime) // Hiển thị error khi trường bị chạm và có lỗi
-                                        },
-                                    }}
-                                />
+                                        } }
+                                    />
+                                </DemoContainer>
                             </LocalizationProvider>
                         </Grid>
-                        <Grid item xs={6}>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <TimePicker
-                                    sx={{
-                                        width: "100%",
-                                        marginTop: '12px'
-                                    }}
-                                    label="Thời gian kết thúc"
-                                    name="endTime"
-                                    // value={formik.values.endTime}
-                                    onChange={(value) => {
-                                        formik.setFieldValue('endTime', Date.parse(value));
-                                        setIsEndTimeSelected(true);
-                                    }}
-                                    slotProps={{
-                                        textField: {
-                                            variant: "outlined",
-                                            color: "info",
-                                            onBlur: () => {
-                                                formik.setFieldTouched('endTime', true);
-                                                // formik.handleBlur();
+                        <Grid item xs={ 6 }>
+                            <LocalizationProvider dateAdapter={ AdapterDayjs }>
+                                <DemoContainer components={ ['DateTimePicker'] }>
+
+                                    <DateTimePicker
+                                        sx={ {
+                                            width: "100%",
+                                            marginTop: '12px'
+                                        } }
+                                        label="End time"
+                                        name="endTime"
+                                        // value={ endTime }
+                                        onChange={ (value) => {
+                                            if (value != null) {
+                                                formik.setFieldValue('endTime', Date.parse(value));
+                                            } else {
+                                                formik.setFieldValue('endTime', '');
+                                            }
+                                        } }
+
+                                        slotProps={ {
+                                            textField: {
+                                                color: 'info',
+                                                variant: "outlined",
+                                                size: "small",
+                                                onBlur: () => {
+                                                    formik.setFieldTouched('endTime', true);
+                                                },
+                                                helperText: formik.touched.endTime && formik.errors.endTime, // Sử dụng formik.touched và formik.errors
+                                                error: !!(formik.touched.endTime && formik.errors.endTime) // Hiển thị error khi trường bị chạm và có lỗi
                                             },
-                                            helperText: formik.touched.endTime && formik.errors.endTime, // Sử dụng formik.touched và formik.errors
-                                            error: !!(formik.touched.endTime && formik.errors.endTime) // Hiển thị error khi trường bị chạm và có lỗi
-                                        },
-                                    }}
-                                />
+                                        } }
+                                    />
+                                </DemoContainer>
                             </LocalizationProvider>
                         </Grid>
                     </Grid>
 
                     <TextField
                         color="info"
-                        error={!!(formik.touched.percent && formik.errors.percent)}
-                        helperText={formik.touched.percent && formik.errors.percent}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        value={formik.values.percent}
+                        error={ !!(formik.touched.percent && formik.errors.percent) }
+                        helperText={ formik.touched.percent && formik.errors.percent }
+                        onBlur={ formik.handleBlur }
+                        onChange={ formik.handleChange }
+                        value={ formik.values.percent }
                         name="percent"
-                        sx={{ marginTop: "12px" }}
+                        sx={ { marginTop: "12px" } }
                         label="Percent"
                         fullWidth
                         variant="outlined"
@@ -202,13 +216,13 @@ const AddPromotion = () => {
 
                     <TextField
                         color="info"
-                        error={!!(formik.touched.quantity && formik.errors.quantity)}
-                        helperText={formik.touched.quantity && formik.errors.quantity}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        value={formik.values.quantity}
+                        error={ !!(formik.touched.quantity && formik.errors.quantity) }
+                        helperText={ formik.touched.quantity && formik.errors.quantity }
+                        onBlur={ formik.handleBlur }
+                        onChange={ formik.handleChange }
+                        value={ formik.values.quantity }
                         name="quantity"
-                        sx={{ marginTop: "12px" }}
+                        sx={ { marginTop: "12px" } }
                         label="Quantity"
                         fullWidth
                         variant="outlined"
@@ -216,72 +230,72 @@ const AddPromotion = () => {
                     />
 
                     <Autocomplete
-                        sx={{ margin: "10px 0px 5px 0px" }}
+                        sx={ { margin: "10px 0px 5px 0px" } }
 
                         fullWidth
-                        options={["Đồng", "Bạc", "Vàng"]}
-                        value={formik.values.rankCustomerName}
-                        onChange={(_, newValue) => {
+                        options={ ["Đồng", "Bạc", "Vàng"] }
+                        value={ formik.values.rankCustomerName }
+                        onChange={ (_, newValue) => {
                             formik.setFieldValue('rankCustomerName', newValue || null)
-                        }}
-                        renderInput={(params) => (
+                        } }
+                        renderInput={ (params) => (
                             <TextField
                                 variant="outlined"
                                 color='info'
-                                {...params}
+                                { ...params }
                                 label="Hạng khách hàng "
                                 name="rankCustomerName"
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.rankCustomerName && Boolean(formik.errors.rankCustomerName)}
-                                helperText={formik.touched.rankCustomerName && formik.errors.rankCustomerName}
+                                onBlur={ formik.handleBlur }
+                                error={ formik.touched.rankCustomerName && Boolean(formik.errors.rankCustomerName) }
+                                helperText={ formik.touched.rankCustomerName && formik.errors.rankCustomerName }
                             />
-                        )}
+                        ) }
                     />
 
-                    <Box style={{ width: "100%" }}>
-                        <Typography variant="h6" gutterBottom sx={{ fontSize: "12.5px", color: "#6C737F", margin: "12px 12px 12px 15px" }}>
+                    <Box style={ { width: "100%" } }>
+                        <Typography variant="h6" gutterBottom sx={ { fontSize: "12.5px", color: "#6C737F", margin: "12px 12px 12px 15px" } }>
                             Description
                         </Typography>
                         <ReactQuill
-                            style={{
+                            style={ {
                                 height: "100px ",
                                 margin: "12px 4px 50px 4px",
                                 borderRadius: "8px",
-                            }}
-                            onChange={(v) => formik.setFieldValue('description', v)}
-                            value={formik.values.description}
+                            } }
+                            onChange={ (v) => formik.setFieldValue('description', v) }
+                            value={ formik.values.description }
                             name="description"
-                            modules={{
+                            modules={ {
                                 toolbar: [
                                     [{ header: [1, 2, false] }],
                                     ["bold", "italic", "underline"],
                                     ["image", "code-block"],
                                 ],
-                            }}
+                            } }
                             theme="snow"
                         />
                     </Box>
 
                     <Box
-                        sx={{
+                        sx={ {
                             display: 'flex',
                             justifyContent: 'end',
                             width: '100%',
                             marginTop: '20px',
                             paddingTop: '10px'
-                        }}
+                        } }
                     >
                         <Button
                             variant="contained"
-                            sx={{
+                            sx={ {
                                 background: "#228B22",
                                 color: "white",
                                 "&: hover": {
                                     background: "#008000"
                                 },
-                            }}
-                            startIcon={<Save />}
-                            onClick={formik.handleSubmit}
+                            } }
+                            startIcon={ <Save /> }
+                            onClick={ formik.handleSubmit }
                         >
                             Lưu
                         </Button>
@@ -289,9 +303,9 @@ const AddPromotion = () => {
                 </Box>
             </Stack>
             <Snackbar
-                open={openSnackBar}
-                autoHideDuration={1500}
-                onClose={handleCloseSnackbar}
+                open={ openSnackBar }
+                autoHideDuration={ 1500 }
+                onClose={ handleCloseSnackbar }
             >
                 <MuiAlert severity='success'>
                     Create new promotion successfully!

@@ -19,7 +19,7 @@ class Seat {
     }
     deleteById = async (id) => {
         try {
-            const res = await http.delete('/seat/deleteSeat/' + id)
+            const res = await http.delete('/seat/delete/' + id)
             return res.data
         } catch (error) {
             console.log(error);

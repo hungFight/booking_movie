@@ -16,9 +16,9 @@ const Promotion = () => {
         <Box >
             <Box
                 component="main"
-                sx={{
+                sx={ {
                     py: 6
-                }}
+                } }
             >
                 <Container maxWidth="lg">
                     <Stack>
@@ -32,21 +32,21 @@ const Promotion = () => {
                                 <Header title="PROMOTIONS" subtitle="List of promotion" />
                             </Box>
                             <Box>
-                                <Link to='/management/promotion/add'>
+                                <Link to='/admin/management/promotion/add'>
                                     <Button
-                                        startIcon={(
+                                        startIcon={ (
                                             <SvgIcon fontSize="small">
                                                 <AddCircleIcon />
                                             </SvgIcon>
-                                        )}
+                                        ) }
                                         variant="contained"
-                                        sx={{
+                                        sx={ {
                                             background: "#228B22",
                                             color: "white",
                                             "&: hover": {
                                                 background: "#008000"
                                             }
-                                        }}
+                                        } }
                                     >
                                         Thêm
                                     </Button>

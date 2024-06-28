@@ -15,9 +15,9 @@ const AddPromotion = () => {
         <Box>
             <Box
                 component="main"
-                sx={{
+                sx={ {
                     py: 6
-                }}
+                } }
             >
                 <Container maxWidth="lg">
                     <Stack>
@@ -31,22 +31,22 @@ const AddPromotion = () => {
                                 <Header title="CREATE PROMOTION" subtitle="Create a new promotion" />
                             </Stack>
                             <div>
-                                <Link href='/management/promotion'>
+                                <Link href='/admin/management/promotion'>
                                     <Button
-                                        startIcon={(
+                                        startIcon={ (
                                             <SvgIcon fontSize="small">
                                                 <ArrowLongLeftIcon />
                                             </SvgIcon>
-                                        )}
+                                        ) }
                                         variant="contained"
-                                        sx={{
+                                        sx={ {
                                             background: "#228B22",
                                             color: "white",
                                             "&: hover": {
                                                 background: "#008000"
                                             },
                                             margin: '0px 6px'
-                                        }}
+                                        } }
                                     >
                                         Quay lại
                                     </Button>

@@ -15,9 +15,9 @@ const AddMovie = () => {
         <Box>
             <Box
                 component="main"
-                sx={{
+                sx={ {
                     py: 6
-                }}
+                } }
             >
                 <Container maxWidth="lg">
                     <Stack>
@@ -31,22 +31,22 @@ const AddMovie = () => {
                                 <Header title="CREATE TICKET" subtitle="Create a new ticket" />
                             </Stack>
                             <div>
-                                <Link href='/management/ticket'>
+                                <Link href='/admin/management/ticket'>
                                     <Button
-                                        startIcon={(
+                                        startIcon={ (
                                             <SvgIcon fontSize="small">
                                                 <ArrowLongLeftIcon />
                                             </SvgIcon>
-                                        )}
+                                        ) }
                                         variant="contained"
-                                        sx={{
+                                        sx={ {
                                             background: "#228B22",
                                             color: "white",
                                             "&: hover": {
                                                 background: "#008000"
                                             },
                                             margin: '0px 6px'
-                                        }}
+                                        } }
                                     >
                                         Quay lại
                                     </Button>

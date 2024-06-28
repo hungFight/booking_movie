@@ -41,7 +41,7 @@ const CinemaTable = () => {
     React.useEffect(() => {
         async function getAll() {
             const res = await cinema.getAll()
-            setRows(res.map((r, index) => {
+            setRows(res?.map((r, index) => {
                 return { ...r, stt: index + 1 }
             }))
         }

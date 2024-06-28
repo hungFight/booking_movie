@@ -48,7 +48,7 @@ const MovieTable = () => {
         const res = await movie.getAll()
         if (res) setRows(() => {
             return res.map((r, index) => {
-                return { ...r, id: r.id, stt: index + 1, movieType: r.movieType.movieTypeName, image: `http://localhost:8081/api/movie/images?imageName=${ r.image }`, premiereDate: moment(r?.premiereDate).format('DD-MM-YYYY') }
+                return { ...r, id: r.id, stt: index + 1, movieType: r.movieType, image: `http://localhost:8081/api/movie/images?imageName=${ r.image }`, premiereDate: moment(r?.premiereDate).format('DD-MM-YYYY') }
             })
         })
     }
@@ -156,11 +156,11 @@ const MovieTable = () => {
                 rowData={ selectedRow }
                 columns={ columns }
             />
-            <MovieEdit
+            { openEditMovie && <MovieEdit
                 open={ openEditMovie }
                 onClose={ handleCloseEditMovie }
                 rowData={ selectedRow }
-            />
+            /> }
         </Stack>
     );
 }

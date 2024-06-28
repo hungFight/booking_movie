@@ -60,20 +60,20 @@ export default function MovieEdit({ open, onClose, rowData }) {
 
     const [files, setFiles] = useState([]);
     const [isDateSelected, setIsDateSelected] = useState(false);
+    const [movieType, setMovieType] = useState([]);
     const [openSnackBar, setOpenSnackBar] = useState(false);
     const handleCloseSnackbar = () => {
         setOpenSnackBar(false);
     };
-
+    useEffect(() => {
+        async function getAllMovieType() {
+            const res = await movie.getAllMovieType()
+            setMovieType(res)
+        }
+        getAllMovieType()
+    }, [])
     const handleChange = (files) => {
         setFiles(files);
-    };
-
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setSelectedFileLogo(URL.createObjectURL(file));
-        }
     };
 
     const handleClose = (isEvent) => {
@@ -127,20 +127,23 @@ export default function MovieEdit({ open, onClose, rowData }) {
         validationSchema,
         onSubmit: async (values, helpers) => {
             try {
-                const res = await movie.update({
-                    movie_duration: values.movieDuration,
-                    end_time: values.endTime,
-                    premiere_date: values.premiereDate,
-                    description: values.description,
-                    director: values.director,
-                    image: v4(),
-                    hero_image: "fsfgere",
-                    language: "English",
-                    name: "high",
-                    trailer: "bhjufs",
-                    movie_type_id: 1,
-                    rate_id: 1
-                })
+                const formData = new FormData();
+                formData.append('movie_duration', values.movieDuration);
+                formData.append('end_time', values.endTime);
+                formData.append('premiere_date', values.premiereDate);
+                formData.append('description', values.description);
+                formData.append('director', values.director);
+                formData.append('image', v4());
+                for (let i = 0; i < files.length; i++) {
+                    formData.append('file', files[i]);
+
+                }
+                formData.append('language', "English");
+                formData.append('name', "high");
+                formData.append('trailer', "bhjufs");
+                formData.append('movie_type_id', movieType.find(r => r.name === values.movieType).id);
+                formData.append('rate_id', 1);
+                const res = await movie.update(formData)
                 console.log("giá trị bạn vừa nhập vào là :", values)
                 formik.resetForm();
             } catch (err) {
@@ -224,7 +227,7 @@ export default function MovieEdit({ open, onClose, rowData }) {
                         fullWidth
                         variant="outlined"
                     />
-                    <LocalizationProvider dateAdapter={ AdapterDayjs }>
+                    {/* <LocalizationProvider dateAdapter={ AdapterDayjs }>
                         <DatePicker
                             sx={ {
                                 width: "100%",
@@ -286,7 +289,7 @@ export default function MovieEdit({ open, onClose, rowData }) {
                                 },
                             } }
                         />
-                    </LocalizationProvider>
+                    </LocalizationProvider> */}
 
                     <TextField
                         color="info"
@@ -323,7 +326,7 @@ export default function MovieEdit({ open, onClose, rowData }) {
                         sx={ { margin: "10px 0px 5px 0px" } }
                         color='info'
                         fullWidth
-                        options={ ["Kinh dị", "Hành động", "Tình cảm"] }
+                        options={ movieType.map(r => r.name) }
                         value={ formik.values.movieType }
                         onChange={ (_, newValue) => {
                             formik.setFieldValue('movieType', newValue || null)

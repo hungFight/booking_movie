@@ -28,6 +28,7 @@ const AddMovie = () => {
     const [files, setFiles] = useState([]);
     const [isDateSelected, setIsDateSelected] = useState(false);
     const [openSnackBar, setOpenSnackBar] = useState(false);
+    const [movieType, setMovieType] = useState([]);
     const handleCloseSnackbar = () => {
         setOpenSnackBar(false);
     };
@@ -35,7 +36,14 @@ const AddMovie = () => {
     const handleChange = (files) => {
         setFiles(files);
     }
-
+    useEffect(() => {
+        async function getAllMovieType() {
+            const res = await movie.getAllMovieType()
+            console.log(res, 'qưery');
+            setMovieType(res)
+        }
+        getAllMovieType()
+    }, [])
     const validationSchema = Yup.object({
         movieDuration: Yup
             .string()
@@ -89,7 +97,6 @@ const AddMovie = () => {
                 // Create FormData
                 const formData = new FormData();
                 formData.append('name', values.name);
-                formData.append('movieTypeId', 1);
                 formData.append('endTime', dd);
                 formData.append('image', v4());
                 for (let i = 0; i < files.length; i++) {
@@ -103,6 +110,7 @@ const AddMovie = () => {
                 formData.append('description', values.description);
                 formData.append('director', values.director);
                 const data = await movie.create(formData)
+                const dataType = await movie.addType(data.id, movieType.find(r => r.movieTypeName === values.movieType).id)
                 navigate('/admin/management/movie')
                 setOpenSnackBar(true);
             } catch (err) {
@@ -237,7 +245,7 @@ const AddMovie = () => {
                         sx={ { margin: "10px 0px 5px 0px" } }
                         color='info'
                         fullWidth
-                        options={ ["Kinh dị", "Hành động", "Tình cảm"] }
+                        options={ movieType.map(r => r.movieTypeName) }
                         value={ formik.values.movieType }
                         onChange={ (_, newValue) => {
                             formik.setFieldValue('movieType', newValue || null)
