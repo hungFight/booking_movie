@@ -16,6 +16,14 @@ class Schedule {
             console.log(error);
         }
     };
+    getScheduleByMovieName = async(name) => {
+        try {
+            const res = await http.get(`/schedule/findScheduleByMovieName?name=${name}`)
+            return res.data
+        } catch (error) {
+            console.log(error)
+        }
+    }
     getAll = async () => {
         try {
             const res = await http.get('/schedule')

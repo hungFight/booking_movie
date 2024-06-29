@@ -57,12 +57,12 @@ import MovieCommentary from './pages/MovieCommentary/MovieCommentary';
 import GoodMovieMonth from './pages/GoodMovieMonth/GoodMovieMonth';
 import TheaterDetail from './pages/TheaterDetail/TheaterDetail';
 import Booking from './pages/Booking/Booking';
+import PaymentGateway from './pages/PaymentGateway/PaymentGateway';
 
 const AuthenticatedRouteAdmin = ({ children }) => {
   const { isAuthenticated, token } = React.useContext(AuthContext);
   if (token) {
     const decodeToken = jwtDecode(token);
-    console.log(isAuthenticated, 'isAuthenticated', decodeToken);
     if (decodeToken.role === 'ADMIN') return children
     return <Navigate to="/" />
   }
@@ -70,7 +70,6 @@ const AuthenticatedRouteAdmin = ({ children }) => {
 };
 const AuthenticatedRoute = ({ children }) => {
   const token = localStorage.getItem('authToken')
-  console.log(token, 'sss');
   if (token) {
     if (window.location.pathname.includes('login')) return <Navigate to="/" />;
     return children
@@ -106,6 +105,7 @@ function App() {
             <Route path="/good-movie-month" element={ <GoodMovieMonth /> } />
             <Route path="/theater-ticket-price" element={ <TheaterDetail /> } />
             <Route path="/booking" element={ <Booking /> } />
+            <Route path="/payment" element={ <PaymentGateway /> } />
 
           </Routes>
         </AuthenticatedRoute> } />

@@ -16,6 +16,22 @@ class Movie {
             console.log(error);
         }
     }
+    getMovieTypeByMovieId = async (id) => {
+        try {
+            const res = await http.get(`/movie/findMovieTypeByMovieId?id=${id}`)
+            return res.data
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    getMovieById = async(id) => {
+        try {
+            const res = await http.get('/movie/findMovieId?id=' + id)
+            return res.data
+        } catch (error) {
+            console.log(error);
+        }
+    }
     deleteById = async (id) => {
         try {
             const res = await http.delete('/movie/deleteMovie/' + id)

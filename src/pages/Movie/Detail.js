@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { CiClock2, CiCalendar, CiStar } from 'react-icons/ci';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -12,60 +12,68 @@ import DetailLayout from '~/app/Layout/LayoutDetail/DetailLayout';
 import LayoutHeaderFooter from '~/app/Layout/LayoutHeaderFooter/LayoutHeaderFooter';
 import { Select } from 'antd';
 import Star from '@mui/icons-material/Star';
+import { useLocation, useParams } from 'react-router-dom';
+import movie from '~/restfulAPI/movie';
+import schedule from '~/restfulAPI/schedule';
 
-const movie = {
-    posterUrl: 'https://cdn.galaxycine.vn/media/2024/5/6/inside-out-2-3_1714970461256.jpg',
-    title: 'Những Mảnh Ghép Cảm Xúc 2',
-    duration: 124,
-    releaseDate: '14/06/2024',
-    rating: 9.5,
-    votes: 107,
-    country: 'American',
-    producer: 'PIXAR, Walt Disney Pictures',
-    genre: 'Comic',
-    director: 'Kelsey Mann',
-    actors: ['Amy Poehler', ' Phyllis Smith', ' Lewis Black'],
-};
-const schedules = [
-    {
-        cinema: 'Galaxy Nguyễn Du',
-        times: ['22:30'],
-        type: '2D Phụ Đề',
-    },
-    {
-        cinema: 'Galaxy Tân Bình',
-        times: ['22:00', '22:30'],
-        type: '2D Phụ Đề',
-    },
-    {
-        cinema: 'Galaxy Sala',
-        times: ['22:15'],
-        type: '2D Phụ Đề',
-    },
-    {
-        cinema: 'Galaxy Kinh Dương Vương',
-        times: ['22:00', '22:30'],
-        type: '2D Phụ Đề',
-    },
-];
-
-
+function useQuery() {
+    return new URLSearchParams(useLocation().search);
+}
 
 const MovieDetail = () => {
-    const [play, setPlay] = useState(false)
-    const videoRef = useRef()
+    const query = useQuery()
+    let id = query.get("id")
 
-
-    const handlePlay = (play) => {
-
-        setPlay(play)
-        console.log(play)
-        if (play) {
-            videoRef.current.play()
-        } else {
-            videoRef.current.pause()
-        }
+    const [movieDetail, setMovieDetail] = useState(null)
+    async function getMovieById() {
+        const res = await movie.getMovieById(id)
+        setMovieDetail(res)
     }
+
+    useEffect(() => {
+        getMovieById()
+    }, [])
+
+
+    const [movieTypes, setMovieTypes] = useState(null)
+    async function getMovieTypesByMovieId() {
+        const res = await movie.getMovieTypeByMovieId(id)
+        setMovieTypes(res)
+    }
+
+    useEffect(() => {
+        getMovieTypesByMovieId()
+    }, [])
+
+
+    const [schedules, setSchedules] = useState(null)
+    async function getSchedulesByMovieName() {
+        const res = await schedule.getScheduleByMovieName(movieDetail?.name)
+        let schedulesMap = res.reduce((acc, item) => {
+            const key = item.room.cinema.id
+
+            if (!acc[key]) {
+                acc[key] = { cinemaId: key, cinemaName: item.room.cinema.nameOfCinema, items: [] }
+            }
+
+            acc[key].items.push(item)
+            return acc
+        }, [])
+        setSchedules(schedulesMap)
+        console.log(schedulesMap);
+    }
+
+    useEffect(() => {
+        getSchedulesByMovieName()
+    }, [])
+
+
+    const [timeSelected, setTimeSelected] = useState(null)
+
+    const handleSelectTimeMovie = (id) => {
+        setTimeSelected(id)
+    }
+
 
     const areaOptions = [
         { value: '1', label: 'Ha Noi' },
@@ -89,63 +97,66 @@ const MovieDetail = () => {
         <LayoutHeaderFooter>
             <Box>
                 <Box className='bg-neutral-900 '>
-                    <div className=' relative'>
-                        <video
-                            onClick={() => handlePlay(false)}
-                            ref={videoRef}
-                            className='h-[500px] w-full'
-                        >
-                            <source
-                                src={sampleVideo}
-                                type="video/mp4"
-                            />
-                        </video>
-                        <PlayCircleOutlineRounded onClick={() => handlePlay(true)} className={play == true ? " hidden " : " block " + 'text-white top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] absolute text-[50px]'} ></PlayCircleOutlineRounded>
+                    <div className=' relative flex justify-center'>
+                        <iframe width="50%" height="315" src={movieDetail?.trailer} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
                 </Box>
 
                 <DetailLayout>
                     <Box className='px-4'>
-                        <div className="flex mt-3 mb-20">
-                            <div className="movie-poster">
-                                <img src={movie.posterUrl} alt={`${movie.title} Poster`} />
-                            </div>
-                            <div className="movie-info">
-                                <h1 className="text-start">{movie.title}</h1>
-                                <div className="movie-meta flex items-center">
-                                    <div className='mr-2'>
-                                        <CiClock2 className='text-orange-500 inline ' />
-                                        <span>{movie.duration} phút</span>
+                        {
+                            movieDetail &&
+                            <div className="flex mt-3 mb-20">
+                                <div className="movie-poster">
+                                    <img src={`http://localhost:8081/api/movie/images?imageName=${movieDetail.image}`} alt={`${movieDetail.name} Poster`} />
+                                </div>
+                                <div className="movie-info">
+                                    <h1 className="text-start">{movieDetail.name}</h1>
+                                    <div className="movie-meta flex items-center">
+                                        <div className='mr-2'>
+                                            <CiClock2 className='text-orange-500 inline ' />
+                                            <span>{movieDetail.movieDuration} phút</span>
+                                        </div>
+                                        <div>
+                                            <CiCalendar className='text-orange-500 inline' />
+                                            <span>{movieDetail.endTime}</span>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <CiCalendar className='text-orange-500 inline' />
-                                        <span>{movie.releaseDate}</span>
+                                    <div className="movie-rating">
+                                        <Star fontSize='medium' className='text-orange-500 inline' />
+                                        <span>9.5</span>
+                                        <span>100 votes</span>
+                                    </div>
+                                    <div className="movie-details text-start">
+                                        <p>
+                                            <strong className='mr-2'>Quốc gia: </strong>
+                                            <span>{movieDetail.language}</span>
+                                        </p>
+                                        <p>
+                                            <strong className='mr-2'>Nhà sản xuất: </strong>
+                                            <span>{movieDetail.director}</span>
+                                        </p>
+                                        <p>
+                                            <strong className='mr-2'>Thể loại: </strong>
+                                            {
+                                                movieTypes &&
+                                                movieTypes.map(type =>
+                                                    <span className='capitalize'>{type.movieTypeName + ", "}</span>
+                                                )
+                                            }
+                                        </p>
+                                        <p>
+                                            <strong className='mr-2'>Đạo diễn: </strong>
+                                            <span>{movieDetail.director}</span>
+                                        </p>
+                                        <p>
+                                            <strong className='mr-2'>Diễn viên: </strong>
+                                        </p>
                                     </div>
                                 </div>
-                                <div className="movie-rating">
-                                    <Star fontSize='medium' className='text-orange-500 inline' />
-                                    <span>{movie.rating}</span>
-                                    <span>({movie.votes} votes)</span>
-                                </div>
-                                <div className="movie-details text-start">
-                                    <p>
-                                        <strong className='mr-2'>Quốc gia: </strong> {movie.country}
-                                    </p>
-                                    <p>
-                                        <strong className='mr-2'>Nhà sản xuất: </strong> {movie.producer}
-                                    </p>
-                                    <p>
-                                        <strong className='mr-2'>Thể loại: </strong> {movie.genre}
-                                    </p>
-                                    <p>
-                                        <strong className='mr-2'>Đạo diễn: </strong> {movie.director}
-                                    </p>
-                                    <p>
-                                        <strong className='mr-2'>Diễn viên: </strong> {movie.actors.join(', ')}
-                                    </p>
-                                </div>
                             </div>
-                        </div>
+
+                        }
                         <div className="mt-3 mb-10">
                             <div style={{ fontSize: '20px' }} className="mb-3 mr-4 uppercase font-semibold border-l-4 border-l-blue-700 pl-2">
                                 <h3 className="w-full text-base font-semibold text-start">Nội Dung Phim</h3>
@@ -218,21 +229,26 @@ const MovieDetail = () => {
 
                         <div>
                             <Box textAlign='left'>
-                                {schedules.map((schedule, index) => (
-                                    <div key={index} className="mt-5 pb-14 border-b-2">
-                                        <h3 className="text-lg font-semibold">{schedule.cinema}</h3>
-                                        <div className='flex items-center'>
-                                            <p className="text-[16px] text-gray-500 w-[20%]">{schedule.type}</p>
-                                            <div className="flex space-x-2 mt-2 justify-center">
-                                                {schedule.times.map((time, idx) => (
-                                                    <button key={idx} className="px-4 py-2 border rounded ">
-                                                        {time}
-                                                    </button>
-                                                ))}
+                                {
+                                    schedules &&
+                                    schedules.map((schedule, index) => (
+                                        <div key={index} className="mt-5 pb-14 border-b-2">
+                                            <h3 className="text-lg font-semibold">{schedule.cinemaName}</h3>
+                                            <div className='flex items-center'>
+                                                <p className="text-[16px] text-gray-500 w-[20%]">2D Phụ Đề</p>
+                                                <div className="flex space-x-2 mt-2 justify-center">
+                                                    {schedule.items.map((item, idx) => (
+                                                        <button onClick={() => handleSelectTimeMovie(idx)} key={idx} className={"px-4 py-2 border rounded hover:bg-blue-800 hover:text-white transition-all " + (timeSelected == idx && "bg-blue-800 text-white")}>
+                                                            {
+                                                                (new Date(item.startAt).getHours() < 10 ? "0" + new Date(item.startAt).getHours() : new Date(item.startAt).getHours()) + ":" + (new Date(item.startAt).getMinutes() < 10 ? "0" + new Date(item.startAt).getMinutes() : new Date(item.startAt).getMinutes())
+                                                            }
+                                                        </button>
+                                                    ))}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))
+                                }
                             </Box>
                         </div>
                     </Box>
